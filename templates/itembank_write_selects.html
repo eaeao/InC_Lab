@@ -1,0 +1,37 @@
+<div id="div_itembank_write_left_selects_loading" style="display:none"><i class="xi-spinner-5 xi-spin"></i></div>
+{% if unit1.0 %}
+    <select unit="1" name="unit1" class="form-control select_itembank_write_left_selects_units" id="select_itembank_write_left_selects_unit1" onchange="load_select_unit(this)">
+        {% for unit in unit1 %}<option {% if unit1_id == unit.id %}selected{% endif %} value="{{ unit.id }}">{{ unit.title }}</option>{% endfor %}
+    </select>
+{% endif %}
+{% if unit2.0 %}
+    <select unit="2" name="unit2" class="form-control select_itembank_write_left_selects_units" id="select_itembank_write_left_selects_unit2" onchange="load_select_unit(this)">
+        {% for unit in unit2 %}<option {% if unit2_id == unit.id %}selected{% endif %} value="{{ unit.id }}">{{ unit.title }}</option>{% endfor %}
+    </select>
+{% endif %}
+{% if unit3.0 %}
+    <select unit="3" name="unit3" class="form-control select_itembank_write_left_selects_units" id="select_itembank_write_left_selects_unit3" onchange="load_select_unit(this)">
+        {% for unit in unit3 %}<option {% if unit3_id == unit.id %}selected{% endif %} value="{{ unit.id }}">{{ unit.title }}</option>{% endfor %}
+    </select>
+{% endif %}
+<script>
+    var unit_text = "";
+    var unit_text = "";
+    if ($("#select_itembank_write_left_selects_unit1 option:selected").text()) unit_text += $("#select_itembank_write_left_selects_unit1 option:selected").text();
+    if ($("#select_itembank_write_left_selects_unit2 option:selected").text()) unit_text += " > " + $("#select_itembank_write_left_selects_unit2 option:selected").text();
+    if ($("#select_itembank_write_left_selects_unit3 option:selected").text()) unit_text += " > " + $("#select_itembank_write_left_selects_unit3 option:selected").text();
+    $(".p_itembank_write_right_unit").text(unit_text);
+</script>
+<script>
+    function load_select_unit(ele){
+        arr = {};
+        arr['csrfmiddlewaretoken'] = $("#wrap > input[name=csrfmiddlewaretoken]").val();
+        arr['unit1'] = "{{ unit1_id }}";
+        arr['unit2'] = "{{ unit2_id }}";
+        arr['unit3'] = "{{ unit3_id }}";
+        //if ($(ele).attr('unit') == 1) arr = {};
+        arr[$(ele).attr('name')] = $(ele).val();
+        $("#div_itembank_write_left_selects_loading").show();
+        $("#div_itembank_write_left_selects").load("/itembank/write/selects/",arr);
+    }
+</script>

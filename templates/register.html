@@ -1,0 +1,49 @@
+{% extends "body.html" %}
+{% load staticfiles %}
+{% block content %}
+    <div class="col-lg-offset-3 col-lg-6">
+        <div class="div_feed">
+            <h1>회원가입</h1>
+            <form class="form-horizontal" method="post">
+                {% csrf_token %}
+                <div class="control-group">
+                    <label class="control-label" for="inputEmail">이메일</label>
+                    <div class="controls">
+                        <input class="form-control" type="email" id="email" name="email" placeholder="이메일" required>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="password">비밀번호</label>
+                    <div class="controls">
+                        <input class="form-control" type="password" id="password" name="password" placeholder="비밀번호" required>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="re_password">비밀번호 확인</label>
+                    <div class="controls">
+                        <input class="form-control" type="password" id="re_password" name="re_password" placeholder="비밀번호 확인" required>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="username">이름</label>
+                    <div class="controls">
+                        <input class="form-control" type="text" id="username" name="username" placeholder="이름" required>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="grade">직업</label>
+                    <div class="controls">
+                        <select class="form-control" id="grade" name="grade">
+                            <option value="0">학생</option>
+                            <option value="1">교사</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" onclick="location.href='/';" value="취소" />
+                    <input type="submit" class="btn btn-danger" value="가입하기" />
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

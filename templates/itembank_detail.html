@@ -1,0 +1,92 @@
+{% extends "body.html" %}
+{% load staticfiles %}
+{% block content %}
+    <div class="div_feed" id="div_itembank_detail">
+        <form id="form_itembank_detail" action="/itembank/result/{{ question.id }}" method="post" enctype="multipart/form-data">
+            <h1>문제풀기</h1>
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-2" id="div_itembank_detail_contents">
+                    {% if user.is_superuser %}<p class="pull-right">{{ question.user.first_name }}({{ question.user.email }})</p>{% endif %}
+                    <p class="p_itembank_detail_contents_unit">{{ question.unit.get_title }}</p>
+                    <p class="p_itembank_detail_contents_title">{{ question.id }}. {{ question.title }}</p>
+                    {% for content in question.get_contents %}
+                        {% if content.type == "image" %}
+                            <div class="p_itembank_detail_contents_image">
+                                <i class="xi-arrows-alt i_itembank_detail_contents_statement_extend"></i>
+                                <img src="{{ content.get_items.src.url }}">
+                            </div>
+                        {% elif content.type == "content" %}
+                            <span class="span_itembank_detail_contents_content">{{ content.contents }}</span>
+                        {% elif content.type == "text" %}
+                            <p class="p_itembank_detail_contents_text">{{ content.contents }}</p>
+                        {% elif content.type == "code" %}
+                            <pre class='pre_itembank_detail_contents_code'><code class='python'>{{ content.contents }}</code></pre>
+                        {% elif content.type == "answer_text" %}
+                            <input type="text" class="form-control input_itembank_detail_contents_answer_text" name="item" placeholder="답을 입력해주세요.">
+                        {% elif content.type == "answer_textarea" %}
+                            <textarea class='form-control input_itembank_detail_contents_answer_textarea' name="item" placeholder='답을 입력해주세요.'></textarea>
+                        {% elif content.type == "answer_choice" %}
+                            {% for item in content.get_items %}
+                                <div class="div_itembank_detail_contents_item"><input type="radio" name="item" value="{{ item.text }}">{{ item.text }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="modal-footer">
+                {% if user.is_superuser or question.user == user %}
+                    <button type="button" id="btn_itembank_detail_delete" class="btn btn-danger pull-left">삭제</button>
+                {% endif %}
+                <input type="button" class="btn btn-default" onclick="history.back()" value="취소" />
+{#                <input type="submit" class="btn btn-primary" value="제출하기" />#}
+            </div>
+        </form>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $('input[type=radio],input[type=checkbox]').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%'
+            });
+
+            $('input[type=radio]').on('ifChecked', function(event){
+                $(".div_itembank_detail_contents_item").removeClass("checked");
+                $(".div_itembank_detail_contents_item").children(".iradio_square-blue").removeClass("checked");
+                $(this).parent().parent().addClass("checked");
+            });
+
+            $(".div_itembank_detail_contents_item").hover(function(){
+                $(this).children(".iradio_square-blue").addClass("hover");
+            },function(){
+                $(this).children(".iradio_square-blue").removeClass("hover");
+            });
+
+            $(".div_itembank_detail_contents_item").click(function(){
+                $(this).children(".iradio_square-blue").children("input").iCheck('check');
+            });
+
+            $("#btn_itembank_detail_delete").click(function(){
+                if (confirm('정말로 삭제하시겠습니까?')) {
+                    location.href="/itembank/delete/{{ question.id }}";
+                }
+            });
+
+            $(".i_itembank_detail_contents_statement_extend").click(function(){
+                $("#div_itembank_detail_extend_modal .modal-body").html($(this).parent().html());
+                $("#div_itembank_detail_extend_modal i").hide();
+                $("#div_itembank_detail_extend_modal").modal('show');
+            });
+
+        });
+    </script>
+{% endblock %}
+{% block modal %}
+    <div class="modal fade" id="div_itembank_detail_extend_modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,62 @@
+@font-face{
+    font-family:'NanumBarunGothic';
+    font-style:normal;
+    font-weight:400;
+    src:url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.eot');
+    src:url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.eot?#iefix') format('embedded-opentype'),
+    url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.woff') format('woff'),
+    url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.ttf') format('truetype');
+}
+@font-face{
+    font-family:'NanumBarunGothic';
+    font-style:normal;
+    font-weight:700;
+    src:url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.eot');
+    src:url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.eot?#iefix') format('embedded-opentype'),
+    url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.woff') format('woff'),
+    url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.ttf') format('truetype')
+}
+@font-face{
+    font-family:'NanumBarunGothic';
+    font-style:normal;
+    font-weight:300;
+    src:url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot');
+    src:url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot?#iefix') format('embedded-opentype'),
+    url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.woff') format('woff'),
+    url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.ttf') format('truetype');
+}
+
+* { -webkit-text-size-adjust: none; }
+html,body{width:100%;height:100%}
+html {position: relative;min-height: 100%;}
+body,p,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,table,th,td,form,fieldset,legend,input,textarea,button,select,span,font,a {margin:0;padding:0}
+body,p,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,table,th,td,form,fieldset,legend,input,textarea,button,select,span,font,a {font-family:'Apple SD Gothic Neo','Noto Sans CJK KR','KoPubDotum Medium',"NanumBarunGothic",'NanumGothic',"Tahoma","Open Sans",arial,'Malgun Gothic',sans-serif;text-rendering: optimizeLegibility !important;-webkit-font-smoothing: antialiased !important;}
+body{background-color: #f7f8fa;overflow-y: scroll;}
+img,fieldset{border:0}
+ul,ol{list-style:none}
+em,address{font-style:normal}
+a{text-decoration:none;cursor:pointer;color:inherit;}
+a:hover,a:active,a:focus{text-decoration:none;color:inherit;}
+
+.form-control {border-radius:0}
+h1 {font-size: 16px;border-bottom: 1px solid #f0f0f0;padding-bottom: 15px;margin-bottom: 10px;color: #666;}
+.div_feed {width: 100%;background-color:#FFF;border: 1px solid #F3F3F3;border-radius: 0px;box-shadow: 0 3px 3px 0 #EDEFF3;padding: 20px;margin: 15px 0;float: left;}
+
+.navbar {z-index:1000}
+.navbar-inner {color: #333;background: #FFF;border-bottom: 1px solid #E2E2E2;box-shadow: 0px 0px 20px 1px rgb(236, 236, 236);height: 60px;line-height: 60px;}
+.nav > li > a {padding: 0px 15px;line-height: 54px;padding-top: 3px;padding-left: 10px;}
+.navbar .brand {line-height: 40px;font-size: 17px;font-weight: 700;margin-right: 20px;color: #E0004F;}
+.nav>li>a:focus, .nav>li>a:hover {background-color: transparent;border-bottom: 3px solid #E0004F;}
+.nav .open>a, .nav .open>a:focus, .nav .open>a:hover {background-color: RGBA(0,0,0,0.05);border-bottom: 3px solid #E0004F;}
+
+#wrap {position: absolute;top: 0;width: 100%;min-height: 100%;height: auto;padding-top: 80px;padding-bottom: 60px;}
+
+.footer {position: absolute;bottom: 0;width: 100%;height: 60px;background-color: #353535;line-height: 60px;font-size: 12px;}
+
+.dropdown-menu {border-radius:0}
+.a_header_nav_btn {line-height: 41px;color: #333;background: none;box-shadow: none;border: 0;border-bottom: 3px solid rgba(0, 0, 0, 0);border-radius: 0;padding: 7px 15px;}
+.a_header_nav_btn:hover, .a_header_nav_btn:active, .a_header_nav_btn.active {color: #E0004F;background-color: transparent;box-shadow: none;border: 0;border-bottom: 3px solid #E0004F;}
+.div_head_nav_icon {position:relative;line-height: 32px;width: 32px;float:left;font-size: 20px;color: #FFF;background-color: #E0004F;text-align: center;margin: 10px 5px;border-radius: 50px;}
+.div_head_nav_icon i {position:relative;top:3px;}
+
+.modal-footer {margin-top:20px;padding: 15px 0;padding-bottom: 0;}

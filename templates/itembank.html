@@ -1,60 +1,59 @@
-{% extends "body.html" %}
+{% extends "body_system.html" %}
 {% load staticfiles %}
 {% block content %}
     {% if user.profile.grade > 0 %}
-        <div class="div_feed">
-            <h1>내가 출제한 문제 <button class="btn btn-danger btn-xs" id="btn_itembank_make" onclick="location.href='/itembank/write/';">출제하기</button></h1>
-            <div class="col-sm-12">
-                {% if my_questions %}
-                    {% for question in my_questions %}
-                        <div class="col-sm-3">
-                            <div class="div_feed_itembank" onclick="location.href='/itembank/detail/{{ question.id }}';">
-                                <p class="p_feed_itembank_unit">{{ question.unit.get_title }}</p>
-                                <p class="p_feed_itembank_title">{{ question.id }}. {{ question.title }}</p>
-                                {% if question.get_contents %}
-                                    {% if question.get_contents.0.type == "image" %}
-                                        <div class="p_feed_itembank_statement" style="background-image: url({{ question.get_contents.0.get_items.src.url }})"></div>
-                                    {% elif question.get_contents.0.type == "answer_choice" %}
-                                        {% for item in question.get_contents.0.get_items|slice:":4" %}
-                                            <div class="p_feed_itembank_item">○ {{ item.text }}</div>
-                                        {% endfor %}
-                                    {% endif %}
+        <h1>내가 출제한 문제 <button class="btn btn-danger btn-xs" id="btn_itembank_make" onclick="location.href='/itembank/write/';">출제하기</button></h1>
+        <div class="mdl-cell mdl-grid mdl-cell--12-col">
+            {% if my_questions %}
+                {% for question in my_questions %}
+                    <div class="mdl-card mdl-shadow--2dp">
+                        <div class="div_feed_itembank" onclick="{% if question.unit.unit.unit.id == 4 %}location.href='/erroranalysis/{{ question.id }}';{% else %}location.href='/itembank/detail/{{ question.id }}';{% endif %}">
+                            <p class="p_feed_itembank_unit">{{ question.unit.get_title }}</p>
+                            <p class="p_feed_itembank_title">{{ question.id }}. {{ question.title }}</p>
+                            {% if question.get_contents %}
+                                {% if question.get_contents.0.type == "image" %}
+                                    <div class="p_feed_itembank_statement" style="background-image: url({{ question.get_contents.0.get_items.src.url }})"></div>
+                                {% elif question.get_contents.0.type == "answer_choice" %}
+                                    {% for item in question.get_contents.0.get_items|slice:":4" %}
+                                        <div class="p_feed_itembank_item">○ {{ item.text }}</div>
+                                    {% endfor %}
                                 {% endif %}
-                            </div>
+                            {% endif %}
                         </div>
-                    {% endfor %}
-                {% else %}
-                    <p class="text-center">출제한 문제가 없습니다.</p>
-                {% endif %}
-            </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-center">출제한 문제가 없습니다.</p>
+            {% endif %}
         </div>
     {% endif %}
-    {% if user.is_superuser %}
-        <div class="div_feed">
-            <h1>전체 문제 (관리자에게만 보입니다.)</h1>
-            <div class="col-sm-12">
-                {% if questions %}
-                    {% for question in questions %}
-                        <div class="col-sm-3">
-                            <div class="div_feed_itembank" onclick="location.href='/itembank/detail/{{ question.id }}';">
-                                <p class="p_feed_itembank_unit">{{ question.unit.get_title }}</p>
-                                <p class="p_feed_itembank_title">{{ question.id }}. {{ question.title }}</p>
-                                {% if question.get_contents %}
-                                    {% if question.get_contents.0.type == "image" %}
-                                        <div class="p_feed_itembank_statement" style="background-image: url({{ question.get_contents.0.get_items.src.url }})"></div>
-                                    {% elif question.get_contents.0.type == "answer_choice" %}
-                                        {% for item in question.get_contents.0.get_items|slice:":4" %}
-                                            <div class="p_feed_itembank_item">○ {{ item.text }}</div>
-                                        {% endfor %}
-                                    {% endif %}
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% endfor %}
-                {% else %}
-                    <p class="text-center">출제한 문제가 없습니다.</p>
-                {% endif %}
-            </div>
-        </div>
-    {% endif %}
+    <h1>전체 문제</h1>
+    <div class="mdl-cell mdl-grid mdl-cell--12-col">
+        {% if questions %}
+            {% for question in questions %}
+                <div class="mdl-card mdl-shadow--2dp div_itembank_card">
+                    <div class="div_feed_itembank" {% if user.id %} onclick="{% if question.unit.unit.unit.id == 4 %}location.href='/erroranalysis/{{ question.id }}';{% else %}location.href='/itembank/detail/{{ question.id }}';{% endif %}"{% endif %}>
+                        <p class="p_feed_itembank_unit">{{ question.unit.get_title }}</p>
+                        <p class="p_feed_itembank_title">{{ question.id }}. {{ question.title }}</p>
+                        {% if question.get_contents %}
+                            {% if question.get_contents.0.type == "image" %}
+                                <div class="p_feed_itembank_statement" style="background-image: url({{ question.get_contents.0.get_items.src.url }})"></div>
+                            {% elif question.get_contents.0.type == "answer_choice" %}
+                                {% for item in question.get_contents.0.get_items|slice:":4" %}
+                                    <div class="p_feed_itembank_item">○ {{ item.text }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-center">출제한 문제가 없습니다.</p>
+        {% endif %}
+    </div>
+    {#    <div class="col-sm-3">#}
+    {#        <div class="div_feed">#}
+    {#            <h1>내가 출제한 시험지 <button class="btn btn-danger btn-xs" id="btn_itembank_testpaper_make" onclick="location.href='/itembank/testpaper/add/';">출제하기</button></h1>#}
+    {#        </div>#}
+    {#    </div>#}
 {% endblock %}

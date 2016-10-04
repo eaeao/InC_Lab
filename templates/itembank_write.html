@@ -1,152 +1,153 @@
-{% extends "body.html" %}
+{% extends "body_system.html" %}
 {% load staticfiles %}
 {% block content %}
-<div class="div_feed" id="div_itembank_write">
-    <h1>출제하기</h1>
-    <div class="row">
-        <div class="col-sm-6" id="div_itembank_write_left">
-            <?php echo validation_errors(); ?>
-            <form class="form-horizontal" id="form_itembank_write" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div id="div_itembank_write_left_head">
-                    <div class="control-group div_itembank_write_left_list_line">
-                        <label class="control-label">단원</label>
-                        <div class="controls" id="div_itembank_write_left_selects">&nbsp;</div>
-                    </div>
-                    <div class="control-group div_itembank_write_left_list_line">
-                        <label class="control-label">제목</label>
-                        <div class="controls"><input class="form-control input_itembank_write_left_title" type="text" name="title" placeholder="내용을 입력해주세요."></div>
-                    </div>
-                </div>
-                <ul id="ul_itembank_write_left_list"></ul>
-                <div id="div_itembank_write_left_list_add">
-                    <p class="p_itembank_write_left_list_add_title"><i class="xi-angle-down"></i> 요소 패널 열기</p>
-                    <div class="div_itembank_write_left_list_add_body">
-                        <p class="p_itembank_write_left_list_add_body_title"><i class="xi-angle-up"></i> 요소 패널 닫기</p>
-                        <div class="row">
-                            <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_content)"><i class="xi-paper"></i><p>내용</p></div>
-                            <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_image)"><i class="xi-image"></i><p>이미지</p></div>
-                            <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_text)"><i class="xi-form"></i><p>보기지문</p></div>
-                            <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_code)"><i class="xi-code"></i><p>프로그래밍 지문</p></div>
-                            <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_answer_text)"><i class="xi-type"></i><p>단답식 답안</p></div>
-                            <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_answer_textarea)"><i class="xi-book-spread"></i><p>서술식 답안</p></div>
-                            <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_answer_choice)"><i class="xi-list-ol"></i><p>객관식 답안</p></div>
+    <div class="col-md-12">
+        <div class="div_feed" id="div_itembank_write">
+            <h1>출제하기</h1>
+            <div class="row">
+                <div class="col-md-6" id="div_itembank_write_left">
+                    <form class="form-horizontal" id="form_itembank_write" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div id="div_itembank_write_left_head">
+                            <div class="control-group div_itembank_write_left_list_line">
+                                <label class="control-label">단원</label>
+                                <div class="controls" id="div_itembank_write_left_selects">&nbsp;</div>
+                            </div>
+                            <div class="control-group div_itembank_write_left_list_line">
+                                <label class="control-label">제목</label>
+                                <div class="controls"><input class="form-control input_itembank_write_left_title" type="text" name="title" placeholder="내용을 입력해주세요."></div>
+                            </div>
                         </div>
-                    </div>
+                        <ul id="ul_itembank_write_left_list"></ul>
+                        <div id="div_itembank_write_left_list_add">
+                            <p class="p_itembank_write_left_list_add_title"><i class="xi-angle-down"></i> 요소 패널 열기</p>
+                            <div class="div_itembank_write_left_list_add_body">
+                                <p class="p_itembank_write_left_list_add_body_title"><i class="xi-angle-up"></i> 요소 패널 닫기</p>
+                                <div class="row">
+                                    <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_content)"><i class="xi-paper"></i><p>내용</p></div>
+                                    <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_image)"><i class="xi-image"></i><p>이미지</p></div>
+                                    <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_text)"><i class="xi-form"></i><p>보기지문</p></div>
+                                    <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_code)"><i class="xi-code"></i><p>프로그래밍 지문</p></div>
+                                    <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_answer_text)"><i class="xi-type"></i><p>단답식 답안</p></div>
+                                    <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_answer_textarea)"><i class="xi-book-spread"></i><p>서술식 답안</p></div>
+                                    <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_answer_choice)"><i class="xi-list-ol"></i><p>객관식 답안</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </form>
-        </div>
-        <div class="col-sm-6" id="div_itembank_write_right">
-            <p class="p_itembank_write_right_preview">예시화면</p>
-            <p class="p_itembank_write_right_unit">&nbsp;</p>
-            <p class="p_itembank_write_right_title">01. 내용을 입력해주세요.</p>
-            <div id="div_itembank_write_right_body">&nbsp;</div>
+                <div class="col-md-6" id="div_itembank_write_right">
+                    <p class="p_itembank_write_right_preview">예시화면</p>
+                    <p class="p_itembank_write_right_unit">&nbsp;</p>
+                    <p class="p_itembank_write_right_title">01. 내용을 입력해주세요.</p>
+                    <div id="div_itembank_write_right_body">&nbsp;</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="button" class="btn btn-default" onclick="history.back()" value="취소" />
+                <input type="button" class="btn btn-danger" id="button_itembank_write_done" value="출제완료" />
+            </div>
         </div>
     </div>
-    <div class="modal-footer">
-        <input type="button" class="btn btn-default" onclick="history.back()" value="취소" />
-        <input type="button" class="btn btn-danger" id="button_itembank_write_done" value="출제완료" />
-    </div>
-</div>
-<script>
-    $("#div_itembank_write_left_selects").load("/itembank/write/selects/",{"csrfmiddlewaretoken":$("#wrap > input[name=csrfmiddlewaretoken]").val(),"unit1":2});
-    $(".input_itembank_write_left_title").keyup(function(){
-        if($(this).val()) $(".p_itembank_write_right_title").text("01."+$(this).val());
-        else $(".p_itembank_write_right_title").text("01. 내용을 입력해주세요.");
-    });
-    $(".p_itembank_write_left_list_add_title").click(function(){
-        $(this).hide();
-        $(".div_itembank_write_left_list_add_body").show();
-    });
-    $(".p_itembank_write_left_list_add_body_title").click(function(){
-        $(".div_itembank_write_left_list_add_body").hide();
-        $(".p_itembank_write_left_list_add_title").show();
-    });
-
-    $("#button_itembank_write_done").click(function() {
-
-        if ($("#input_itembank_write_left_title").val() == "") {
-            alert("제목을 입력해주세요.");
-            $("#input_itembank_write_left_title").focus();
-            return;
-        }
-
-        if ( $(".input_itembank_write_left_image").length ){
-            var result = $(".input_itembank_write_left_image").map(function (i, e) {
-                if($(e).val() == ""){
-                    $(e).focus();
-                    return false;
-                }
-            }).toArray();
-
-            if(result.indexOf(false) != -1){
-                alert("빈 이미지 보기를 첨부해주세요.");
-                return;
-            }
-        }
-
-        if ( $(".input_itembank_write_left_answer_choice").length ){
-            var result = $(".input_itembank_write_left_answer_choice").map(function (i, e) {
-                if($(e).val() == ""){
-                    $(e).focus();
-                    return false;
-                }
-            }).toArray();
-
-            if(result.indexOf(false) != -1){
-                alert("빈 객관식 보기를 입력해주세요.");
-                return;
-            }
-
-            if (!$(":radio[name=answer_choice_radio]:checked").val()){
-                alert("정답을 설정해주세요.");
-                $(".input_itembank_write_left_answer_choice_radio").focus();
-                return;
-            }
-        }
-
-        if ( $(".input_itembank_write_left_answer_text").length ){
-            var result = $(".input_itembank_write_left_answer_text").map(function (i, e) {
-                if($(e).val() == ""){
-                    $(e).focus();
-                    return false;
-                }
-            }).toArray();
-
-            if(result.indexOf(false) != -1){
-                alert("빈 단답식 답안을 입력해주세요.");
-                return;
-            }
-        }
-
-        if ( $(".input_itembank_write_left_answer_textarea").length ){
-            var result = $(".input_itembank_write_left_answer_textarea").map(function (i, e) {
-                if($(e).val() == ""){
-                    $(e).focus();
-                    return false;
-                }
-            }).toArray();
-
-            if(result.indexOf(false) != -1){
-                alert("빈 서술식 답안을 입력해주세요.");
-                return;
-            }
-        }
-
-        $("#form_itembank_write").submit();
-        return ;
-    });
-</script>
-<script>
-    addLine(form_image);
-    addLine(form_answer_choice);
-    (function() {
-        $("#ul_itembank_write_left_list").sortable({
-            items: ".li_itembank_write_left_list_line:not(.ui-state-disabled)",
-            update: function( event, ui ) {
-                makeExample();
-            }
+    <script>
+        $("#div_itembank_write_left_selects").load("/itembank/write/selects/",{"csrfmiddlewaretoken":$("#wrap > input[name=csrfmiddlewaretoken]").val(),"unit1":2});
+        $(".input_itembank_write_left_title").keyup(function(){
+            if($(this).val()) $(".p_itembank_write_right_title").text("01."+$(this).val());
+            else $(".p_itembank_write_right_title").text("01. 내용을 입력해주세요.");
         });
-    })();
-</script>
+        $(".p_itembank_write_left_list_add_title").click(function(){
+            $(this).hide();
+            $(".div_itembank_write_left_list_add_body").show();
+        });
+        $(".p_itembank_write_left_list_add_body_title").click(function(){
+            $(".div_itembank_write_left_list_add_body").hide();
+            $(".p_itembank_write_left_list_add_title").show();
+        });
+
+        $("#button_itembank_write_done").click(function() {
+
+            if ($("#input_itembank_write_left_title").val() == "") {
+                alert("제목을 입력해주세요.");
+                $("#input_itembank_write_left_title").focus();
+                return;
+            }
+
+            if ( $(".input_itembank_write_left_image").length ){
+                var result = $(".input_itembank_write_left_image").map(function (i, e) {
+                    if($(e).val() == ""){
+                        $(e).focus();
+                        return false;
+                    }
+                }).toArray();
+
+                if(result.indexOf(false) != -1){
+                    alert("빈 이미지 보기를 첨부해주세요.");
+                    return;
+                }
+            }
+
+            if ( $(".input_itembank_write_left_answer_choice").length ){
+                var result = $(".input_itembank_write_left_answer_choice").map(function (i, e) {
+                    if($(e).val() == ""){
+                        $(e).focus();
+                        return false;
+                    }
+                }).toArray();
+
+                if(result.indexOf(false) != -1){
+                    alert("빈 객관식 보기를 입력해주세요.");
+                    return;
+                }
+
+                if (!$(":radio[name=answer_choice_radio]:checked").val()){
+                    alert("정답을 설정해주세요.");
+                    $(".input_itembank_write_left_answer_choice_radio").focus();
+                    return;
+                }
+            }
+
+            if ( $(".input_itembank_write_left_answer_text").length ){
+                var result = $(".input_itembank_write_left_answer_text").map(function (i, e) {
+                    if($(e).val() == ""){
+                        $(e).focus();
+                        return false;
+                    }
+                }).toArray();
+
+                if(result.indexOf(false) != -1){
+                    alert("빈 단답식 답안을 입력해주세요.");
+                    return;
+                }
+            }
+
+            if ( $(".input_itembank_write_left_answer_textarea").length ){
+                var result = $(".input_itembank_write_left_answer_textarea").map(function (i, e) {
+                    if($(e).val() == ""){
+                        $(e).focus();
+                        return false;
+                    }
+                }).toArray();
+
+                if(result.indexOf(false) != -1){
+                    alert("빈 서술식 답안을 입력해주세요.");
+                    return;
+                }
+            }
+
+            $("#form_itembank_write").submit();
+            return ;
+        });
+    </script>
+    <script>
+        addLine(form_image);
+        addLine(form_answer_choice);
+        (function() {
+            $("#ul_itembank_write_left_list").sortable({
+                items: ".li_itembank_write_left_list_line:not(.ui-state-disabled)",
+                update: function( event, ui ) {
+                    makeExample();
+                }
+            });
+        })();
+    </script>
 {% endblock %}

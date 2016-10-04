@@ -23,12 +23,9 @@
     $(".p_itembank_write_right_unit").text(unit_text);
 </script>
 <script>
+    arr = {};
     function load_select_unit(ele){
-        arr = {};
         arr['csrfmiddlewaretoken'] = $("#wrap > input[name=csrfmiddlewaretoken]").val();
-        arr['unit1'] = "{{ unit1_id }}";
-        arr['unit2'] = "{{ unit2_id }}";
-        arr['unit3'] = "{{ unit3_id }}";
         //if ($(ele).attr('unit') == 1) arr = {};
         arr[$(ele).attr('name')] = $(ele).val();
         $("#div_itembank_write_left_selects_loading").show();

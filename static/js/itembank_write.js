@@ -171,7 +171,7 @@ function makeExample(){
             input_ele_value = $(e).contents().find(".input_itembank_write_left_answer_text").val().replace(/</g, "&lt;").replace(/>/g, "&gt;");
             str_body += "<input type='text' class='form-control input_itembank_write_right_answer_text ele_"+ele_no+" "+input_ele_inline+"' value='"+input_ele_value+"' placeholder='답을 입력해주세요.'>";
         }else if(input_type == "answer_textarea"){
-            input_ele_value = $(e).contents().find(".input_itembank_write_left_answer_textarea").val().replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, '<br />').replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+            input_ele_value = $(e).contents().find(".input_itembank_write_left_answer_textarea").val().replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
             str_body += "<textarea class='form-control input_itembank_write_right_answer_textarea ele_"+ele_no+"' placeholder='답을 입력해주세요.'>"+input_ele_value+"</textarea>";
         }else if(input_type == "answer_choice"){
             $(e).contents().find(".input_itembank_write_left_answer_choice").each(function (i, e) {

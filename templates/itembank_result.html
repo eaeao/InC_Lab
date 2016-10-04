@@ -1,10 +1,10 @@
-{% extends "body.html" %}
+{% extends "body_system.html" %}
 {% load staticfiles %}
 {% block content %}
 <div class="div_feed" id="div_itembank_result">
     <h1>정답확인</h1>
     <div class="row">
-        <div class="col-sm-8 col-sm-offset-2 text-center">
+        <div class="col-md-8 col-md-offset-2 text-center">
             <? if ($result == 1) { ?>
                 <i class="xi-check-circle text-success div_itembank_result_icon"></i>
                 <p class="div_itembank_result_msg">정답입니다!</p>

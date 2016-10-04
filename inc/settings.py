@@ -42,8 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'inc.main',
-    'inc.itembank'
+    'inc.itembank',
+    'inc.erroranalysis',
+    'inc.evaluation',
+    'inc.epl'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -136,14 +140,10 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = 'inc/static'
-
 MEDIA_ROOT = 'inc/media'
 
 MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = (
-    ('css', 'static/css'),
-    ('js', 'static/js'),
-    ('img', 'static/img'),
+    os.path.normpath(os.path.join(BASE_DIR, "static")),
 )

@@ -41,10 +41,21 @@ class Unit3(models.Model):
         return '%s > %s > %s' % (self.unit.unit.title, self.unit.title, self.title)
 
 
+TYPE_IN_QUESTION_CHOICES = (
+    ('선다형', '선다형'),
+    ('진위형', '진위형'),
+    ('단답형', '단답형'),
+    ('완성형', '완성형'),
+    ('서술형', '서술형')
+)
+
+
 class Question(models.Model):
     user = models.ForeignKey(User)
     unit = models.ForeignKey(Unit3)
+    type = models.CharField(max_length=10,choices=TYPE_IN_QUESTION_CHOICES,default='선다형')
     title = models.TextField(default="")
+    keyword = models.TextField(default="",blank=True,null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
 
@@ -77,6 +88,14 @@ class Content(models.Model):
         else:
             return None
 
+    def get_items_random(self):
+        if self.type == "answer_choice":
+            return ChoiceItem.objects.filter(content=self).order_by('?')
+        elif self.type == "image":
+            return get_or_none(ImageItem, content=self)
+        else:
+            return None
+
 
 class ChoiceItem(models.Model):
     content = models.ForeignKey(Content)
@@ -98,3 +117,17 @@ class ImageItem(models.Model):
 
     def __str__(self):
         return '[%d]%s, %s' % (self.id, self.content, self.src)
+
+
+class TestpaperRecord(models.Model):
+    user = models.ForeignKey(User)
+    question = models.ForeignKey(Question)
+    items = models.TextField(default="")
+    answer = models.TextField(default="")
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = "8. 제출된 시험지(TestpaperRecord)"
+
+    def __str__(self):
+        return '[%d]%s, %s, %s' % (self.id, self.user, self.items, self.answer)

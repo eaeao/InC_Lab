@@ -1,0 +1,115 @@
+{% extends "body.html" %}
+{% load main_extras %}
+{% load staticfiles %}
+{% block content %}
+    <div class="col-md-2">
+        <div class="div_feed div_page_submenu">
+            {% if menu.parent %}
+                <p class="li_page_submenu_title">{{ menu.parent|set_menu_title:lang }}</p>
+            {% else %}
+                <p class="li_page_submenu_title"onclick="location.href='{{ menu.get_url|get_url_lang:lang }}';" style="cursor:pointer">{{ menu|set_menu_title:lang }}</p>
+            {% endif %}
+            {% if menu.mode != 6 %}
+                <ul>
+                    {% for sub in menu.parent.get_sub %}
+                        <li class="li_page_submenu_list {% if sub == board.menu %}active{% endif %}" onclick="location.href='{{ sub.get_url|get_url_lang:lang }}';">{{ sub|set_menu_title:lang }} <i class="xi-angle-right pull-right"></i></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-md-10">
+        <div class="div_feed">
+            <p class="p_body_title">{{ board.title }}</p>
+            <div class="div_body_info dropdown">
+                <a id="reporter" role="button" data-toggle="dropdown" href="#">{{ board.user.first_name }}</a> | 조회수:{{ board.hits }} | {{ board.date_updated|date:"Y-m-d H:i:s" }}
+                <ul id="menu2" class="dropdown-menu" role="menu" aria-labelledby="reporter">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">다른 기사보기</a></li>
+                    <li role="presentation" class="divider"></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">이메일 보내기</a></li>
+                </ul>
+            </div>
+            <div class="p_body_con">{{ contents|safe }}</div>
+            {% if board.get_files %}
+                <div class="div_body_files">
+                    <p class="p_files_title">첨부파일</p>
+                    {% for file in board.get_files %}<p class="p_files_file"><a href="{{ file.src.url }}" target="_blank">{{ file.get_name }} <span class="span_files_size pull-right">{{ file.get_size }}</span></a></p>{% endfor %}
+                </div>
+            {% endif %}
+            <hr/>
+            <div align="right">
+                {% if user.is_superuser or board.user == user %}
+                    <button type="button" class="btn btn-default" id="btn_modify" onclick="location.href='/board/modify/{{ board.id }}';"><i class="xi-scissors"></i> 수정</button>
+                    <button type="button" class="btn btn-default" id="btn_delete"><i class="xi-wastebasket"></i> 삭제</button>
+                {% endif %}
+            </div>
+            <div id="div_comment_input">
+                <p id="p_comment_length">0 / 200 자</p>
+                <p id="p_comment_title">댓글쓰기</p>
+                {% if user.id %}
+                    <textarea class="form-control" id="textarea_comment_txt" maxlength="200" rows="3" placeholder="댓글을 입력하세요."></textarea>
+                    <button class="btn btn-default" id="btn_comment_write">확인</button>
+                {% else %}
+                    <textarea class="form-control" id="textarea_comment_txt" maxlength="0" rows="3" placeholder="로그인 후 이용해주세요."></textarea>
+                    <button class="btn btn-default" id="btn_comment_write">확인</button>
+                {% endif %}
+            </div>
+            <div class="div_comment_list">&nbsp;</div>
+        </div>
+    </div>
+    <script>
+        var fontSize = 14;
+        $(".div_comment_list").load("/board/reply/{{ board.id }}");
+        $("#btn_font_up").click(function(){
+            if(fontSize < 24) fontSize += 2;
+            setFontSize();
+        });
+        $("#btn_font_down").click(function(){
+            if(fontSize > 12) fontSize -= 2;
+            setFontSize();
+        });
+        $(".p_files_file a").click(function () {
+            var title = $(this).text();
+            ga('send', {
+                hitType: 'event',
+                eventCategory: 'File',
+                eventAction: 'download',
+                eventLabel: title
+            });
+        });
+        $("#div_comment_input #textarea_comment_txt").keyup(function(){
+            $("#div_comment_input #p_comment_length").text($(this).val().length+" / 200 자");
+        });
+        function setFontSize(){
+            $(".p_body_con pre").css({"font-size":fontSize+"px"});
+            $(".p_body_con pre *").css({"font-size":fontSize+"px"});
+        }
+        {% if user.is_superuser or board.user == user %}
+            $("#btn_delete").click(function(){
+                if (confirm('정말 삭제하시겠습니까?')) {
+                    $(".p_body_con").load("/board/delete/",{'csrfmiddlewaretoken':$("#wrap > input[name=csrfmiddlewaretoken]").val(),'board_id':'{{board.id}}'},function(){
+                        window.location.href = "/menu/{{ submenu.id }}";
+                    });
+                }
+            });
+        {% endif %}
+        {% if user.id %}
+            $("#btn_comment_write").click(function(){
+                var board_id = "{{ board.id }}";
+                var con = $("#textarea_comment_txt").val();
+                $(".div_comment_list").hide().load("/board/reply/post/",{'csrfmiddlewaretoken':$("#wrap > input[name=csrfmiddlewaretoken]").val(),'board_id':board_id,'con':con},function(){
+                    $("#textarea_comment_txt").val("");
+                }).fadeIn(500);
+            });
+            function replyDelete(boardreply_id){
+                if (confirm('정말 삭제하시겠습니까?')) {
+                    $(".div_comment_list").hide().load("/board/reply/delete/",{'csrfmiddlewaretoken':$("#wrap > input[name=csrfmiddlewaretoken]").val(),'boardreply_id':boardreply_id}).fadeIn(500);
+                }
+            }
+        {% else %}
+            $("#textarea_comment_txt").click(function(){
+                $('#LoginModal').modal('show');
+            });
+        {% endif %}
+    </script>
+{% endblock %}

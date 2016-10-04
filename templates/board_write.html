@@ -1,0 +1,86 @@
+{% extends "body.html" %}
+{% load main_extras %}
+{% load staticfiles %}
+{% block content %}
+    <div class="col-md-2">
+        <div class="div_feed div_page_submenu">
+            {% if menu.parent %}
+                <p class="li_page_submenu_title">{{ menu.parent|set_menu_title:lang }}</p>
+            {% else %}
+                <p class="li_page_submenu_title"onclick="location.href='{{ menu.get_url|get_url_lang:lang }}';" style="cursor:pointer">{{ menu|set_menu_title:lang }}</p>
+            {% endif %}
+            {% if menu.mode != 6 %}
+                <ul>
+                    {% for sub in menu.parent.get_sub %}
+                        <li class="li_page_submenu_list {% if sub == board.menu %}active{% endif %}" onclick="location.href='{{ sub.get_url|get_url_lang:lang }}';">{{ sub|set_menu_title:lang }} <i class="xi-angle-right pull-right"></i></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-md-10">
+        <div class="div_feed">
+            <form id="form_contents" class="form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="input_category">구분</label>
+                        <input type="text" class="form-control" id="input_category" name="input_category" value="{{ menu.get_parent }}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="input_title">제목</label>
+                    {% if board %}
+                        <input type="text" class="form-control" id="input_title" name="input_title" value="{{ board.title }}">
+                    {% else %}
+                        <input type="text" class="form-control" id="input_title" name="input_title" placeholder="제목을 입력해주세요.">
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="input_headline" name="input_headline" value="1" {% if board.is_headline %}checked{% endif %}> 헤드라인
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="input_con">내용</label>
+                    <textarea name="input_con" id="div_board_contents">{{ contents|safe }}</textarea>
+                </div>
+                {% if board %}
+
+                {% else %}
+                    <div class="col-lg-12" id="div_con_imgs"></div>
+                    <span id="span_con_addfiles" onclick="addFileInput()">...파일 슬록 추가</span>
+                {% endif %}
+                <hr/>
+                <div class="form-group">
+                    {% if board %}
+                        <button type="submit" class="btn btn-default">수정 완료</button>
+                    {% else %}
+                        <button type="submit" class="btn btn-default">작성 완료</button>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="//cdn.ckeditor.com/4.5.9/full/ckeditor.js"></script>
+    <script>
+        $(document).ready(function () {
+            CKEDITOR.replace( 'input_con' );
+            CKEDITOR.config.contentsCss = '/static/css/board_detail.css' ;
+            CKEDITOR.config.startupMode = 'source';
+            CKEDITOR.config.height = 500;
+            CKEDITOR.config.font_names =
+                    'KoPubDotum Medium;' +
+                    '맑은 고딕;' +
+                    '굴림;' +
+                    '궁서';
+        });
+    </script>
+    <script>
+        var file_no = 0;
+        addFileInput();
+        function addFileInput(){
+            var input_html = "<div class='form-group'><label for='exampleInputFile'>첨부 파일 "+file_no+"</label> <input type='file' id='input_file"+file_no+"' name='input_file'> <p class='help-block'>이미지의 경우 추가하실 부분에 <b>&lcub;&lcub;"+file_no+"&rcub;&rcub;</b>을 입력해주세요.</p></div>";
+            $("#div_con_imgs").append(input_html);
+            file_no++;
+        }
+    </script>
+{% endblock %}

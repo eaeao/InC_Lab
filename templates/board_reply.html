@@ -1,0 +1,10 @@
+<p class="p_comment_title">댓글 총 {{ boardreply|length }}개</p>
+{% for br in boardreply %}
+    <div class="div_list_comment">
+        <img src="/static/img/man.png" class="img_comment_src">
+        {% if br.user == user or user.is_superuser %}<button class="btn btn-xs btn_comment_delete" onclick="replyDelete({{ br.id }})"><i class="xi-close"></i></button>{% endif %}
+        <p class="p_comment_name">{{ br.user.first_name }}</p>
+        <p class="p_comment_date">{{ br.date_updated|date:"Y-m-d H:i:s" }}</p>
+        <p class="p_comment_con">{{ br.con }}</p>
+    </div>
+{% endfor %}

@@ -1,0 +1,76 @@
+{% extends "body.html" %}
+{% load main_extras %}
+{% load staticfiles %}
+{% block content %}
+    <div class="col-md-2">
+        <div class="div_feed div_page_submenu">
+            {% if menu.parent.parent %}
+                <p class="li_page_submenu_title">{{ menu.parent.parent|set_menu_title:lang }}</p>
+                <ul>
+                    {% for sub in menu.parent.parent.get_sub %}
+                        <li class="li_page_submenu_list {% if sub == menu.parent %}active{% endif %}" onclick="link('{{ sub.get_url|get_url_lang:lang }}','{{ sub.get_blank }}');">{{ sub|set_menu_title:lang }} <i class="xi-angle-right pull-right"></i></li>
+                    {% endfor %}
+                </ul>
+            {% elif page.menu.parent %}
+                <p class="li_page_submenu_title">{{ menu.parent|set_menu_title:lang }}</p>
+                <ul>
+                    {% for sub in menu.parent.get_sub %}
+                        <li class="li_page_submenu_list {% if sub == menu %}active{% endif %}" onclick="link('{{ sub.get_url|get_url_lang:lang }}','{{ sub.get_blank }}');">{{ sub|set_menu_title:lang }} <i class="xi-angle-right pull-right"></i></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="li_page_submenu_title"onclick="link('{{ menu.get_url|get_url_lang:lang }}','{{ munu.get_blank }}');" style="cursor:pointer">{{ menu|set_menu_title:lang }}</p>
+                <ul>
+                    {% for sub in menu.get_sub %}
+                        <li class="li_page_submenu_list {% if sub == menu %}active{% endif %}" onclick="link('{{ sub.get_url|get_url_lang:lang }}','{{ sub.get_blank }}');">{{ sub|set_menu_title:lang }} <i class="xi-angle-right pull-right"></i></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-10">
+        <div class="div_feed div_paper_add">
+            <form method="post" id="form_paper_add">
+                {% csrf_token %}
+                <h1>{{ menu|set_menu_title:lang }}</h1>
+                <div style="position:relative;width:100%;min-height:500px">
+
+                    <div class="control-group">
+                        <label class="control-label">분류</label>
+                        <div class="controls">
+                            <select name="type" class="form-control">
+                                {% for type in types %}<option value="{{ type.0 }}">{{ type.1 }}</option>{% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">저자</label>
+                        <div class="controls"><input class="form-control" type="text" name="author" placeholder="ex) Han Sung Kim, Ja Mee Kim, Won Gyu Lee" required></div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">논문 제목</label>
+                        <div class="controls"><input class="form-control" type="text" name="title" placeholder="ex) IE Behavior Intent: A Study on ICT Ethics of College Students in Korea" required></div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">논문지 명</label>
+                        <div class="controls"><input class="form-control" type="text" name="journal" placeholder="ex) THE ASIA-PACIFIC EDUCATION RESEARCHER" required></div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">출판정보</label>
+                        <div class="controls"><input class="form-control" type="text" name="page" placeholder="ex)  vol. 23, Issue 2, pp. 237-247" required></div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">링크</label>
+                        <div class="controls"><input class="form-control" type="text" name="link" placeholder="URL"></div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" onclick="history.back()" value="취소" />
+                    <input type="button" id="btn_paper_submit" class="btn btn-danger" value="저장" />
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

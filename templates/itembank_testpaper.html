@@ -1,0 +1,90 @@
+{% extends "body_system.html" %}
+{% load staticfiles %}
+{% block content %}
+    <div class="col-sm-12">
+        <div class="div_feed">
+            <h1>문제풀기</h1>
+            {% for question in questions %}
+                <form class="form_testpaper">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2 div_testpaper_contents" qid="{{ question.id }}">
+                            <p class="p_testpaper_contents_unit">{{ question.unit.get_title }}</p>
+                            <p class="p_testpaper_contents_title">{{ forloop.counter }}. {{ question.title }}</p>
+                            {% for content in question.get_contents %}
+                                {% if content.type == "image" %}
+                                    <div class="p_testpaper_contents_image">
+                                        <img src="{{ content.get_items.src.url }}">
+                                    </div>
+                                {% elif content.type == "content" %}
+                                    <span class="span_testpaper_contents_content">{{ content.contents }}</span>
+                                {% elif content.type == "text" %}
+                                    <p class="p_testpaper_contents_text">{{ content.contents }}</p>
+                                {% elif content.type == "code" %}
+                                    <pre class='pre_testpaper_contents_code'><code class='python'>{{ content.contents }}</code></pre>
+                                {% elif content.type == "answer_text" %}
+                                    <input type="text" class="form-control input_testpaper_contents_answer_text" name="item" placeholder="답을 입력해주세요.">
+                                {% elif content.type == "answer_textarea" %}
+                                    <textarea class='form-control input_testpaper_contents_answer_textarea' name="item" placeholder='답을 입력해주세요.'></textarea>
+                                {% elif content.type == "answer_choice" %}
+                                    {% for item in content.get_items_random %}
+                                        <div class="div_testpaper_contents_item"><input type="radio" name="item" value="{{ item.text }}">{{ item.text }}</div>
+                                    {% endfor %}
+                                    <input type="hidden" class="input_testpaper_contents_items_values" value="{% for item in content.get_items_random %}{{ item.id }};{% endfor %}">
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </form>
+            {% endfor %}
+            <form method="post" action="/itembank/testpaper/submit/" id="form_testpaper_submit">
+                {% csrf_token %}
+                <input type="hidden" name="questions" id="questions" value="">
+                <button type="button" class="btn btn-danger col-md-8 col-md-offset-2" id="btn_testpaper_submit">제출하기</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script>
+        $(document).ready(function() {
+
+            $('input[type=radio],input[type=checkbox]').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%'
+            });
+
+            $('.form_testpaper input[type=radio]').on('ifChecked', function(event){
+                $(this).parent().parent().parent().children(".div_testpaper_contents_item").removeClass("checked");
+                $(this).parent().parent().parent().children(".div_testpaper_contents_item").children(".iradio_square-blue").removeClass("checked");
+                $(this).parent().parent().addClass("checked");
+            });
+
+            $(".form_testpaper .div_testpaper_contents_item").hover(function(){
+                $(this).children(".iradio_square-blue").addClass("hover");
+            },function(){
+                $(this).children(".iradio_square-blue").removeClass("hover");
+            });
+
+            $(".form_testpaper .div_testpaper_contents_item").click(function(){
+                $(this).children(".iradio_square-blue").children("input").iCheck('check');
+            });
+
+            $('#btn_testpaper_submit').click(function(){
+                var confirm_msg = confirm("정말 제출하시겠습니까?");
+                if (confirm_msg){
+                    var question_list = [];
+                    $(".div_testpaper_contents").map( function(i, ele) {
+                        question_list.push({"qid":$(ele).attr("qid")
+                            ,"items":$(ele).children(".input_testpaper_contents_items_values").val()
+                            ,"answer":$(ele).children(".div_testpaper_contents_item.checked").text()
+                        });
+                    });
+                    $("#form_testpaper_submit #questions").val(JSON.stringify(question_list));
+                    $("#form_testpaper_submit").submit();
+                }
+            });
+
+        });
+    </script>
+{% endblock %}

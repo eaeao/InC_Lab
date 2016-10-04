@@ -1,0 +1,27 @@
+.div_list_title { border-bottom: 2px solid #aaa;padding: 5px;}
+.div_list_title .span_title_sub {font-weight:600;font-size: 14px;color: #e67e22;}
+.div_list_click {cursor:pointer}
+.span_list_reply {color:#ff6600;margin-left:5px}
+#table_list_content {font-size: 16px;margin-top:10px;margin-bottom: 0;border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;}
+#table_list_content th {text-align: center}
+
+/* UI Object */
+.paginate_complex {font-size: 16px;padding:15px 0;line-height:normal;text-align:center;}
+.paginate_complex a,
+.paginate_complex strong{display:inline-block;position:relative;z-index:2;margin:0 -3px;padding:1px 8px;border-left:1px solid #d6d6d6;border-right:1px solid #d6d6d6;background-color:#fff;font:600 12px/16px;color:#323232;text-decoration:none;vertical-align:top}
+.paginate_complex a:hover,
+.paginate_complex a:active,
+.paginate_complex a:focus{background-color:#f8f8f8}
+.paginate_complex strong{color:#ff8600}
+.paginate_complex .direction{border:0;font-weight:normal;color:#767676;text-decoration:none !important;z-index:1}
+.paginate_complex .direction:hover,
+.paginate_complex .direction:active,
+.paginate_complex .direction:focus{color:#323232;background-color:#fff}
+.paginate_complex .prev{border-left:0}
+.paginate_complex .next{border-right:0}
+.paginate_complex .direction span{display:inline-block;position:relative;top:4px;width:0;height:0;font-size:0;line-height:0;vertical-align:top}
+.paginate_complex .prev span{*left:-4px;margin-right:1px;border:3px solid;border-top:solid #fff;border-bottom:solid #fff;border-left:0}
+.paginate_complex .next span{margin-left:1px;border:3px solid;border-top:solid #fff;border-bottom:solid #fff;border-right:0}
+/* //UI Object */
+
+#btn_write {float:right;margin-top: -40px;}

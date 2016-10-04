@@ -1,0 +1,25 @@
+.div_page_submenu {background-color: #b51e3a;float: none;}
+.div_page_submenu {background-color: #b51e3a;float: none;}
+.li_page_submenu_title {font-size: 16px;color: #FFF;margin-bottom: 5px;}
+.li_page_submenu_list {font-size: 14px;padding: 10px 0px;border-bottom: 1px solid rgb(162, 20, 46);color: rgba(255,255,255,0.5);cursor: pointer;}
+.li_page_submenu_list.active {color: #fff;}
+.li_page_submenu_list:hover {color: #FFF;}
+.li_page_submenu_list i {margin-top:2px}
+.ul_page_tabmenu {margin-top:15px;display: inline-block;}
+.ul_page_tabmenu li {background-color:#FFF;box-shadow: 0 3px 3px 0 #EDEFF3;border-radius: 0;}
+.ul_page_tabmenu li a {border-bottom: 3px solid #FFF;border-radius:0}
+.ul_page_tabmenu li a:hover {background-color:#FFF;border-bottom: 3px solid #E0004F;color:#E0004F}
+.ul_page_tabmenu li.active a {background-color: #FFF;bodiv_page_editorrder-bottom: 3px solid #E0004F;}
+.ul_page_tabmenu li.active a:hover {background-color: #FFF;border-bottom: 3px solid #E0004F;color:#E0004F}
+.ul_page_tabmenu  li.active>a, .ul_page_tabmenu  li.active>a:focus, .ul_page_tabmenu  li.active>a:hover {color: #E0004F;}
+#div_page_editor {position: absolute;top: 0;right: 0;bottom: 0;left: 0;border:1px solid #ccc}
+#div_page_editor * {font: 12px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;  direction: ltr;}
+
+.div_contents {padding: 0px 40px;}
+.div_contents h1, .cke_editable h1,.div_contents h2, .cke_editable h2, .div_contents p, .cke_editable p {font-family:'Apple SD Gothic Neo','Noto Sans CJK KR','KoPubDotum Medium',"NanumBarunGothic",'NanumGothic',"Tahoma","Open Sans",arial,'Malgun Gothic',sans-serif;text-rendering: optimizeLegibility !important;-webkit-font-smoothing: antialiased !important;}
+.div_contents h1, .cke_editable h1 {font-size: 18px;font-weight:700;border:0;padding:0px;margin-bottom: 20px;margin-top: 40px;color: #b51e3a;padding-left: 8px;border-left: 2px solid #b51e3a;}
+.div_contents h2, .cke_editable h2 {font-size: 16px;font-weight:700;border:0;padding:0px;margin-bottom: 10px;margin-top: 30px;color: #333;}
+.div_contents p, .cke_editable p {font-size: 15px;line-height: 1.6;text-align: justify;margin-bottom: 20px;}
+.div_contents ul, .cke_editable ul {list-style:circle;font-size: 15px;padding:initial;margin-left: 20px;}
+.div_contents ol, .cke_editable ol {list-style-type: decimal;padding:initial;margin-left: 20px}
+.div_contents li, .cke_editable li {font-size: 15px;line-height: 1.6;text-align: justify;margin-bottom: 10px;}

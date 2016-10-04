@@ -1,0 +1,18 @@
+.p_paper_subtitle {
+    width: 100%;
+    display: inline-block;
+    margin-top: 35px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    background-color: #fafafa;
+    border-left: 0;
+    border-right: 0;
+    padding: 5px;
+}
+.p_paper_line {border-bottom: 1px solid #f0f0f0;padding: 10px;}
+.p_paper_line a:hover{text-decoration: underline}
+
+#input_paper_query {width:100px;margin-bottom: 10px;}
+
+.div_paper_add .control-group {margin-bottom:10px}

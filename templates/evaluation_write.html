@@ -1,0 +1,16 @@
+{% extends "body.html" %}
+{% load staticfiles %}
+{% block content %}
+    <div class="col-md-12">
+        <div class="div_feed" id="div_evaluation_write">
+            <h1>출제하기</h1>
+            <div class="row">
+
+            </div>
+            <div class="modal-footer">
+                <input type="button" class="btn btn-default" onclick="history.back()" value="취소" />
+                <input type="button" class="btn btn-danger" id="button_evaluation_write_done" value="출제완료" />
+            </div>
+        </div>
+    </div>
+{% endblock %}

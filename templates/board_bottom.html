@@ -1,0 +1,17 @@
+{% load main_extras %}
+{% if list %}
+    <div class="paginate_complex">
+        <a href="{% if list.has_previous %}?page={{ list.previous_page_number }}{% endif %}" class="direction prev"><span></span> {{ "이전"|set_language:lang }}</a>
+        {% for pn in list.paginator.page_range %}
+            {% if pn == list.number %}
+                <strong>{{ pn }}</strong>
+            {% else %}
+                <a href="?page={{ pn }}">{{ pn }}</a>
+            {% endif %}
+        {% endfor %}
+        <a href="{% if list.has_next %}?page={{ list.next_page_number }}{% endif %}" class="direction next">{{ "다음"|set_language:lang }} <span></span></a>
+    </div>
+{% endif %}
+{% if user.is_superuser %}
+    <button type="button" class="btn btn-default" id="btn_write" onclick="location.href='/board/write/{{ menu.id }}';"><i class="xe-pen"></i> {{ "글쓰기"|set_language:lang }}</button>
+{% endif %}

@@ -1,0 +1,96 @@
+{% extends "body.html" %}
+{% load staticfiles %}
+{% block content %}
+    <link href="/static/css/monokai-sublime.css" rel="stylesheet">
+    {% if question %}
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="div_feed" id="div_erroranalysis_question">
+                    <div>
+                        <p class="p_erroranalysis_question_title">{{ question.id }}. {{ question.title }}</p>
+                        <div class="div_erroranalysis_question_content"><pre>{{ question.content }}</pre></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="div_feed" id="div_erroranalysis_example">
+                    <div>
+                        예시
+                        <div class="div_erroranalysis_question_content"><pre>{{ question.result_exec }}</pre></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <div class="row">
+        <form action="/evaluation/result/{{ question.id }}" method="post" id="form_erroranalysis">
+            {% csrf_token %}
+            <div class="col-lg-7">
+                <div class="div_feed">
+                    <div style="position:relative;width:100%;border:1px solid #eee">
+                        <textarea id="div_erroranalysis_contents" name="contents" style="display: none;"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        {% if user.is_superuser and question %}<input type="button" class="btn btn-warning pull-left" id="btn_erroranalysis_analysis" value="결과 분석" onclick="location.href='/erroranalysis/analysis/{{ question.id }}';"/>{% endif %}
+                        <input type="button" class="btn btn-info" id="btn_erroranalysis_execute" value="실행" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="div_feed" id="div_erroranalysis_result">
+                    <pre><code class='python'></code></pre>
+                    {#                    {% if question %}<input type="button" class="btn btn-danger" id="btn_erroranalysis_submit" value="제출" />{% endif %}#}
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="/static/js/codemirror.js"></script>
+    <script src="/static/js/python.js"></script>
+    <script>
+
+        window.onkeydown = function() {
+            var kcode = event.keyCode;
+            if(kcode == 8 || kcode == 116) event.returnValue = false;
+        }
+
+        $(document).ready(function () {
+
+            var editor = CodeMirror.fromTextArea(document.getElementById("div_erroranalysis_contents"), {
+                mode: {name: "python",
+                    version: 3,
+                    singleLineStringErrors: false},
+                lineNumbers: true,
+                indentUnit: 4,
+                matchBrackets: true
+            });
+
+            editor.setSize("100%","400px");
+
+            editor.on("change", function(cm, change) { $("#div_erroranalysis_contents").val(cm.getDoc().getValue());});
+
+            hljs.initHighlightingOnLoad();
+            $('pre code').each(function(i, block) {
+                hljs.highlightBlock(block);
+            });
+
+        });
+
+        $("#btn_erroranalysis_execute").click(function(){
+            $("#div_erroranalysis_result code").text("Loading...");
+            $("#div_erroranalysis_result code").load("/erroranalysis/result/"
+                    ,{"csrfmiddlewaretoken":$("#wrap > input[name=csrfmiddlewaretoken]").val(),'question':'{{ question.id }}',"contents":$("#div_erroranalysis_contents").val()},
+                    function () {
+                        hljs.initHighlightingOnLoad();
+                        $('pre code').each(function(i, block) {
+                            hljs.highlightBlock(block);
+                        });
+                        var objDiv = document.getElementById("div_erroranalysis_result");
+                        objDiv.scrollTop = objDiv.scrollHeight;
+                    });
+        });
+
+        $("#btn_erroranalysis_submit").click(function(){
+            $("#form_erroranalysis").submit();
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,127 @@
+{% load main_extras %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ epl.name }} | InC Lab</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="http://cdn.jsdelivr.net/xeicon/2/xeicon.min.css">
+    <link rel="stylesheet" href="/static/css/epl_layout.css">
+    <link rel="stylesheet" href="/static/css/board_6.css">
+    <style>
+        .container_bg, .div_box_icon {background-color:rgb({{ epl.color }});}
+        .p_body_title {color:rgb({{ epl.color }});}
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <div class="navbar-inner">
+        <div class="container">
+            <div class="nav-collapse">
+                <ul class="nav pull-right nav_list">
+                    <li class="nav_list_btn"><a class="scroll" href="#info">{{ epl.name }}란?</a></li>
+                    <li class="nav_list_btn"><a class="scroll" href="#spec">주요특징</a></li>
+                    <li class="nav_list_btn"><a class="scroll" href="#screenshot">관련이미지</a></li>
+                    <li class="nav_list_btn"><a class="scroll" href="#files">교수학습자료</a></li>
+                </ul>
+            </div>
+            <!-- Be sure to leave the brand out there if you want it shown -->
+            <p class="brand">
+                <a class="scroll" href="#target_top"><img src="{{ epl.logo.url }}" id="logo""></a>
+                <span id="span_brand_inc" onclick="location.href='/';">InC Lab.</span></p>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="container_bg"><div class="container_bg_img"></div></div>
+    <div id="div_head_filter_top"></div>
+    {% if epl.quickstart != "" %}<a href="{{ epl.quickstart }}" target="_blank"><div class="div_head_quickstart">바로 시작하기</div></a>{% endif %}
+    <div class="content">
+        <div class="div_head" id="target_top">
+            <p class="div_head_headline">{{ epl.comment }}</p>
+            <div class="col-sm-10 col-sm-offset-1 div_head_center_contents" style="background-image: url({{ epl.cover.url }});"></div>
+        </div>
+        <div class="col-sm-10 col-sm-offset-1">
+            <p class="p_body_title" id="info">{{ epl.name }}란?</p>
+            <p class="p_body_contents">{{ epl.meaning }}</p>
+        </div>
+        <div class="col-sm-12" style="margin-top:100px;">
+            <p class="p_body_title" id="spec">주요특징</p>
+            {% for spec in epl.get_specs %}
+                <div class="p_body_box">
+                    <div class="div_box_icon"><i class="{{ spec.xi }}"></i></div>
+                    <p class="p_box_title">{{ spec.title }}</p>
+                    <p class="p_box_contents">{{ spec.contents }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="col-sm-12" style="margin-top:50px;">
+            <p class="p_body_title" id="screenshot">관련이미지</p>
+            <div class="row">
+                {% for image in epl.get_images %}<div class="col-lg-3"><div class="p_body_screenshot" onclick="showImgModal('{{ image.src.url }}')" style="background-image: url({{ image.src.url }})"></div></div>{% endfor %}
+            </div>
+        </div>
+        <div class="col-sm-12" style="margin-top:50px;">
+            <p class="p_body_title" id="files">교수학습자료</p>
+            <div class="row">
+                <div class="col-sm-12" id="div_body_board"></div>
+            </div>
+        </div>
+    </div>
+
+</div><!-- /.container -->
+
+<!-- Modal -->
+<div class="modal fade" id="imgModal" tabindex="-1" role="dialog" aria-labelledby="imgModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/static/js/jquery-1.12.1.min.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+<script>
+    $("#div_body_board").load("/menu/{{ menu.id }}");
+</script>
+<script>
+    $(window).scroll(function(){
+        if($(window).scrollTop() >= 30) {
+            $(".navbar").css({"background-color":"rgba({{ epl.color }},0.8)","position":"fixed"});
+            $(".navbar-inner .container").css({"padding":"0"});
+        } else {
+            $(".navbar").css({"background-color":"none","position":"absolute"});
+            $(".navbar-inner .container").css({"padding-top":"30px"});
+        }
+    });
+
+    $(document).ready(function($) {
+        $(".scroll").click(function(event){
+            event.preventDefault();
+            $('html,body').animate({scrollTop:$(this.hash).offset().top}, 500);
+        });
+    });
+
+    function showImgModal(url){
+        $("#imgModal .modal-body").html("<a href='"+url+"' target='_blank'><img src='"+url+"'></a>");
+        $('#imgModal').modal('show');
+    }
+</script>
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-79505384-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+</body>
+</html>

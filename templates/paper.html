@@ -1,0 +1,60 @@
+{% extends "body.html" %}
+{% load main_extras %}
+{% load staticfiles %}
+{% block content %}
+    <div class="col-md-2">
+        <div class="div_feed div_page_submenu">
+            {% if menu.parent.parent %}
+                <p class="li_page_submenu_title">{{ menu.parent.parent|set_menu_title:lang }}</p>
+            {% elif menu.parent %}
+                <p class="li_page_submenu_title">{{ menu.parent|set_menu_title:lang }}</p>
+            {% else %}
+                <p class="li_page_submenu_title"onclick="location.href='{{ menu.get_url|get_url_lang:lang }}';" style="cursor:pointer">{{ menu|set_menu_title:lang }}</p>
+            {% endif %}
+            <ul>
+                {% for sub in menu.parent.get_sub %}
+                    <li class="li_page_submenu_list {% if sub == menu %}active{% endif %}" onclick="location.href='{{ sub.get_url|get_url_lang:lang }}';">{{ sub|set_menu_title:lang }} <i class="xi-angle-right pull-right"></i></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-10">
+        <div class="div_feed">
+            <h1>{{ menu|set_menu_title:lang }}</h1>
+            <p class="text-right"><button class="btn btn-sm pull-right" onclick="search($('#input_paper_query').val())">검색</button><input type="text" id="input_paper_query" class="form-control input-sm pull-right" placeholder="검색어"> </p>
+            <div class="div_paper_list">
+                {% if papers_0 %}
+                    <p class="p_paper_subtitle" style="margin-top:0">{% if lang == 'en' %}International Journal{% elif lang == 'jp' %}国際ジャーナル{% else %}국제 학술지{% endif %}</p>
+                    {% for paper in papers_0 %}
+                        <p class="p_paper_line"><a href="{{ paper.link }}" target="_blank">{{ paper.author }} ({{ paper.date_publication|date:"Y" }}). {{ paper.title }}. <span style="font-style:italic;">{{ paper.journal }}</span>{% if paper.volume and paper.number %}<span style="font-style:italic;">, {{ paper.volume }}</span>({{ paper.number }}){% endif %}{% if paper.page %}, {{ paper.page }}{% endif %}.</a></p>
+                    {% endfor %}
+                {% endif %}
+                {% if papers_1 %}
+                    <p class="p_paper_subtitle">{% if lang == 'en' %}International Conference{% elif lang == 'jp' %}International Conference{% else %}국제 학술대회{% endif %}</p>
+                    {% for paper in papers_1 %}
+                        <p class="p_paper_line"><a href="{{ paper.link }}" target="_blank">{{ paper.author }} ({{ paper.date_publication|date:"Y" }}). {{ paper.title }}. <span style="font-style:italic;">{{ paper.journal }}</span>{% if paper.volume and paper.number %}<span style="font-style:italic;">, {{ paper.volume }}</span>({{ paper.number }}){% endif %}{% if paper.page %}, {{ paper.page }}{% endif %}.</a></p>
+                    {% endfor %}
+                {% endif %}
+                {% if papers_2 %}
+                    <p class="p_paper_subtitle">{% if lang == 'en' %}Domestic Journal{% elif lang == 'jp' %}国内ジャーナル{% else %}국내 학술지{% endif %}</p>
+                    {% for paper in papers_2 %}
+                        <p class="p_paper_line"><a href="{{ paper.link }}" target="_blank">{{ paper.author }} ({{ paper.date_publication|date:"Y" }}). {{ paper.title }}. <b>{{ paper.journal }}</b>{% if paper.volume and paper.number %}<b>, {{ paper.volume }}</b>({{ paper.number }}){% endif %}{% if paper.page %}, {{ paper.page }}{% endif %}.</a></p>
+                    {% endfor %}
+                {% endif %}
+                {% if papers_3 %}
+                    <p class="p_paper_subtitle">{% if lang == 'en' %}Domestic Conference{% elif lang == 'jp' %}Domestic Conference{% else %}국내 학술대회{% endif %}</p>
+                    {% for paper in papers_3 %}
+                        <p class="p_paper_line"><a href="{{ paper.link }}" target="_blank">{{ paper.author }} ({{ paper.date_publication|date:"Y" }}). {{ paper.title }}. <b>{{ paper.journal }}</b>{% if paper.volume and paper.number %}<b>, {{ paper.volume }}</b>({{ paper.number }}){% endif %}{% if paper.page %}, {{ paper.page }}{% endif %}.</a></p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <script>
+        function search(query){
+            $(".div_paper_list a").css({"color":"#000"});
+            $(window).scrollTop($(".div_paper_list a:contains("+query+"):first").offset().top - 100);
+            $(".div_paper_list a:contains("+query+")").css({"color":"#F00"});
+        }
+    </script>
+{% endblock %}

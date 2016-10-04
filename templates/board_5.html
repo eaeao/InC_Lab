@@ -1,0 +1,58 @@
+{% extends "body.html" %}
+{% load main_extras %}
+{% load staticfiles %}
+{% block content %}
+    <div class="col-md-2">
+        <div class="div_feed div_page_submenu">
+            {% if menu.parent %}
+                <p class="li_page_submenu_title">{{ menu.parent|set_menu_title:lang }}</p>
+            {% else %}
+                <p class="li_page_submenu_title"onclick="location.href='{{ menu.get_url|get_url_lang:lang }}';" style="cursor:pointer">{{ menu|set_menu_title:lang }}</p>
+            {% endif %}
+            <ul>
+                {% for sub in menu.parent.get_sub %}
+                    <li class="li_page_submenu_list {% if sub.id == menu.id %}active{% endif %}" onclick="location.href='{{ sub.get_url|get_url_lang:lang }}';">{{ sub|set_menu_title:lang }} <i class="xi-angle-right pull-right"></i></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-md-10">
+        <div class="div_feed">
+            <h1>{{ menu|set_menu_title:lang }}</h1>
+            <table class="table table-striped" id="table_list_content">
+                <thead>
+                <tr>
+                    <th>{{ "번호"|set_language:lang }}</th>
+                    <th>{{ "게시판"|set_language:lang }}</th>
+                    <th>{{ "제목"|set_language:lang }}</th>
+                    <th>{{ "첨부"|set_language:lang }}</th>
+                    <th>{{ "작성자"|set_language:lang }}</th>
+                    <th>{{ "작성일"|set_language:lang }}</th>
+                    <th>{{ "조회수"|set_language:lang }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if list %}
+                    {% for ele in list %}
+                        <tr class="div_list_click" onclick="location.href='/board/detail/{{ ele.id }}{{ ""|get_url_lang:lang }}';">
+                            <td align="center" width="60px">{{ ele.id }}</td>
+                            <td align="center">{{ ele.menu.title }}</td>
+                            <td>{{ ele.title|safe }} {% if ele.get_reply %}<span class="span_list_reply">[{{ ele.get_reply|length }}]</span>{% endif %}</td>
+                            <td align="center" style="min-width:60px">{% for file in ele.get_files %}<i class="{{ file.src.url|get_type_icon }}" title="{{ file.get_name }}"></i>{% endfor %}</td>
+                            <td align="center" width="100px">{{ ele.user.first_name }}</td>
+                            <td align="center" width="170px">{{ ele.date_updated|date:"Y-m-d H:i:s" }}</td>
+                            <td align="center" width="100px">{{ ele.hits }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="7" align="center">작성된 게시물이 없습니다.</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+            {% include "board_bottom.html" %}
+        </div>
+    </div>
+{% endblock %}

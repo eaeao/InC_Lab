@@ -1,0 +1,51 @@
+{% extends "body.html" %}
+{% load staticfiles %}
+{% block content %}
+    <div class="col-sm-12">
+        {% if user.profile.grade > 0 %}
+            <div class="div_feed">
+                <h1>내가 출제한 문제 <button class="btn btn-danger btn-xs" id="btn_evaluation_make" onclick="location.href='/evaluation/write/';">출제하기</button></h1>
+                <div class="col-md-12">
+                    {% if my_questions %}
+                        {% for question in my_questions %}
+                            <div class="col-md-4">
+                                <div class="div_feed_evaluation" onclick="location.href='/evaluation/detail/{{ question.id }}';">
+                                    <p class="p_feed_evaluation_title">{{ question.id }}. {{ question.title }}</p>
+                                    {% if question.content %}
+                                        <div class="p_feed_evaluation_statement">{{ question.content }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-center">출제한 문제가 없습니다.</p>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+        <div class="div_feed">
+            <h1>전체 문제</h1>
+            <div class="col-md-12">
+                {% if questions %}
+                    {% for question in questions %}
+                        <div class="col-md-4">
+                            <div class="div_feed_evaluation" {% if user.id %}onclick="location.href='/evaluation/detail/{{ question.id }}';"{% endif %}>
+                                <p class="p_feed_evaluation_title">{{ question.id }}. {{ question.title }}</p>
+                                {% if question.content %}
+                                    <div class="p_feed_evaluation_statement">{{ question.content }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-center">출제한 문제가 없습니다.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {#    <div class="col-sm-3">#}
+    {#        <div class="div_feed">#}
+    {#            <h1>내가 출제한 시험지 <button class="btn btn-danger btn-xs" id="btn_evaluation_testpaper_make" onclick="location.href='/evaluation/testpaper/add/';">출제하기</button></h1>#}
+    {#        </div>#}
+    {#    </div>#}
+{% endblock %}

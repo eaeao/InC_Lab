@@ -1,0 +1,44 @@
+{% extends "body.html" %}
+{% load staticfiles %}
+{% block content %}
+    <div class="col-md-offset-3 col-md-6">
+        <div class="div_feed">
+            <h1>학교정보</h1>
+            <form class="form-horizontal" method="post" action="?come_from={{ come_from }}">
+                {% csrf_token %}
+                <div class="control-group">
+                    <label class="control-label" for="grade">학교급</label>
+                    <div class="controls">
+                        <select class="form-control" id="grade" name="grade">
+                            {% for grade in grades %}<option value="{{ grade.0 }}">{{ grade.1 }}</option>{% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputSchool">학교명</label>
+                    <div class="controls">
+                        <input class="form-control" type="text" id="school" name="school" placeholder="예) 고려초등학교" required>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputYear">학년</label>
+                    <div class="controls">
+                        <select class="form-control" id="year" name="year">
+                            {% for i in "xxxxxx" %}<option value="{{ forloop.counter }}">{{ forloop.counter }}학년</option>{% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputDiv">소속</label>
+                    <div class="controls">
+                        <input class="form-control" type="text" id="div" name="div" placeholder="예) 1반, 동아리명">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" onclick="history.go(-1);" value="취소" />
+                    <input type="submit" class="btn btn-danger" value="저장하기" />
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

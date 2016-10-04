@@ -1,0 +1,58 @@
+{% load main_extras %}
+{% load staticfiles %}
+<div class="div_feed">
+    <table class="table table-striped" id="table_list_content">
+        <thead>
+        <tr>
+            <th>{{ "번호"|set_language:lang }}</th>
+            <th>{{ "제목"|set_language:lang }}</th>
+            <th style="min-width:60px">{{ "첨부"|set_language:lang }}</th>
+            <th width="100px">{{ "작성자"|set_language:lang }}</th>
+            <th width="200px">{{ "작성일"|set_language:lang }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if list %}
+            {% for ele in list %}
+                <tr class="div_list_click" onclick="link('/board/detail/{{ ele.id }}{{ ""|get_url_lang:lang }}','_blank');">
+                    <td align="center" width="60px">{{ ele.id }}</td>
+                    <td>{{ ele.title|safe }} {% if ele.get_reply %}<span class="span_list_reply">[{{ ele.get_reply|length }}]</span>{% endif %}</td>
+                    <td align="center">{% for file in ele.get_files %}<i class="{{ file.src.url|get_type_icon }}" title="{{ file.get_name }}"></i>{% endfor %}</td>
+                    <td align="center">{{ ele.user.first_name }}</td>
+                    <td align="center">{{ ele.date_updated|date:"Y-m-d H:i:s" }}</td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="5" align="center">작성된 게시물이 없습니다.</td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+    {% if list %}
+        <div class="paginate_complex">
+            <a href="{% if list.has_previous %}?page={{ list.previous_page_number }}{% endif %}" class="direction prev"><span></span> {{ "이전"|set_language:lang }}</a>
+            {% for pn in list.paginator.page_range %}
+                {% if pn == list.number %}
+                    <strong>{{ pn }}</strong>
+                {% else %}
+                    <a href="?page={{ pn }}">{{ pn }}</a>
+                {% endif %}
+            {% endfor %}
+            <a href="{% if list.has_next %}?page={{ list.next_page_number }}{% endif %}" class="direction next">{{ "다음"|set_language:lang }} <span></span></a>
+        </div>
+    {% endif %}
+    {% if user.is_superuser %}
+        <button type="button" class="btn btn-default" id="btn_write" onclick="location.href='/board/write/{{ menu.id }}';"><i class="xe-pen"></i> {{ "글쓰기"|set_language:lang }}</button>
+    {% endif %}
+</div>
+<script>
+    function link(url, target){
+        if (target == "_blank"){
+            var openNewWindow = window.open("about:blank");
+            openNewWindow.location.href = url;
+        }else{
+            location.href = url;
+        }
+    }
+</script>

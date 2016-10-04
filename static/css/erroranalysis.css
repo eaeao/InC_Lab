@@ -1,0 +1,7 @@
+#div_erroranalysis_result {height: 510px;padding:0;overflow-y: scroll;background-color: #23241f;}
+#div_erroranalysis_result pre {position: relative;margin-top: 5px;border: 3px dotted #CCCCCC;text-align: center;display: block;}
+#div_erroranalysis_result pre {text-align: justify;padding: 5px 10px;border: 0;background-color: #23241f;word-break: break-word;border-bottom:1px solid #666}
+#div_erroranalysis_question {height: 150px;overflow-y: scroll;}
+#div_erroranalysis_example {height: 150px;overflow-y: scroll;}
+
+#btn_erroranalysis_submit {margin-left:10px}

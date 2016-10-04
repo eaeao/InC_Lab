@@ -1,0 +1,68 @@
+{% extends "body.html" %}
+{% load main_extras %}
+{% load staticfiles %}
+{% block content %}
+    <div class="col-md-2">
+        <div class="div_feed div_page_submenu">
+            {% if page.menu.parent.parent %}
+                <p class="li_page_submenu_title">{{ page.menu.parent.parent|set_menu_title:lang }}</p>
+                <ul>
+                    {% for sub in page.menu.parent.parent.get_sub %}
+                        <li class="li_page_submenu_list {% if sub == page.menu.parent %}active{% endif %}" onclick="link('{{ sub.get_url|get_url_lang:lang }}','{{ sub.get_blank }}');">{{ sub|set_menu_title:lang }} <i class="xi-angle-right pull-right"></i></li>
+                    {% endfor %}
+                </ul>
+            {% elif page.menu.parent %}
+                <p class="li_page_submenu_title">{{ page.menu.parent|set_menu_title:lang }}</p>
+                <ul>
+                    {% for sub in page.menu.parent.get_sub %}
+                        <li class="li_page_submenu_list {% if sub == page.menu %}active{% endif %}" onclick="link('{{ sub.get_url|get_url_lang:lang }}','{{ sub.get_blank }}');">{{ sub|set_menu_title:lang }} <i class="xi-angle-right pull-right"></i></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="li_page_submenu_title"onclick="link('{{ page.menu.get_url|get_url_lang:lang }}','{{ page.munu.get_blank }}');" style="cursor:pointer">{{ page.menu|set_menu_title:lang }}</p>
+                <ul>
+                    {% for sub in page.menu.get_sub %}
+                        <li class="li_page_submenu_list {% if sub == page.menu %}active{% endif %}" onclick="link('{{ sub.get_url|get_url_lang:lang }}','{{ sub.get_blank }}');">{{ sub|set_menu_title:lang }} <i class="xi-angle-right pull-right"></i></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-10">
+        {% if page.menu.parent.parent %}
+            <ul class="nav nav-pills nav-justified ul_page_tabmenu">
+                {% for sub in page.menu.parent.get_sub %}<li role="presentation" class="{% if sub == page.menu %}active{% endif %}" onclick="link('{{ sub.get_url|get_url_lang:lang }}','{{ sub.get_blank }}');"><a href="#">{{ sub|set_menu_title:lang }}</a></li>{% endfor %}
+            </ul>
+        {% endif %}
+        <div class="div_feed">
+            <h1>{{ page.menu|set_menu_title:lang }}</h1>
+            {% if page.contents %}
+                <div class="div_page_body">{{ page.contents|safe }}</div>
+            {% else %}
+                <div class='row'>
+                    <div class='col-lg-8 col-lg-offset-2 text-center' style="margin-top:30px;margin-bottom:30px;">
+                        <i class='xi-info-circle' style='font-size:80px;color:#E0004F'></i>
+                        <p style='font-size:18px;margin-top:20px;line-height:30px;'>내용을 준비 중 입니다.<br/>궁금하신 사항은 inc<i class='xi-at'></i>inc.korea.ac.kr로 문의해주십시오.</p>
+                    </div>
+                </div>
+            {% endif %}
+            {% if user.is_superuser %}
+                <div class="modal-footer">
+                    <span class="pull-left">최종수정 : {{ page.user.first_name }} ({{ page.date_created }})</span>
+                    <input type="button" class="btn btn-danger" value="수정" onclick="location.href='/menu/edit/{{ page.menu.id|get_url_lang:lang }}';" />
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <script>
+        function link(url, target){
+            if (target == "_blank"){
+                var openNewWindow = window.open("about:blank");
+                openNewWindow.location.href = url;
+            }else{
+                location.href = url;
+            }
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "body.html" %}
+{% load staticfiles %}
+{% block js %}
+    <script src="/static/js/diffview.js"></script>
+    <script src="/static/js/difflib.js"></script>
+{% endblock %}
+{% block style %}
+    <link rel="stylesheet" href="/static/css/diffview.css">
+{% endblock %}
+{% block content %}
+    <div class="col-md-12">
+        <div class="div_feed" id="div_evaluation_result">
+            <h1>결과보기</h1>
+            <div class="row">
+                <div class="div_evaluation_result_output">
+
+                </div>
+                <p>{{ user.first_name }}님의 출력결과</p>
+                {% for record_result in record_results %}
+                <div class="col-lg-4">
+                    <pre>{{ record_result }}</pre>
+                </div>
+                {% endfor %}
+                <textarea class="hidden" id="ta_code_0" >{{ record.question.source_exec }}</textarea>
+                <textarea class="hidden" id="ta_code_1" >{{ record.source_exec }}</textarea>
+                <script>
+                    (function() {
+                        diffUsingJS($('#ta_code_0').val(),$('#ta_code_1').val());
+                    })();
+
+                    function diffUsingJS(basetext, newtext){
+                        var base=difflib.stringAsLines(basetext);
+                        var newtxt=difflib.stringAsLines(newtext);
+                        var sm=new difflib.SequenceMatcher(base,newtxt);
+                        var opcodes=sm.get_opcodes();
+
+                        $(".div_evaluation_result_output").append(diffview.buildView({
+                            baseTextLines:base
+                            ,newTextLines:newtxt
+                            ,opcodes:opcodes
+                            ,baseTextName:"정답"
+                            ,newTextName:"{{ user.first_name }}님의 입력코드"
+                            ,contextSize:null
+                            ,viewType:$("inline").checked?1:0
+                        }));
+                    }
+                </script>
+            </div>
+            <div class="modal-footer">
+                <input type="button" class="btn btn-default" onclick="history.back()" value="확인" />
+            </div>
+        </div>
+    </div>
+{% endblock %}

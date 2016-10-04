@@ -1,0 +1,8 @@
+#div_erroranalysis_analsis_users {height:730px;overflow-y: scroll}
+.p_erroranalysis_analsis_body_title {font-size: 16px;margin-bottom: 5px;}
+.p_erroranalysis_analsis_body_user {font-size: 14px;padding: 10px 0px;border-bottom: 1px solid #f0f0f0;color:#000;cursor: pointer;}
+#div_erroranalysis_analsis_body {min-height:730px}
+
+.p_erroranalysis_analsis_user {font-size:20px;margin-bottom: 20px;}
+.div_diffoutput {width:100%}
+.div_diffoutput table.diff {width:100%;margin-top:10px}

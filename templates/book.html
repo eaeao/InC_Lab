@@ -1,0 +1,48 @@
+{% extends "body.html" %}
+{% load main_extras %}
+{% load staticfiles %}
+{% block content %}
+    <div class="col-md-2">
+        <div class="div_feed div_page_submenu">
+            {% if menu.parent.parent %}
+                <p class="li_page_submenu_title">{{ menu.parent.parent|set_menu_title:lang }}</p>
+            {% elif menu.parent %}
+                <p class="li_page_submenu_title">{{ menu.parent|set_menu_title:lang }}</p>
+            {% else %}
+                <p class="li_page_submenu_title"onclick="location.href='{{ menu.get_url|get_url_lang:lang }}';" style="cursor:pointer">{{ menu|set_menu_title:lang }}</p>
+            {% endif %}
+            <ul>
+                {% for sub in menu.parent.get_sub %}
+                    <li class="li_page_submenu_list {% if sub == menu %}active{% endif %}" onclick="location.href='{{ sub.get_url|get_url_lang:lang }}';">{{ sub|set_menu_title:lang }} <i class="xi-angle-right pull-right"></i></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-10">
+        <div class="div_feed">
+            <h1>{{ menu|set_menu_title:lang }}</h1>
+            <p class="text-right"><button class="btn btn-sm pull-right" onclick="search($('#input_book_query').val())">검색</button><input type="text" id="input_book_query" class="form-control input-sm pull-right" placeholder="검색어"> </p>
+            <div class="div_book_list">
+                <p class="p_book_subtitle" style="margin-top:0">{% if lang == 'en' %}Book{% elif lang == 'jp' %}著書{% else %}저서{% endif %}</p>
+                {% for book in books %}
+                    <div class="col-sm-6" style="margin:20px 0">
+                        <a href="{{ book.link }}" target="_blank">
+                            <div class="div_book_ele">
+                                <div class="div_book_cover" style="background-image:url({{ book.get_cover }})">{% if not book.get_cover %}<i class="xi-unknown-circle"></i>{% endif %}</div>
+                                <p class="p_book_title">{{ book.title }}</p>
+                                <p class="p_book_author">{{ book.author }} | {{ book.date_publication|date:"Y. m." }}</p>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <script>
+        function search(query){
+            $(".div_book_list a .p_book_title").css({"color":"#333"});
+            $(window).scrollTop($(".div_book_ele a:contains("+query+"):first").offset().top - 100);
+            $(".div_book_ele a:contains("+query+") .p_book_title").css({"color":"#F00"});
+        }
+    </script>
+{% endblock %}

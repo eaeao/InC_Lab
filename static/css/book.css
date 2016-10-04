@@ -1,0 +1,19 @@
+.p_book_subtitle {
+    width: 100%;
+    display: inline-block;
+    margin-top: 35px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    background-color: #fafafa;
+    border-left: 0;
+    border-right: 0;
+    padding: 5px;
+}
+#input_book_query {width:100px;margin-bottom: 10px;}
+
+.div_book_ele {padding: 15px;width:100%;display: inline-block;}
+.div_book_cover {width: 120px;height: 160px;background-color: #7f8c8d;background-size: cover;background-position: 50% 50%;box-shadow: 0 0 10px 1px #ccc;text-align: center;float: left;}
+.div_book_cover i {color: #667475;font-size: 80px;line-height:160px;}
+.p_book_title {font-size: 16px;color:#333;font-weight: 700;margin-left: 135px;}
+.p_book_author {font-size: 14px;color: #999;margin-left: 135px;}

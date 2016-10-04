@@ -1,0 +1,46 @@
+{% extends "body.html" %}
+{% load staticfiles %}
+{% block content %}
+    <div class="col-md-2">
+        <div class="div_feed div_page_submenu">
+            <p class="li_page_submenu_title">마이페이지</p>
+            <ul>
+                <li class="li_page_submenu_list active" onclick="location.href='/account/';">개인정보수정 <i class="xi-angle-right pull-right"></i></li>
+                <li class="li_page_submenu_list" onclick="location.href='/account/password/';">비밀번호 변경 <i class="xi-angle-right pull-right"></i></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-10">
+        <div class="div_feed">
+            <h1>개인정보수정</h1>
+            {% if msg == 200 %}
+                <p class="p_account_msg" style="background-color:#40d47e">수정 완료</p>
+            {% endif %}
+            <form class="form-horizontal" method="post">
+                {% csrf_token %}
+                <div class="control-group div_page_content_line">
+                    <label class="control-label">이메일</label>
+                    <div class="controls"><input class="form-control div_page_content_line_email" type="text" name="email" value="{{ user.email }}" disabled></div>
+                </div>
+                <div class="control-group div_page_content_line">
+                    <label class="control-label">이름</label>
+                    <div class="controls"><input class="form-control div_page_content_line_username" type="text" name="username" value="{{ user.first_name }}"></div>
+                </div>
+                <div class="control-group div_page_content_line">
+                    <label class="control-label">직업</label>
+                    <div class="controls">
+                        <select class="form-control div_page_content_line_grade" id="grade" name="grade">
+                            <option value="0" {% if user.profile.grade == 0 %}selected{% endif %}>일반</option>
+                            <option value="1" {% if user.profile.grade == 1 %}selected{% endif %}>학생</option>
+                            <option value="2" {% if user.profile.grade == 2 %}selected{% endif %}>교사</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-12 modal-footer">
+                    <button type="submit" id="btn_page_content_line_update" class="btn btn-danger pull-left">수정</button>
+                    <input type="button" class="btn btn-sm" value="탈퇴" />
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

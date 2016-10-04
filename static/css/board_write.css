@@ -1,0 +1,7 @@
+.div_list_title { border-bottom: 2px solid #aaa;padding: 5px; }
+.div_list_title .span_title_sub {font-weight:bold;font-size: 14px;color: #e67e22;}
+#span_con_addfiles {font-weight:bold;font-style:italic;padding:10px;color:#269abc;cursor: pointer}
+#span_con_addfiles:hover {color: #1f7f9b;}
+
+#div_board_editor {position: absolute;top: 0;right: 0;bottom: 0;left: 0;border:1px solid #ccc}
+#div_board_editor * {font: 12px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;  direction: ltr;}

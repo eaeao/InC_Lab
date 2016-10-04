@@ -1,0 +1,33 @@
+{% extends "body.html" %}
+{% load staticfiles %}
+{% block js %}
+    <script src="/static/js/diffview.js"></script>
+    <script src="/static/js/difflib.js"></script>
+{% endblock %}
+{% block style %}
+    <link rel="stylesheet" href="/static/css/diffview.css">
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="div_feed" id="div_erroranalysis_analsis_users">
+                <p class="p_erroranalysis_analsis_body_title">유저 리스트</p>
+                {% for user in users %}
+                    <p class="p_erroranalysis_analsis_body_user" onclick="get_result({{ user.id }})">{{ user.first_name }} ({{ user.email }})</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="div_feed" id="div_erroranalysis_analsis_body">
+
+            </div>
+        </div>
+    </div>
+    <script>
+        get_result({{ users.0.id }});
+        function get_result(uid){
+            $("#div_erroranalysis_analsis_body").load("/erroranalysis/analysis/result/"
+                    ,{"csrfmiddlewaretoken":$("#wrap > input[name=csrfmiddlewaretoken]").val(),'qid':{{ qid }},"uid":uid});
+        }
+    </script>
+{% endblock %}

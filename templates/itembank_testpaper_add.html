@@ -1,0 +1,65 @@
+{% extends "body_system.html" %}
+{% load staticfiles %}
+{% block content %}
+    <div class="col-sm-8">
+        <div class="div_feed div_testpaper">
+            <div class="div_testpaper_paper">
+                <div class="div_testpaper_head">
+                    <input type="text" name="title" id="input_testpaper_head_title" placeholder="시험명을 입력해주세요.">
+                    <div class="div_testpaper_head_bottom">
+                        <input type="text" name="title" id="input_testpaper_head_school" placeholder="고려중학교">
+                        <input type="text" name="title" id="input_testpaper_head_year" placeholder="1학년">
+                    </div>
+                </div>
+                <ul class="ul_testpaper_body_left connectedSortable">
+                    <li class="ui-state-default">Item 1</li>
+                    <li class="ui-state-default">Item 2</li>
+                    <li class="ui-state-default">Item 3</li>
+                    <li class="ui-state-default">Item 4</li>
+                    <li class="ui-state-default">Item 5</li>
+                </ul>
+                <ul class="ul_testpaper_body_right connectedSortable">
+                    <li class="ui-state-default">Item 1</li>
+                    <li class="ui-state-default">Item 2</li>
+                    <li class="ui-state-default">Item 3</li>
+                    <li class="ui-state-default">Item 4</li>
+                    <li class="ui-state-default">Item 5</li>
+                </ul>
+            </div>
+            <p class="p_testpaper_page">1/4</p>
+        </div>
+        <div class="div_feed div_testpaper">
+            <div class="div_testpaper_paper">
+                <ul class="ul_testpaper_body_left connectedSortable">
+                    <li class="ui-state-default">Item 1</li>
+                    <li class="ui-state-default">Item 2</li>
+                    <li class="ui-state-default">Item 3</li>
+                    <li class="ui-state-default">Item 4</li>
+                    <li class="ui-state-default">Item 5</li>
+                </ul>
+                <ul class="ul_testpaper_body_right connectedSortable">
+                    <li class="ui-state-default">Item 1</li>
+                    <li class="ui-state-default">Item 2</li>
+                    <li class="ui-state-default">Item 3</li>
+                    <li class="ui-state-default">Item 4</li>
+                    <li class="ui-state-default">Item 5</li>
+                </ul>
+            </div>
+            <p class="p_testpaper_page">2/4</p>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="div_feed">
+            asd
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script>
+        $( function() {
+            $( ".ul_testpaper_body_left, .ul_testpaper_body_right" ).sortable({
+                connectWith: ".connectedSortable"
+            }).disableSelection();
+        } );
+    </script>
+{% endblock %}

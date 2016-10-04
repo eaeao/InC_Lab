@@ -1,0 +1,52 @@
+<style>
+    .p_profile_subtitle {    width: 100%;    display: inline-block;    margin-top: 25px;    margin-bottom: 10px;    font-size: 18px;    border: 1px solid #ccc;    border-left: 0;
+        border-right: 0;    padding: 5px; background-color:#fafafa; }
+    #div_profiles {margin-top:10px}
+    .div_mem {display: inline-block;width:100%;margin-bottom:25px}
+    .div_mem_pic {width: 110px;height: 110px;background-color: #ccc;border-radius: 110px;background-size: contain;background-position: 50%;background-repeat: no-repeat;}
+    .p_mem_name {font-size:16px;margin-bottom:10px}
+    .table_mem_table {border:0;width:100%;font-size: 13px;}
+    .table_mem_table tr {height: 27px;border-bottom:1px solid #eee}
+    .table_mem_table td {border-right:1px solid #eee;padding-left:5px}
+    .table_mem_table tr:last-child, .table_mem_table td:last-child  {border:0}
+</style>
+<p class="p_profile_subtitle">박사학위</p>
+<div id="div_profiles"></div>
+
+<script>
+    var html_form = "<div class='col-sm-6'><div class='div_mem'><div class='col-sm-4' style='margin:0'><div class='div_mem_pic' style='background-image: url({{ src }});'></div></div><div class='col-sm-8'>"
+            +"<p class='p_mem_name'>{{ username }}</p><table class='table_mem_table'>"
+            + "<tr><td width='30%'>학위</td><td>{{ degree }}</td></tr><tr><td width='30%'>이메일</td><td>{{ email }}</td></tr>"
+            + "<tr><td width='30%'>연구분야</td><td>{{ research }}</td></tr>"
+            + "</table></div></div></div>";
+
+    var profiles = [
+        {"username":"김용 (Yong Kim)","degree":"박사", "email":"dragonknou<i class='xi-at'></i>gmail.com", "research":"Development of On-line Learning Tools Evaluation Criteria​","src":"/static/img/alumni.png"}
+        ,{"username":"유승욱​ (SeungWook Yoo)", "degree":"박사", "email":"yoosw0810<i class='xi-at'></i>gmail.com", "research":"Application of EPL in Informatics Curriculum","src":"/static/img/alumni.png"}
+        ,{"username":"염용철 (YongChul Yeum)", "degree":"박사", "email":"yongchul.yeum<i class='xi-at'></i>inc.korea.ac.kr", "research":"Research Programming Learning Environment using a textual EPL","src":"/static/img/alumni.png"}
+        ,{"username":"김종혜 (JongHye Kim)", "degree":"박사", "email":"jonghye.kim<i class='xi-at'></i>inc.korea.ac.kr", "research":"Research Problem-solving ability based on CT","src":"/static/img/alumni.png"}
+        ,{"username":"권대용 (DaiYoung Kwon)", "degree":"박사", "email":"daiyoung.kwon<i class='xi-at'></i>inc.korea.ac.kr", "research":"Research Robot Control Programming Language","src":"/static/img/alumni.png"}
+        ,{"username":"김자미 (JaMee Kim)", "degree":"박사", "email":"jamee.kim<i class='xi-at'></i>inc.korea.ac.kr", "research":"Research Information Subject from a Perspective of Subject matter Education","src":"/static/img/alumni.png"}
+        ,{"username":"아오키 히로유키 (Hiroyuki Aoki)", "degree":"박사", "email":"hiroyuki.aoki<i class='xi-at'></i>inc.korea.ac.kr", "research":"Development and Evaluation of a state-based programming system","src":"/static/img/alumni.png"}
+        ,{"username":"김한성 (​HanSung Kim)", "degree":"박사", "email":"hansung.kim<i class='xi-at'></i>inc.korea.ac.kr", "research":"Development of ICT ethics curriculum","src":"/static/img/alumni.png"}
+        ,{"username":"전수진 (SooJin Jun)", "degree":"박사", "email":"soojin.jun<i class='xi-at'></i>inc.korea.ac.kr", "research":"Research Ability of Computational Thinking","src":"/static/img/alumni.png"}
+        ,{"username":"김병욱 (ByoungWook Kim)", "degree":"박사", "email":"byoungwook.kim<i class='xi-at'></i>inc.korea.ac.kr", "research":"Research Computer Education, Educational Data Mining, Item Analysis, Educational Measurement","src":"/static/img/alumni.png"}
+        ,{"username":"윤일규 (IlKyu Yoon)", "degree":"박사", "email":"ilkyu.yoon<i class='xi-at'></i>inc.korea.ac.kr", "research":"Information Education, Information Education Evaluation","src":"/static/img/alumni.png"}];
+
+    $("document").ready(function () {
+        var str_html = "";
+        var tmp = "";
+        for (var i in profiles) {
+            tmp = html_form;
+            if(i%2 == 0)  str_html += "<div class='row'>";
+            tmp = tmp.replace("{{ username }}",profiles[i].username);
+            tmp = tmp.replace("{{ degree }}",profiles[i].degree);
+            tmp = tmp.replace("{{ email }}",profiles[i].email);
+            tmp = tmp.replace("{{ research }}",profiles[i].research);
+            tmp = tmp.replace("{{ src }}",profiles[i].src);
+            str_html+=tmp;
+            if(i%2 == 1)  str_html += "</div>";
+        }
+        $("#div_profiles").html(str_html);
+    });
+</script>

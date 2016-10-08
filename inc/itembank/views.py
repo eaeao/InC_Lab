@@ -121,7 +121,7 @@ def itembank_question_write(request):
                     images.pop(0)
         except Exception as e:
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-        return HttpResponseRedirect('/itembank/')
+        return HttpResponseRedirect('/itembank/question/')
     else:
         context = {
             'user': request.user,
@@ -256,7 +256,7 @@ def itembank_testpaper_write(request):
                                     tqcs, created_3 = TestpaperQuestionChoiceItem.objects.get_or_create(testpaper_question=testpaper_question,choice_item=item)
             return HttpResponse("0")
         except Exception as e:
-            return HttpResponse("%s"%e.with_traceback())
+            return HttpResponse("%s"%e)
 
     questions = Question.objects.filter(~Q(unit=22)).order_by("-id")
 

@@ -1,0 +1,38 @@
+{% extends "itembank.html" %}
+{% load main_extras %}
+{% load staticfiles %}
+{% block style %}
+    {% if appname != "itembank_question" %}<link rel="stylesheet" href="/static/css/system/itembank_question.css">{% endif %}
+{% endblock %}
+{% block content %}
+    <div class="div_tab" id="div_itembank_question_tab">
+        <ul class="ul_tab_nav">
+            <li>
+                <a class="a_tab_nav_btn" href="/itembank/question/" target="_self" id="a_tab_nav_btn_all">전체문제 <span class="badge">{{ questions|length }}</span></a>
+            </li>
+            <li>
+                <a class="a_tab_nav_btn" href="/itembank/question/mine/" target="_self" id="a_tab_nav_btn_mine">내가 출제한 문제 <span class="badge">{{ questions|length }}</span></a>
+            </li>
+            <li>
+                <a class="a_tab_nav_btn" href="/itembank/question/other/" target="_self" id="a_tab_nav_btn_other">다른사람이 출제한 문제 <span class="badge">{{ questions|length }}</span></a>
+            </li>
+            <li class="pull-right" style="margin-right:30px">
+                <a class="a_tab_nav_btn" href="/itembank/question/write/" target="_self" id="a_tab_nav_btn_add"><p>문제 출제하기</p><i class="xi-plus-circle"></i></a>
+            </li>
+        </ul>
+    </div>
+    <div class="div_itembank_question_box">
+        {% if questions %}
+            {% for question in questions %}
+                <div class="div_itembank_question_card" onclick="location.href='/itembank/question/detail/{{ question.id }}';">
+                    <p class="div_itembank_question_card_type" style="background-color:{{ question.type|get_type_color }}">{{ question.type }}</p><p class="div_itembank_question_card_unit">{{ question.unit.get_title }}</p>
+                    <p class="div_itembank_question_card_title">{{ question.title }}</p>
+                    <p class="div_itembank_question_card_date">출제일 : {{ question.date_created|time_diff }}</p>
+                    <p class="div_itembank_question_card_user">출제자 : {{ question.user.first_name }}({{ question.user.email }})</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="div_itembank_question_box_none">출제된 문제가 없습니다.</p>
+        {% endif %}
+    </div>
+{% endblock %}

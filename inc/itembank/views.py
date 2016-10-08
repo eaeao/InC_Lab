@@ -18,14 +18,14 @@ system_info = {"title":"문제은행"
     ]}
 
 
-def itembank(request):
+def itembank_question(request):
     if request.user.id:
         if not request.user.get_school() :
             return HttpResponseRedirect('/auth/register/school/?come_from=/itembank/')
+    else :
+        return HttpResponseRedirect('/auth/login/?come_from=/itembank/')
 
     questions = Question.objects.filter(~Q(unit=22)).order_by("-id")
-    my_questions = []
-    if request.user.id : my_questions = Question.objects.filter(Q(user=request.user)&~Q(unit=22)).order_by("-id")
 
     context = {
         'user': request.user,
@@ -33,25 +33,61 @@ def itembank(request):
         'info': system_info,
         'meta': {'title': '문제은행', 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
         'questions':questions,
-        'my_questions':my_questions,
-        'appname': 'itembank'
+        'appname': 'itembank_question'
     }
-    return render(request, 'itembank.html', context)
+    return render(request, 'itembank_question.html', context)
 
+def itembank_question_mine(request):
+    if request.user.id:
+        if not request.user.get_school() :
+            return HttpResponseRedirect('/auth/register/school/?come_from=/itembank/')
+    else :
+        return HttpResponseRedirect('/auth/login/?come_from=/itembank/')
 
-def itembank_detail(request, qid=0):
+    questions = Question.objects.filter(~Q(unit=22)&Q(user=request.user)).order_by("-id")
+
+    context = {
+        'user': request.user,
+        'lang': request.GET.get('lang'),
+        'info': system_info,
+        'meta': {'title': '문제은행', 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
+        'questions':questions,
+        'appname': 'itembank_question_mine'
+    }
+    return render(request, 'itembank_question.html', context)
+
+def itembank_question_other(request):
+    if request.user.id:
+        if not request.user.get_school() :
+            return HttpResponseRedirect('/auth/register/school/?come_from=/itembank/')
+    else :
+        return HttpResponseRedirect('/auth/login/?come_from=/itembank/')
+
+    questions = Question.objects.filter(~Q(unit=22)&~Q(user=request.user)).order_by("-id")
+
+    context = {
+        'user': request.user,
+        'lang': request.GET.get('lang'),
+        'info': system_info,
+        'meta': {'title': '문제은행', 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
+        'questions':questions,
+        'appname': 'itembank_question_other'
+    }
+    return render(request, 'itembank_question.html', context)
+
+def itembank_question_detail(request, qid=0):
     context = {
         'user': request.user,
         'lang': request.GET.get('lang'),
         'info': system_info,
         'meta': {'title': '문제 #%s'%qid, 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
         'question':get_or_none(Question,id=qid),
-        'appname': 'itembank_detail'
+        'appname': 'itembank_question_detail'
     }
-    return render(request, 'itembank_detail.html', context)
+    return render(request, 'itembank_question_detail.html', context)
 
 
-def itembank_write(request):
+def itembank_question_write(request):
     title = request.POST.get('title')
     if title :
         try:
@@ -93,9 +129,9 @@ def itembank_write(request):
             'lang': request.GET.get('lang'),
             'info': system_info,
             'meta': {'title': '문제 만들기', 'con': '문제 만들기입니다.', 'image': '/static/img/ku.jpg'},
-            'appname': 'itembank_write'
+            'appname': 'itembank_question_write'
         }
-        return render(request, 'itembank_write.html', context)
+        return render(request, 'itembank_question_write.html', context)
 
 
 def itembank_write_selects(request):
@@ -128,7 +164,7 @@ def itembank_write_selects(request):
         'unit3': unit3,
         'appname': 'itembank_write_selects'
     }
-    return render(request, 'itembank_write_selects.html', context)
+    return render(request, 'itembank_question_write_selects.html', context)
 
 
 def itembank_delete(request, qid=0):

@@ -1,6 +1,8 @@
 from django import template
 from django.utils.datetime_safe import datetime
 
+from inc.itembank.models import TYPE_IN_QUESTION_CHOICES
+
 register = template.Library()
 
 @register.filter
@@ -66,7 +68,7 @@ def time_diff(date):
     timediff = now - date
     timediff = timediff.total_seconds()
     if timediff > 259200:
-        return date.strftime('%m-%d')
+        return date.strftime('%y-%m-%d')
     elif timediff > 86400:
         return str(int(timediff / 3600 / 24)) + "일 전"
     elif timediff > 3600:
@@ -75,3 +77,18 @@ def time_diff(date):
         return str(int(timediff / 60)) + "분 전"
     else:
         return "방금 전"
+
+@register.filter
+def get_type_color(type):
+    if type == TYPE_IN_QUESTION_CHOICES[0][0] :
+        return "#e74c3c"
+    elif  type == TYPE_IN_QUESTION_CHOICES[1][0] :
+        return "#3498db"
+    elif  type == TYPE_IN_QUESTION_CHOICES[2][0] :
+        return "#2ecc71"
+    elif  type == TYPE_IN_QUESTION_CHOICES[3][0] :
+        return "#e67e22"
+    elif  type == TYPE_IN_QUESTION_CHOICES[4][0] :
+        return "#34495e"
+    else :
+        return "#95a5a6"

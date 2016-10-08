@@ -1,0 +1,17 @@
+.div_tab .ul_tab_nav li {display: inline-block;margin:0;padding:0;line-height:80px;margin-left: 30px;}
+.div_tab .a_tab_nav_btn {height: 80px;text-align:center;display: block;font-weight:700;vertical-align: middle;}
+.div_tab .a_tab_nav_btn:hover, .div_tab .a_tab_nav_btn.active {color:#426aea;text-decoration: underline;}
+.div_tab .a_tab_nav_btn .badge {background-color: #426aea;display:none}
+.div_tab .a_tab_nav_btn.active .badge {display: inline-block;}
+.div_tab #a_tab_nav_btn_add p {line-height: 80px;margin-right:5px;float: left;}
+.div_tab #a_tab_nav_btn_add i {line-height: 80px;font-size:40px;color: #426aea  }
+
+.div_itembank_question_box {width: 100%;padding: 10px;}
+.div_itembank_question_box_none {text-align:center;font-size:20px;color: #a2a5ad;margin: 20px 0;}
+.div_itembank_question_card {width: 447px;min-height:200px;background-color:#FFF;box-shadow: 2px 2px 30px 2px rgb(221, 224, 232);margin: 10px;padding:20px;display: inline-table;cursor:pointer;}
+.div_itembank_question_card:hover {box-shadow: 2px 2px 30px 2px rgb(158, 160, 166)}
+.div_itembank_question_card_type {float:left;padding: 2px 4px;color:#FFF;font-size: 14px;margin-right:10px;}
+.div_itembank_question_card_unit {line-height:24px;color:#666}
+.div_itembank_question_card_title {font-size:20px;font-weight:700;height: 85px;margin: 5px 0;overflow: hidden;}
+.div_itembank_question_card_date {font-size: 14px;line-height: 22px;}
+.div_itembank_question_card_user {font-size: 14px;line-height: 22px;}

@@ -5,7 +5,7 @@
 
 .div_itembank_testpaper_detail {margin-top:20px;background-color:#FFF;box-shadow: 2px 2px 30px 2px rgb(221, 224, 232);padding:20px 20px}
 
-.div_itembank_testpaper_detail_head {border-bottom:1px solid #ddd;margin-bottom:20px}
+.div_itembank_testpaper_detail_head {border-bottom:1px solid #ddd;}
 .div_itembank_testpaper_detail_head_title {text-align:center;padding:20px 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;}
 .p_itembank_testpaper_detail_head_info {text-align:center;font-size: 16px;padding: 10px 0;}
 #input_itembank_testpaper_detail_head_school {font-size: 16px;width: 200px;text-align: right;display: inline-block;border: 0;}

@@ -47,6 +47,7 @@ urlpatterns = [
     url(r'^itembank/testpaper/mine/', itembankview.itembank_testpaper_mine),
     url(r'^itembank/testpaper/other/', itembankview.itembank_testpaper_other),
     url(r'^itembank/testpaper/write/$', itembankview.itembank_testpaper_write),
+    url(r'^itembank/testpaper/detail/(?P<tpid>\d+)$', itembankview.itembank_testpaper_detail),
     url(r'^menu/(?P<menu_id>\d+)$', mainview.menu),
     url(r'^menu/edit/(?P<menu_id>\d+)$', mainview.page_edit),
     url(r'^page/upload/$', mainview.page_upload),

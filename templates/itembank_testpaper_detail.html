@@ -2,16 +2,15 @@
 {% load staticfiles %}
 {% block content %}
     <div class="div_tab" id="div_itembank_question_detail_tab">
-        <a class="a_tab_nav_btn" href="/itembank/question/" target="_self" id="a_tab_nav_btn_back">< 이전</a> <span class="span_itembank_tab_title">문제 풀기</span>
+        <a class="a_tab_nav_btn" href="/itembank/testpaper/" target="_self" id="a_tab_nav_btn_back">< 이전</a> <span class="span_itembank_tab_title">시험지 풀기</span>
     </div>
-    <div class="col-lg-offset-2 col-lg-8" id="div_itembank_detail">
-        <form id="form_itembank_detail" action="/itembank/question/result/{{ question.id }}" method="post" enctype="multipart/form-data">
+    <div class="col-lg-offset-2 col-lg-8 div_itembank_detail">
+        {% for testpaper_question in testpaper.get_testpaper_questions %}
             <div class="row">
-                <div class="col-md-8 col-md-offset-2" id="div_itembank_detail_contents">
-                    {% if user.is_superuser %}<p class="pull-right">{{ question.user.first_name }}({{ question.user.email }})</p>{% endif %}
-                    <p class="p_itembank_detail_contents_unit">{{ question.unit.get_title }}</p>
-                    <p class="p_itembank_detail_contents_title">{{ question.id }}. {{ question.title }}</p>
-                    {% for content in question.get_contents %}
+                <div class="col-md-8 col-md-offset-2 div_itembank_detail_contents">
+                    <p class="p_itembank_detail_contents_unit">{{ testpaper_question.question.unit.get_title }}</p>
+                    <p class="p_itembank_detail_contents_title">{{ forloop.counter }}. {{ testpaper_question.question.title }}</p>
+                    {% for content in testpaper_question.get_contents %}
                         {% if content.type == "image" %}
                             <div class="p_itembank_detail_contents_image">
                                 <i class="xi-arrows-alt i_itembank_detail_contents_statement_extend"></i>
@@ -35,14 +34,7 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="modal-footer">
-                {% if user.is_superuser or question.user == user %}
-                    <button type="button" id="btn_itembank_detail_delete" class="btn btn-danger pull-left">삭제</button>
-                {% endif %}
-                <input type="button" class="btn btn-default" onclick="history.back()" value="취소" />
-                {#                <input type="submit" class="btn btn-primary" value="제출하기" />#}
-            </div>
-        </form>
+        {% endfor %}
     </div>
     <script>
         $(document).ready(function(){
@@ -66,12 +58,6 @@
 
             $(".div_itembank_detail_contents_item").click(function(){
                 $(this).children(".iradio_square-blue").children("input").iCheck('check');
-            });
-
-            $("#btn_itembank_detail_delete").click(function(){
-                if (confirm('정말로 삭제하시겠습니까?')) {
-                    location.href="/itembank/delete/{{ question.id }}";
-                }
             });
 
             $(".i_itembank_detail_contents_statement_extend").click(function(){

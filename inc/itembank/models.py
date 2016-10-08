@@ -131,9 +131,13 @@ class Testpaper(models.Model):
     def __str__(self):
         return '[%d] %s: %s' % (self.id, self.user, self.title)
 
+    def get_testpaper_questions(self):
+        return TestpaperQuestion.objects.filter(testpaper=self).order_by("id")
+
     def get_questions(self):
-        questions = TestpaperQuestion.objects.filter(testpaper=self).values_list('question', flat=True)
+        questions = self.get_testpaper_questions().values_list('question', flat=True)
         return Question.objects.filter(id__in = questions)
+
 
     def get_forms(self):
         form = []
@@ -156,10 +160,26 @@ class TestpaperQuestion(models.Model):
     def __str__(self):
         return '[%d] %s: %s' % (self.id, self.testpaper, self.question)
 
+    def get_contents(self):
+        tmp_contents = []
+        contents = self.question.get_contents()
+        for content in contents:
+            if content.type == "answer_choice":
+                choice_items = []
+                tqcs = TestpaperQuestionChoiceItem.objects.filter(testpaper_question=self)
+                for tqc in tqcs:
+                    choice_items.append(tqc.choice_item)
+                tmp_contents.append({"type":"answer_choice","get_items":choice_items})
+            else :
+                tmp_contents.append(content)
+        return tmp_contents
 
 class TestpaperQuestionChoiceItem(models.Model):
     testpaper_question = models.ForeignKey(TestpaperQuestion)
     choice_item = models.ForeignKey(ChoiceItem)
+
+    class Meta:
+        verbose_name_plural = "10. 시험지 문제 객관식 보기(TestpaperQuestionChoiceItem)"
 
     def __str__(self):
         return '[%d] %s: %s' % (self.id, self.testpaper_question, self.choice_item)

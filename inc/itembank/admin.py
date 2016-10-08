@@ -38,6 +38,11 @@ class ImageItemAdmin(admin.ModelAdmin):
     list_display = ('id', 'content', 'src')
 
 
+
+class TestpaperQuestionChoiceItemAdmin(admin.ModelAdmin):
+    list_display = ('id', 'testpaper_question', 'choice_item')
+
+
 class TestpaperQuestionChoiceItemInline(admin.StackedInline):
     model = TestpaperQuestionChoiceItem
     can_delete = True
@@ -67,3 +72,4 @@ admin.site.register(ChoiceItem, ChoiceItemAdmin)
 admin.site.register(ImageItem, ImageItemAdmin)
 admin.site.register(Testpaper, TestpaperAdmin)
 admin.site.register(TestpaperQuestion, TestpaperQuestionAdmin)
+admin.site.register(TestpaperQuestionChoiceItem, TestpaperQuestionChoiceItemAdmin)

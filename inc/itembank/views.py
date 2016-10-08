@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from inc.itembank.models import Unit1, Unit2, Unit3, Question, Content, ChoiceItem, ImageItem, Testpaper, \
-    TestpaperQuestion
+    TestpaperQuestion, TestpaperQuestionChoiceItem
 from inc.main.models import get_or_none
 
 system_info = {"title":"문제은행"
@@ -243,7 +243,15 @@ def itembank_testpaper_write(request):
             testpaper, created = Testpaper.objects.get_or_create(user=request.user,title=testpaper_title)
             if testpaper:
                 for question_id in questions_id:
-                    testpaper_question, created_2 = TestpaperQuestion.objects.get_or_create(testpaper=testpaper,question=get_or_none(Question,id=question_id))
+                    question = get_or_none(Question,id=question_id)
+                    if question :
+                        testpaper_question, created_2 = TestpaperQuestion.objects.get_or_create(testpaper=testpaper,question=question)
+                        contents = question.get_contents()
+                        for content in contents:
+                            if content.type == "answer_choice":
+                                items = content.get_items_random()
+                                for item in items :
+                                    tqcs, created_3 = TestpaperQuestionChoiceItem.objects.get_or_create(testpaper_question=testpaper_question,choice_item=item)
             return HttpResponse("0")
         except Exception as e:
             return HttpResponse("%s"%e.with_traceback())
@@ -259,3 +267,15 @@ def itembank_testpaper_write(request):
         'appname': 'itembank_testpaper_write'
     }
     return render(request, 'itembank_testpaper_write.html', context)
+
+
+def itembank_testpaper_detail(request, tpid=0):
+    context = {
+        'user': request.user,
+        'lang': request.GET.get('lang'),
+        'info': system_info,
+        'meta': {'title': '시험지 #%s'%tpid, 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
+        'testpaper':get_or_none(Testpaper,id=tpid),
+        'appname': 'itembank_testpaper_detail'
+    }
+    return render(request, 'itembank_testpaper_detail.html', context)

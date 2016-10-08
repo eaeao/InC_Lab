@@ -14,7 +14,7 @@ class ErrorAnalysisResult(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name_plural = "1.오류분석 제출(ErrorAnalysisResult)"
+        verbose_name_plural = "1. 제출된 오류분석(ErrorAnalysisResult)"
 
     def __str__(self):
         return '[%d] %s:%s > %s' % (self.id, self.user, self.question, self.type)

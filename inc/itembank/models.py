@@ -138,7 +138,6 @@ class Testpaper(models.Model):
         questions = self.get_testpaper_questions().values_list('question', flat=True)
         return Question.objects.filter(id__in = questions)
 
-
     def get_forms(self):
         form = []
         d = dict(TYPE_IN_QUESTION_CHOICES)
@@ -183,3 +182,30 @@ class TestpaperQuestionChoiceItem(models.Model):
 
     def __str__(self):
         return '[%d] %s: %s' % (self.id, self.testpaper_question, self.choice_item)
+
+
+class TestpaperResult(models.Model):
+    user = models.ForeignKey(User)
+    testpaper = models.ForeignKey(Testpaper)
+    school = models.TextField(default="")
+    year = models.IntegerField(default=1)
+    div = models.TextField(default=None, blank=True, null=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = "11. 제출된 시험지(TestpaperResult)"
+
+    def __str__(self):
+        return '[%d] %s: %s' % (self.id, self.user, self.testpaper)
+
+
+class TestpaperQuestionResult(models.Model):
+    testpaper_result = models.ForeignKey(TestpaperResult)
+    testpaper_question = models.ForeignKey(TestpaperQuestion)
+    answer = models.TextField(default="")
+
+    class Meta:
+        verbose_name_plural = "12. 제출된 시험지 문제(TestpaperQuestionResult)"
+
+    def __str__(self):
+        return '[%d] %s: %s = %s' % (self.id, self.testpaper_result, self.testpaper_question, self.answer)

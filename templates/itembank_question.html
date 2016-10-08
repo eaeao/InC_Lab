@@ -10,15 +10,17 @@
             <li>
                 <a class="a_tab_nav_btn" href="/itembank/question/" target="_self" id="a_tab_nav_btn_all">전체 문제 <span class="badge">{{ questions|length }}</span></a>
             </li>
+            {% if user.profile.grade == 2 %}
             <li>
                 <a class="a_tab_nav_btn" href="/itembank/question/mine/" target="_self" id="a_tab_nav_btn_mine">내가 출제한 문제 <span class="badge">{{ questions|length }}</span></a>
             </li>
             <li>
                 <a class="a_tab_nav_btn" href="/itembank/question/other/" target="_self" id="a_tab_nav_btn_other">다른사람이 출제한 문제 <span class="badge">{{ questions|length }}</span></a>
             </li>
-            <li class="pull-right" style="margin-right:30px">
-                <a class="a_tab_nav_btn" href="/itembank/question/write/" target="_self" id="a_tab_nav_btn_add"><p>문제 출제하기</p><i class="xi-plus-circle"></i></a>
-            </li>
+                <li class="pull-right" style="margin-right:30px">
+                    <a class="a_tab_nav_btn" href="/itembank/question/write/" target="_self" id="a_tab_nav_btn_add"><p>문제 출제하기</p><i class="xi-plus-circle"></i></a>
+                </li>
+            {% endif %}
         </ul>
     </div>
     <div class="div_itembank_question_box">
@@ -27,7 +29,7 @@
                 <div class="div_itembank_question_card" onclick="location.href='/itembank/question/detail/{{ question.id }}';">
                     <p class="div_itembank_question_card_type" style="background-color:{{ question.type|get_type_color }}">{{ question.type }}</p><p class="div_itembank_question_card_unit">{{ question.unit.get_title }}</p>
                     <p class="div_itembank_question_card_title">{{ question.id }}. {{ question.title }}</p>
-                    <p class="div_itembank_question_card_date">출제일 : {{ question.date_created|time_diff }}</p>
+                    <p class="div_itembank_question_card_date">출제일시 : {{ question.date_created|time_diff }}</p>
                     <p class="div_itembank_question_card_user">출제자 : {{ question.user.first_name }}({{ question.user.email|slice:":5" }}**@****.***)</p>
                 </div>
             {% endfor %}

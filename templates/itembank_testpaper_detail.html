@@ -1,40 +1,61 @@
 {% extends "itembank.html" %}
 {% load staticfiles %}
 {% block content %}
-    <div class="div_tab" id="div_itembank_question_detail_tab">
+    <div class="div_tab" id="div_itembank_testpaper_question_detail_tab">
         <a class="a_tab_nav_btn" href="/itembank/testpaper/" target="_self" id="a_tab_nav_btn_back">< 이전</a> <span class="span_itembank_tab_title">시험지 풀기</span>
     </div>
-    <div class="col-lg-offset-2 col-lg-8 div_itembank_detail">
-        {% for testpaper_question in testpaper.get_testpaper_questions %}
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2 div_itembank_detail_contents">
-                    <p class="p_itembank_detail_contents_unit">{{ testpaper_question.question.unit.get_title }}</p>
-                    <p class="p_itembank_detail_contents_title">{{ forloop.counter }}. {{ testpaper_question.question.title }}</p>
-                    {% for content in testpaper_question.get_contents %}
-                        {% if content.type == "image" %}
-                            <div class="p_itembank_detail_contents_image">
-                                <i class="xi-arrows-alt i_itembank_detail_contents_statement_extend"></i>
-                                <img src="{{ content.get_items.src.url }}">
-                            </div>
-                        {% elif content.type == "content" %}
-                            <span class="span_itembank_detail_contents_content">{{ content.contents }}</span>
-                        {% elif content.type == "text" %}
-                            <p class="p_itembank_detail_contents_text">{{ content.contents }}</p>
-                        {% elif content.type == "code" %}
-                            <pre class='pre_itembank_detail_contents_code'><code class='python'>{{ content.contents }}</code></pre>
-                        {% elif content.type == "answer_text" %}
-                            <input type="text" class="form-control input_itembank_detail_contents_answer_text" name="item" placeholder="답을 입력해주세요.">
-                        {% elif content.type == "answer_textarea" %}
-                            <textarea class='form-control input_itembank_detail_contents_answer_textarea' name="item" placeholder='답을 입력해주세요.'></textarea>
-                        {% elif content.type == "answer_choice" %}
-                            {% for item in content.get_items %}
-                                <div class="div_itembank_detail_contents_item"><input type="radio" name="item" value="{{ item.text }}">{{ item.text }}</div>
-                            {% endfor %}
-                        {% endif %}
-                    {% endfor %}
-                </div>
+    <div class="col-lg-offset-2 col-lg-8 div_itembank_testpaper_detail">
+        <form class="form-horizontal" method="post" id="form_itembank_testpaper_detail">
+            {% csrf_token %}
+            <input type="hidden" name="questions" id="questions">
+            <input type="hidden" name="testpaper_id" id="testpaper_id" value="{{ testpaper.id }}">
+            <div class="div_itembank_testpaper_detail_head">
+                <h1 class="div_itembank_testpaper_detail_head_title">{{ testpaper.title }}</h1>
+                <p class="p_itembank_testpaper_detail_head_info">
+                    <input type="text" class="form-control" name="school" id="input_itembank_testpaper_detail_head_school" placeholder="학교명" value="{{ user.get_school.school }}" required>
+                    <input type="text" class="form-control" name="year" id="input_itembank_testpaper_detail_head_year" placeholder="학년" value="{{ user.get_school.year }}" required>학년
+                    <input type="text" class="form-control" name="div" id="input_itembank_testpaper_detail_head_div" placeholder="구분" value="{{ user.get_school.div }}">
+                </p>
             </div>
+            <input type="submit" id="input_itembank_testpaper_detail_head_submit" value="" style="display:none">
+        </form>
+        {% for testpaper_question in testpaper.get_testpaper_questions %}
+            <form class="form_testpaper">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2 div_itembank_testpaper_detail_contents" tqid="{{ testpaper_question.id }}">
+                        <p class="p_itembank_testpaper_detail_contents_unit">{{ testpaper_question.question.unit.get_title }}</p>
+                        <p class="p_itembank_testpaper_detail_contents_title">{{ forloop.counter }}. {{ testpaper_question.question.title }}</p>
+                        {% for content in testpaper_question.get_contents %}
+                            {% if content.type == "image" %}
+                                <div class="p_itembank_testpaper_detail_contents_image">
+                                    <i class="xi-arrows-alt i_itembank_testpaper_detail_contents_statement_extend"></i>
+                                    <img src="{{ content.get_items.src.url }}">
+                                </div>
+                            {% elif content.type == "content" %}
+                                <span class="span_itembank_testpaper_detail_contents_content">{{ content.contents }}</span>
+                            {% elif content.type == "text" %}
+                                <p class="p_itembank_testpaper_detail_contents_text">{{ content.contents }}</p>
+                            {% elif content.type == "code" %}
+                                <pre class='pre_itembank_testpaper_detail_contents_code'><code class='python'>{{ content.contents }}</code></pre>
+                            {% elif content.type == "answer_text" %}
+                                <input type="text" class="form-control input_itembank_testpaper_detail_contents_answer_text" name="item" placeholder="답을 입력해주세요.">
+                            {% elif content.type == "answer_textarea" %}
+                                <textarea class='form-control input_itembank_testpaper_detail_contents_answer_textarea' name="item" placeholder='답을 입력해주세요.'></textarea>
+                            {% elif content.type == "answer_choice" %}
+                                {% for item in content.get_items %}
+                                    <div class="div_itembank_testpaper_detail_contents_item"><input type="radio" name="item" value="{{ item.text }}">{{ item.text }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </form>
         {% endfor %}
+        {% if not results %}
+            <div class="col-md-8 col-md-offset-2"><button type="button" class="btn btn-success" id="button_itembank_testpaper_detail_submit">제출하기</button></div>
+        {% else %}
+            <div class="col-md-8 col-md-offset-2"><button type="button" class="btn btn-success" id="button_itembank_testpaper_detail_submit" disabled="disabled">이미 제출되었습니다.</button></div>
+        {% endif %}
     </div>
     <script>
         $(document).ready(function(){
@@ -44,33 +65,57 @@
                 increaseArea: '20%'
             });
 
-            $('input[type=radio]').on('ifChecked', function(event){
-                $(".div_itembank_detail_contents_item").removeClass("checked");
-                $(".div_itembank_detail_contents_item").children(".iradio_square-blue").removeClass("checked");
+            $('.form_testpaper input[type=radio]').on('ifChecked', function(event){
+                $(this).parent().parent().parent().children(".div_itembank_testpaper_detail_contents_item").removeClass("checked");
+                $(this).parent().parent().parent().children(".div_itembank_testpaper_detail_contents_item").children(".iradio_square-blue").removeClass("checked");
                 $(this).parent().parent().addClass("checked");
             });
 
-            $(".div_itembank_detail_contents_item").hover(function(){
+            $(".form_testpaper .div_itembank_testpaper_detail_contents_item").hover(function(){
                 $(this).children(".iradio_square-blue").addClass("hover");
             },function(){
                 $(this).children(".iradio_square-blue").removeClass("hover");
             });
 
-            $(".div_itembank_detail_contents_item").click(function(){
+            $(".form_testpaper .div_itembank_testpaper_detail_contents_item").click(function(){
                 $(this).children(".iradio_square-blue").children("input").iCheck('check');
             });
 
-            $(".i_itembank_detail_contents_statement_extend").click(function(){
-                $("#div_itembank_detail_extend_modal .modal-body").html($(this).parent().html());
-                $("#div_itembank_detail_extend_modal i").hide();
-                $("#div_itembank_detail_extend_modal").modal('show');
+            $(".i_itembank_testpaper_detail_contents_statement_extend").click(function(){
+                $("#div_itembank_testpaper_detail_extend_modal .modal-body").html($(this).parent().html());
+                $("#div_itembank_testpaper_detail_extend_modal i").hide();
+                $("#div_itembank_testpaper_detail_extend_modal").modal('show');
             });
+
+            {% if not results %}
+                $('#button_itembank_testpaper_detail_submit').click(function(){
+                    var confirm_msg = confirm("정말 제출하시겠습니까?");
+                    if (confirm_msg){
+                        var question_list = [];
+                        $(".div_itembank_testpaper_detail_contents").map( function(i, ele) {
+                            if ( $(ele).children(".div_itembank_testpaper_detail_contents_item.checked").text() ){
+                                question_list.push({"tqid":$(ele).attr("tqid")
+                                    ,"answer": $(ele).children(".div_itembank_testpaper_detail_contents_item.checked").text()
+                                });
+                            }else if (  $(ele).children(".input_itembank_testpaper_detail_contents_answer_text").val() ){
+                                question_list.push({"tqid":$(ele).attr("tqid")
+                                    ,"answer": $(ele).children(".input_itembank_testpaper_detail_contents_answer_text").val()
+                                });
+                            }
+
+                        });
+                        $("#form_itembank_testpaper_detail #questions").val(JSON.stringify(question_list));
+                        console.log($("#form_itembank_testpaper_detail #questions").val())
+                        $("#input_itembank_testpaper_detail_head_submit").click();
+                    }
+                });
+            {% endif %}
 
         });
     </script>
 {% endblock %}
 {% block modal %}
-    <div class="modal fade" id="div_itembank_detail_extend_modal" tabindex="-1" role="dialog">
+    <div class="modal fade" id="div_itembank_testpaper_detail_extend_modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body text-center">&nbsp;</div>

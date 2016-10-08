@@ -8,10 +8,11 @@
 
 .div_itembank_testpaper_box {width: 100%;padding: 10px;}
 .div_itembank_testpaper_box_none {text-align:center;font-size:20px;color: #a2a5ad;margin: 20px 0;}
-.div_itembank_testpaper_card {width: 447px;min-height:200px;background-color:#FFF;box-shadow: 2px 2px 30px 2px rgb(221, 224, 232);margin: 10px;padding:20px;display: inline-table;cursor:pointer;}
+.div_itembank_testpaper_card {position:relative;width: 447px;min-height:200px;background-color:#FFF;box-shadow: 2px 2px 30px 2px rgb(221, 224, 232);margin: 10px;padding:20px;display: inline-table;cursor:pointer;}
 .div_itembank_testpaper_card:hover {box-shadow: 2px 2px 30px 2px rgb(158, 160, 166)}
 .div_itembank_testpaper_card_title {font-size:20px;font-weight:700;height: 85px;margin: 5px 0;border-bottom: 1px solid #eee;overflow: hidden;}
 .div_itembank_testpaper_card_date {font-size: 14px;line-height: 22px;}
 .div_itembank_testpaper_card_user {font-size: 14px;line-height: 22px;}
 .div_itembank_testpaper_card_forms {font-size: 14px;line-height: 22px;}
 .div_itembank_testpaper_card_forms span {color:#FFF;margin-right: 5px;}
+.img_itembank_testpaper_card_submitted {position:absolute;top: -5px;right: -4px;z-index:100;}

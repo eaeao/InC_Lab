@@ -1,7 +1,7 @@
 from django import template
 from django.utils.datetime_safe import datetime
 
-from inc.itembank.models import TYPE_IN_QUESTION_CHOICES
+from inc.itembank.models import TYPE_IN_QUESTION_CHOICES, TestpaperResult
 
 register = template.Library()
 
@@ -92,3 +92,7 @@ def get_type_color(type):
         return "#34495e"
     else :
         return "#95a5a6"
+
+@register.filter
+def get_testpaper_results(testpaper,user):
+    return TestpaperResult.objects.filter(user=user,testpaper=testpaper)

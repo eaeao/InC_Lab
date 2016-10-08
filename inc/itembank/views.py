@@ -1,3 +1,5 @@
+import json
+
 from django.core.files.base import ContentFile
 from django.db.models import Q
 from django.http import HttpResponse
@@ -5,8 +7,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from inc.itembank.models import Unit1, Unit2, Unit3, Question, Content, ChoiceItem, ImageItem, Testpaper, \
-    TestpaperQuestion, TestpaperQuestionChoiceItem
-from inc.main.models import get_or_none
+    TestpaperQuestion, TestpaperQuestionChoiceItem, TestpaperResult, TestpaperQuestionResult
+from inc.main.models import get_or_none, UserSchool
 
 system_info = {"title":"문제은행"
     ,"menus":[
@@ -270,12 +272,34 @@ def itembank_testpaper_write(request):
 
 
 def itembank_testpaper_detail(request, tpid=0):
+    testpaper = get_or_none(Testpaper,id=tpid)
+
+    json_data = request.POST.get("questions")
+
+    if json_data :
+        json_data = json.loads(json_data)
+        school = request.POST.get("school")
+        year = request.POST.get("year",0)
+        div = request.POST.get("div")
+
+        user_school = get_or_none(UserSchool,user=request.user)
+        user_school.school = school
+        user_school.year = year
+        user_school.div = div
+        user_school.save()
+
+        tr, created = TestpaperResult.objects.get_or_create(user=request.user,testpaper=testpaper,school=school,year=year,div=div)
+        if tr :
+            for ele in json_data:
+                TestpaperQuestionResult.objects.get_or_create(testpaper_result=tr,testpaper_question=get_or_none(TestpaperQuestion,id=ele['tqid']),answer=ele['answer'])
+
     context = {
         'user': request.user,
         'lang': request.GET.get('lang'),
         'info': system_info,
         'meta': {'title': '시험지 #%s'%tpid, 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
-        'testpaper':get_or_none(Testpaper,id=tpid),
+        'testpaper':testpaper,
+        'results':TestpaperResult.objects.filter(user=request.user,testpaper=testpaper),
         'appname': 'itembank_testpaper_detail'
     }
     return render(request, 'itembank_testpaper_detail.html', context)

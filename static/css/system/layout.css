@@ -60,3 +60,6 @@ a:hover,a:active,a:focus{text-decoration:none;color:inherit;}
 
 .footer {position: absolute;bottom: 0;width: 100%;height: 60px;background-color: #353535;font-size: 12px;padding-left:20px}
 .footer .container i {color:#FFF;font-weight: normal;font-size: 30px;margin-top: 14px;}
+#span_footer_inc_link {color:#FFF;font-size:12px;padding:5px;border:1px solid #FFF;margin:15px;cursor:pointer}
+#span_footer_inc_link:hover {background-color:RGBA(255,255,255,0.2)}
+#span_footer_inc_link i {font-size:12px;margin:0;padding:0}

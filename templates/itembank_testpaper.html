@@ -10,15 +10,17 @@
             <li>
                 <a class="a_tab_nav_btn" href="/itembank/testpaper/" target="_self" id="a_tab_nav_btn_all">전체 시험지 <span class="badge">{{ testpapers|length }}</span></a>
             </li>
+            {% if user.profile.grade == 2 %}
             <li>
                 <a class="a_tab_nav_btn" href="/itembank/testpaper/mine/" target="_self" id="a_tab_nav_btn_mine">내가 출제한 시험지 <span class="badge">{{ testpapers|length }}</span></a>
             </li>
             <li>
                 <a class="a_tab_nav_btn" href="/itembank/testpaper/other/" target="_self" id="a_tab_nav_btn_other">다른사람이 출제한 시험지 <span class="badge">{{ testpapers|length }}</span></a>
             </li>
-            <li class="pull-right" style="margin-right:30px">
-                <a class="a_tab_nav_btn" href="/itembank/testpaper/write/" target="_self" id="a_tab_nav_btn_add"><p>시험지 출제하기</p><i class="xi-plus-circle"></i></a>
-            </li>
+                <li class="pull-right" style="margin-right:30px">
+                    <a class="a_tab_nav_btn" href="/itembank/testpaper/write/" target="_self" id="a_tab_nav_btn_add"><p>시험지 출제하기</p><i class="xi-plus-circle"></i></a>
+                </li>
+            {% endif %}
         </ul>
     </div>
     <div class="div_itembank_testpaper_box">
@@ -26,7 +28,8 @@
             {% for testpaper in testpapers %}
                 <div class="div_itembank_testpaper_card" onclick="location.href='/itembank/testpaper/detail/{{ testpaper.id }}';">
                     <p class="div_itembank_testpaper_card_title">{{ testpaper.id }}. {{ testpaper.title }}</p>
-                    <p class="div_itembank_testpaper_card_date">출제일 : {{ testpaper.date_created|time_diff }}</p>
+                    {% if testpaper|get_testpaper_results:user %}<img src="/static/img/system/submitted_testpaper.png" class="img_itembank_testpaper_card_submitted">{% endif %}
+                    <p class="div_itembank_testpaper_card_date">출제일시 : {{ testpaper.date_created|time_diff }}</p>
                     <p class="div_itembank_testpaper_card_user">출제자 : {{ testpaper.user.first_name }}({{ testpaper.user.email|slice:":5" }}**@****.***)</p>
                     <p class="div_itembank_testpaper_card_forms">구성 : {% for form in testpaper.get_forms %}<span style="background-color:{{ form.type|get_type_color }}">{{ form.type }} {{ form.count }}개</span>{% endfor %}</p>
                 </div>

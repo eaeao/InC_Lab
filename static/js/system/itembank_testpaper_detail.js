@@ -20,15 +20,15 @@ $(document).delegate('textarea', 'keydown', function(e) {
 $(document).ready(function() {
     $("#a_header_nav_btn_testpapers").addClass("active");
 
-    $(".p_itembank_detail_contents_text").each(function(i, e){
+    $(".p_itembank_testpaper_detail_contents_text").each(function(i, e){
         $(e).html($(e).html().replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br />").replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;"));
     });
 
-    $(".span_itembank_detail_contents_content").each(function(i, e){
+    $(".span_itembank_testpaper_detail_contents_content").each(function(i, e){
         $(e).html($(e).html().replace(/ /g, '&nbsp;').replace(/</g, "&lt;").replace(/>/g, "&gt;"));
     });
 
-    $(".pre_itembank_detail_contents_code code").each(function(i, e){
+    $(".pre_itembank_testpaper_detail_contents_code code").each(function(i, e){
         $(e).html($(e).html().replace(/</g, "&lt;").replace(/>/g, "&gt;"));
     });
 

@@ -55,11 +55,15 @@ def erroranalysis_result(request):
                 break
             result = "%s"%(exc_info)
 
-    last_result = ErrorAnalysisResult.objects.filter(user=request.user, question=question).order_by("-id")
-    if last_result :
-        if last_result[0].code != contents_ori :
-            if error and question :
-                ear, created = ErrorAnalysisResult.objects.get_or_create(user=request.user, question=question, code=contents_ori, type=error['type'], msg=result)
+    if request.user.id and question:
+        last_result = ErrorAnalysisResult.objects.filter(user=request.user, question=question).order_by("-id")
+        if last_result :
+            if last_result[0].code != contents_ori :
+                if error and question :
+                    ear, created = ErrorAnalysisResult.objects.get_or_create(user=request.user, question=question, code=contents_ori, type=error['type'], msg=result)
+        else :
+            ear, created = ErrorAnalysisResult.objects.get_or_create(user=request.user, question=question,
+                                                                     code=contents_ori, type=error['type'], msg=result)
 
     return HttpResponse(escape(result))
 

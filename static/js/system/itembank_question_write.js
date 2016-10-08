@@ -232,3 +232,7 @@ $(document).delegate('textarea', 'keydown', function(e) {
             $(this).get(0).selectionEnd = start + 1;
     }
 });
+
+$(document).ready(function() {
+    $("#a_header_nav_btn_questions").addClass("active");
+});

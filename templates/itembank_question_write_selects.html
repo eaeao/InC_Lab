@@ -16,7 +16,6 @@
 {% endif %}
 <script>
     var unit_text = "";
-    var unit_text = "";
     if ($("#select_itembank_write_left_selects_unit1 option:selected").text()) unit_text += $("#select_itembank_write_left_selects_unit1 option:selected").text();
     if ($("#select_itembank_write_left_selects_unit2 option:selected").text()) unit_text += " > " + $("#select_itembank_write_left_selects_unit2 option:selected").text();
     if ($("#select_itembank_write_left_selects_unit3 option:selected").text()) unit_text += " > " + $("#select_itembank_write_left_selects_unit3 option:selected").text();
@@ -29,6 +28,6 @@
         //if ($(ele).attr('unit') == 1) arr = {};
         arr[$(ele).attr('name')] = $(ele).val();
         $("#div_itembank_write_left_selects_loading").show();
-        $("#div_itembank_write_left_selects").load("/itembank/write/selects/",arr);
+        $("#div_itembank_write_left_selects").load("/itembank/question/write/selects/",arr);
     }
 </script>

@@ -1,3 +1,7 @@
+#div_itembank_write {margin-top:20px;background-color:#FFF;box-shadow: 2px 2px 30px 2px rgb(221, 224, 232);padding:20px 20px}
+#a_tab_nav_btn_back {margin:0;padding:0;line-height:80px;margin-left: 30px;height: 80px;font-weight:700;float:left;color:#000}
+#a_tab_nav_btn_back:hover {color:#426aea;text-decoration: underline;}
+
 #div_itembank_write_left {margin-bottom:10px}
 #div_itembank_write_left_head {border:1px solid #eee;border-bottom:0;margin-bottom:10px;}
 #ul_itembank_write_left_list {position: relative;border:1px solid #eee;border-bottom:0;}

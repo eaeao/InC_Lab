@@ -1,56 +1,56 @@
 {% extends "itembank.html" %}
 {% load staticfiles %}
 {% block content %}
-    <div class="col-md-12">
-        <div class="div_feed" id="div_itembank_write">
-            <h1>출제하기</h1>
-            <div class="row">
-                <div class="col-md-6" id="div_itembank_write_left">
-                    <form class="form-horizontal" id="form_itembank_write" method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <div id="div_itembank_write_left_head">
-                            <div class="control-group div_itembank_write_left_list_line">
-                                <label class="control-label">단원</label>
-                                <div class="controls" id="div_itembank_write_left_selects">&nbsp;</div>
-                            </div>
-                            <div class="control-group div_itembank_write_left_list_line">
-                                <label class="control-label">제목</label>
-                                <div class="controls"><input class="form-control input_itembank_write_left_title" type="text" name="title" placeholder="내용을 입력해주세요."></div>
+    <div class="div_tab" id="div_itembank_question_write_tab">
+        <a class="a_tab_nav_btn" href="/itembank/question/" target="_self" id="a_tab_nav_btn_back">< 이전</a> <span class="span_itembank_tab_title">문제 출제하기</span>
+    </div>
+    <div class="col-lg-offset-2 col-lg-8" id="div_itembank_write">
+        <div class="row">
+            <div class="col-md-6" id="div_itembank_write_left">
+                <form class="form-horizontal" id="form_itembank_write" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div id="div_itembank_write_left_head">
+                        <div class="control-group div_itembank_write_left_list_line">
+                            <label class="control-label">단원</label>
+                            <div class="controls" id="div_itembank_write_left_selects">&nbsp;</div>
+                        </div>
+                        <div class="control-group div_itembank_write_left_list_line">
+                            <label class="control-label">제목</label>
+                            <div class="controls"><input class="form-control input_itembank_write_left_title" type="text" name="title" placeholder="내용을 입력해주세요."></div>
+                        </div>
+                    </div>
+                    <ul id="ul_itembank_write_left_list"></ul>
+                    <div id="div_itembank_write_left_list_add">
+                        <p class="p_itembank_write_left_list_add_title"><i class="xi-angle-down"></i> 요소 패널 열기</p>
+                        <div class="div_itembank_write_left_list_add_body">
+                            <p class="p_itembank_write_left_list_add_body_title"><i class="xi-angle-up"></i> 요소 패널 닫기</p>
+                            <div class="row">
+                                <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_content)"><i class="xi-paper"></i><p>내용</p></div>
+                                <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_image)"><i class="xi-image"></i><p>이미지</p></div>
+                                <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_text)"><i class="xi-align-justify"></i><p>보기지문</p></div>
+                                <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_code)"><i class="xi-code"></i><p>프로그래밍 지문</p></div>
+                                <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_answer_text)"><i class="xi-text-type"></i><p>단답식 답안</p></div>
+                                <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_answer_textarea)"><i class="xi-library-books"></i><p>서술식 답안</p></div>
+                                <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_answer_choice)"><i class="xi-list-number"></i><p>객관식 답안</p></div>
                             </div>
                         </div>
-                        <ul id="ul_itembank_write_left_list"></ul>
-                        <div id="div_itembank_write_left_list_add">
-                            <p class="p_itembank_write_left_list_add_title"><i class="xi-angle-down"></i> 요소 패널 열기</p>
-                            <div class="div_itembank_write_left_list_add_body">
-                                <p class="p_itembank_write_left_list_add_body_title"><i class="xi-angle-up"></i> 요소 패널 닫기</p>
-                                <div class="row">
-                                    <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_content)"><i class="xi-paper"></i><p>내용</p></div>
-                                    <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_image)"><i class="xi-image"></i><p>이미지</p></div>
-                                    <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_text)"><i class="xi-form"></i><p>보기지문</p></div>
-                                    <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_code)"><i class="xi-code"></i><p>프로그래밍 지문</p></div>
-                                    <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_answer_text)"><i class="xi-type"></i><p>단답식 답안</p></div>
-                                    <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_answer_textarea)"><i class="xi-book-spread"></i><p>서술식 답안</p></div>
-                                    <div class="col-lg-3 div_itembank_write_left_list_add_body_ele" onclick="addLine(form_answer_choice)"><i class="xi-list-ol"></i><p>객관식 답안</p></div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-md-6" id="div_itembank_write_right">
-                    <p class="p_itembank_write_right_preview">예시화면</p>
-                    <p class="p_itembank_write_right_unit">&nbsp;</p>
-                    <p class="p_itembank_write_right_title">01. 내용을 입력해주세요.</p>
-                    <div id="div_itembank_write_right_body">&nbsp;</div>
-                </div>
+                    </div>
+                </form>
             </div>
-            <div class="modal-footer">
-                <input type="button" class="btn btn-default" onclick="history.back()" value="취소" />
-                <input type="button" class="btn btn-danger" id="button_itembank_write_done" value="출제완료" />
+            <div class="col-md-6" id="div_itembank_write_right">
+                <p class="p_itembank_write_right_preview">예시화면</p>
+                <p class="p_itembank_write_right_unit">&nbsp;</p>
+                <p class="p_itembank_write_right_title">01. 내용을 입력해주세요.</p>
+                <div id="div_itembank_write_right_body">&nbsp;</div>
             </div>
+        </div>
+        <div class="modal-footer">
+            <input type="button" class="btn btn-default" onclick="history.back()" value="취소" />
+            <input type="button" class="btn btn-danger" id="button_itembank_write_done" value="출제완료" />
         </div>
     </div>
     <script>
-        $("#div_itembank_write_left_selects").load("/itembank/write/selects/",{"csrfmiddlewaretoken":$("#wrap > input[name=csrfmiddlewaretoken]").val(),"unit1":2});
+        $("#div_itembank_write_left_selects").load("/itembank/question/write/selects/",{"csrfmiddlewaretoken":$("#wrap > input[name=csrfmiddlewaretoken]").val(),"unit1":2});
         $(".input_itembank_write_left_title").keyup(function(){
             if($(this).val()) $(".p_itembank_write_right_title").text("01."+$(this).val());
             else $(".p_itembank_write_right_title").text("01. 내용을 입력해주세요.");

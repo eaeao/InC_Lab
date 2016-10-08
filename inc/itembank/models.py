@@ -117,17 +117,3 @@ class ImageItem(models.Model):
 
     def __str__(self):
         return '[%d]%s, %s' % (self.id, self.content, self.src)
-
-
-class TestpaperRecord(models.Model):
-    user = models.ForeignKey(User)
-    question = models.ForeignKey(Question)
-    items = models.TextField(default="")
-    answer = models.TextField(default="")
-    date_created = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        verbose_name_plural = "8. 제출된 시험지(TestpaperRecord)"
-
-    def __str__(self):
-        return '[%d]%s, %s, %s' % (self.id, self.user, self.items, self.answer)

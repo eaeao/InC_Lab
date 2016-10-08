@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from inc.itembank.models import Unit1, Unit2, Unit3, Question, Content, ChoiceItem, ImageItem, TestpaperRecord
+from inc.itembank.models import Unit1, Unit2, Unit3, Question, Content, ChoiceItem, ImageItem
 
 
 class Unit1Admin(admin.ModelAdmin):
@@ -49,4 +49,3 @@ admin.site.register(Question, QuestionAdmin)
 admin.site.register(Content, ContentAdmin)
 admin.site.register(ChoiceItem, ChoiceItemAdmin)
 admin.site.register(ImageItem, ImageItemAdmin)
-admin.site.register(TestpaperRecord, TestpaperRecordAdmin)

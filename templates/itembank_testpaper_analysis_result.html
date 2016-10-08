@@ -1,9 +1,0 @@
-{% load staticfiles %}
-<h1>{{ records.0.question.id }}. {{ records.0.question.title }}</h1>
-{% for item in choice.get_items %}
-    <p style="{% if choice.contents == item.text %}color:#F00{% endif %}">{{ item.id }}. {{ item.text }}</p>
-{% endfor %}
-<br/><br/>
-{% for ele in permutations %}
-    {{ ele.key }} : {{ ele.value }} ({{ ele.percent }}%)<br/>
-{% endfor %}

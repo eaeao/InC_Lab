@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
-from inc.itembank.models import Unit1, Unit2, Unit3, Question, Content, ChoiceItem, ImageItem, TestpaperRecord
+from inc.itembank.models import Unit1, Unit2, Unit3, Question, Content, ChoiceItem, ImageItem
 from inc.main.models import get_or_none
 from inc.main.views import get_menu
 
@@ -173,105 +173,60 @@ def itembank_delete(request, qid=0):
         question.delete()
     return HttpResponseRedirect('/itembank/')
 
+
 def itembank_testpaper(request):
+    if request.user.id:
+        if not request.user.get_school() :
+            return HttpResponseRedirect('/auth/register/school/?come_from=/itembank/')
+    else :
+        return HttpResponseRedirect('/auth/login/?come_from=/itembank/')
 
-    if TestpaperRecord.objects.filter(user=request.user):
-        return HttpResponse("<h1>이미 시험이 제출되었습니다.</h1>")
-
-    contents = Content.objects.filter(type='answer_choice')
-
-    questions = []
-    for content in contents:
-        questions.append(content.question)
+    questions = Question.objects.filter(~Q(unit=22)).order_by("-id")
 
     context = {
-        'questions':questions,
         'user': request.user,
         'lang': request.GET.get('lang'),
         'info': system_info,
         'meta': {'title': '문제은행', 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
-        'appname': 'itembank_testpaper'
+        'questions':questions,
+        'appname': 'itembank_question'
+    }
+    return render(request, 'itembank_question.html', context)
+
+def itembank_testpaper_mine(request):
+    if request.user.id:
+        if not request.user.get_school() :
+            return HttpResponseRedirect('/auth/register/school/?come_from=/itembank/')
+    else :
+        return HttpResponseRedirect('/auth/login/?come_from=/itembank/')
+
+    questions = Question.objects.filter(~Q(unit=22)&Q(user=request.user)).order_by("-id")
+
+    context = {
+        'user': request.user,
+        'lang': request.GET.get('lang'),
+        'info': system_info,
+        'meta': {'title': '문제은행', 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
+        'questions':questions,
+        'appname': 'itembank_testpaper_mine'
     }
     return render(request, 'itembank_testpaper.html', context)
 
+def itembank_testpaper_other(request):
+    if request.user.id:
+        if not request.user.get_school() :
+            return HttpResponseRedirect('/auth/register/school/?come_from=/itembank/')
+    else :
+        return HttpResponseRedirect('/auth/login/?come_from=/itembank/')
 
-def itembank_testpaper_submit(request):
-    json_data = json.loads(request.POST.get("questions"))
-    if json_data :
-        for ele in json_data:
-            TestpaperRecord.objects.create(user=request.user,question=get_or_none(Question,id=ele['qid']),items=ele['items'],answer=ele['answer'])
+    questions = Question.objects.filter(~Q(unit=22)&~Q(user=request.user)).order_by("-id")
 
     context = {
         'user': request.user,
         'lang': request.GET.get('lang'),
-        'menus': get_menu(),
+        'info': system_info,
         'meta': {'title': '문제은행', 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
-        'appname': 'itembank_testpaper_submit'
-    }
-    return render(request, 'itembank_testpaper_submit.html', context)
-
-
-def itembank_testpaper_analysis(request):
-
-    questions_id = TestpaperRecord.objects.all().values('question').distinct()
-    questions = Question.objects.filter(id__in=questions_id)
-
-    context = {
-        'user': request.user,
         'questions':questions,
-        'lang': request.GET.get('lang'),
-        'info': system_info,
-        'meta': {'title': '문제은행', 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
-        'appname': 'itembank_testpaper_analysis'
+        'appname': 'itembank_testpaper_other'
     }
-    return render(request, 'itembank_testpaper_analysis.html', context)
-
-
-def itembank_testpaper_analysis_result(request):
-    import itertools
-    question = get_or_none(Question,id=request.POST.get('qid'))
-    records = TestpaperRecord.objects.filter(question=question)
-
-    question_ids = []
-    choice = get_or_none(Content,type='answer_choice',question=question)
-    for ele in choice.get_items():
-        question_ids.append(ele.id)
-
-    permutations_list = list(itertools.permutations(question_ids))
-    permutations = []
-
-    for per in permutations_list:
-        str_perm = "%d;%d;%d;%d;%d;"%(per[0],per[1],per[2],per[3],per[4])
-        perm_correct = len(TestpaperRecord.objects.filter(question=question,items=str_perm,answer=choice.contents))
-        perm_all = len(TestpaperRecord.objects.filter(question=question, items=str_perm))
-        percent = 0.0
-        try :
-            percent = perm_correct/perm_all*100.0
-        except:
-            pass
-        permutations.append({"key":str_perm,"value":"%d / %d"%(perm_correct,perm_all), "percent":percent})
-
-        permutations = sorted(permutations, key=itemgetter('percent','value'), reverse=True)
-
-    context = {
-        'user': request.user,
-        'records':records,
-        'choice':choice,
-        'permutations':permutations,
-        'lang': request.GET.get('lang'),
-        'info': system_info,
-        'meta': {'title': '문제은행', 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
-        'appname': 'itembank_testpaper_analysis_result'
-    }
-    return render(request, 'itembank_testpaper_analysis_result.html', context)
-
-
-def itembank_testpaper_add(request):
-    context = {
-        'user': request.user,
-        'lang': request.GET.get('lang'),
-        'info': system_info,
-        'meta': {'title': '문제은행', 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
-        'appname': 'itembank_testpaper'
-    }
-    return render(request, 'itembank_testpaper_add.html', context)
+    return render(request, 'itembank_testpaper.html', context)

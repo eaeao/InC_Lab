@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
-from inc.itembank.models import Unit1, Unit2, Unit3, Question, Content, ChoiceItem, ImageItem
+from inc.itembank.models import Unit1, Unit2, Unit3, Question, Content, ChoiceItem, ImageItem, TestpaperQuestion, \
+    TestpaperQuestionChoiceItem, Testpaper
 
 
 class Unit1Admin(admin.ModelAdmin):
@@ -38,8 +38,24 @@ class ImageItemAdmin(admin.ModelAdmin):
     list_display = ('id', 'content', 'src')
 
 
-class TestpaperRecordAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'question', 'items', 'answer', 'date_created')
+class TestpaperQuestionChoiceItemInline(admin.StackedInline):
+    model = TestpaperQuestionChoiceItem
+    can_delete = True
+
+
+class TestpaperQuestionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'testpaper', 'question')
+    inlines = [TestpaperQuestionChoiceItemInline]
+
+
+class TestpaperQuestionInline(admin.StackedInline):
+    model = TestpaperQuestion
+    can_delete = True
+
+
+class TestpaperAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'title', 'date_created', 'is_active')
+    inlines = [TestpaperQuestionInline]
 
 
 admin.site.register(Unit1, Unit1Admin)
@@ -49,3 +65,5 @@ admin.site.register(Question, QuestionAdmin)
 admin.site.register(Content, ContentAdmin)
 admin.site.register(ChoiceItem, ChoiceItemAdmin)
 admin.site.register(ImageItem, ImageItemAdmin)
+admin.site.register(Testpaper, TestpaperAdmin)
+admin.site.register(TestpaperQuestion, TestpaperQuestionAdmin)

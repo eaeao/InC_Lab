@@ -1,15 +1,12 @@
-import json
-from operator import itemgetter
-
 from django.core.files.base import ContentFile
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-# Create your views here.
-from inc.itembank.models import Unit1, Unit2, Unit3, Question, Content, ChoiceItem, ImageItem
+from inc.itembank.models import Unit1, Unit2, Unit3, Question, Content, ChoiceItem, ImageItem, Testpaper, \
+    TestpaperQuestion
 from inc.main.models import get_or_none
-from inc.main.views import get_menu
 
 system_info = {"title":"문제은행"
     ,"menus":[
@@ -181,17 +178,17 @@ def itembank_testpaper(request):
     else :
         return HttpResponseRedirect('/auth/login/?come_from=/itembank/')
 
-    questions = Question.objects.filter(~Q(unit=22)).order_by("-id")
+    testpapers = Testpaper.objects.all().order_by("-id")
 
     context = {
         'user': request.user,
         'lang': request.GET.get('lang'),
         'info': system_info,
         'meta': {'title': '문제은행', 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
-        'questions':questions,
-        'appname': 'itembank_question'
+        'testpapers':testpapers,
+        'appname': 'itembank_testpaper'
     }
-    return render(request, 'itembank_question.html', context)
+    return render(request, 'itembank_testpaper.html', context)
 
 def itembank_testpaper_mine(request):
     if request.user.id:
@@ -200,14 +197,14 @@ def itembank_testpaper_mine(request):
     else :
         return HttpResponseRedirect('/auth/login/?come_from=/itembank/')
 
-    questions = Question.objects.filter(~Q(unit=22)&Q(user=request.user)).order_by("-id")
+    testpapers = Testpaper.objects.filter(user=request.user).order_by("-id")
 
     context = {
         'user': request.user,
         'lang': request.GET.get('lang'),
         'info': system_info,
         'meta': {'title': '문제은행', 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
-        'questions':questions,
+        'testpapers':testpapers,
         'appname': 'itembank_testpaper_mine'
     }
     return render(request, 'itembank_testpaper.html', context)
@@ -219,7 +216,39 @@ def itembank_testpaper_other(request):
     else :
         return HttpResponseRedirect('/auth/login/?come_from=/itembank/')
 
-    questions = Question.objects.filter(~Q(unit=22)&~Q(user=request.user)).order_by("-id")
+    testpapers = Testpaper.objects.filter(~Q(user=request.user)).order_by("-id")
+
+    context = {
+        'user': request.user,
+        'lang': request.GET.get('lang'),
+        'info': system_info,
+        'meta': {'title': '문제은행', 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
+        'testpapers':testpapers,
+        'appname': 'itembank_testpaper_other'
+    }
+    return render(request, 'itembank_testpaper.html', context)
+
+
+def itembank_testpaper_write(request):
+    if request.user.id:
+        if not request.user.get_school() :
+            return HttpResponseRedirect('/auth/register/school/?come_from=/itembank/')
+    else :
+        return HttpResponseRedirect('/auth/login/?come_from=/itembank/')
+
+    testpaper_title = request.POST.get("testpaper_title")
+    if testpaper_title :
+        try :
+            questions_id = request.POST.getlist("questions_id[]")
+            testpaper, created = Testpaper.objects.get_or_create(user=request.user,title=testpaper_title)
+            if testpaper:
+                for question_id in questions_id:
+                    testpaper_question, created_2 = TestpaperQuestion.objects.get_or_create(testpaper=testpaper,question=get_or_none(Question,id=question_id))
+            return HttpResponse("0")
+        except Exception as e:
+            return HttpResponse("%s"%e.with_traceback())
+
+    questions = Question.objects.filter(~Q(unit=22)).order_by("-id")
 
     context = {
         'user': request.user,
@@ -227,6 +256,6 @@ def itembank_testpaper_other(request):
         'info': system_info,
         'meta': {'title': '문제은행', 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
         'questions':questions,
-        'appname': 'itembank_testpaper_other'
+        'appname': 'itembank_testpaper_write'
     }
-    return render(request, 'itembank_testpaper.html', context)
+    return render(request, 'itembank_testpaper_write.html', context)

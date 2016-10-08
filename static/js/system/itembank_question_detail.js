@@ -18,6 +18,8 @@ $(document).delegate('textarea', 'keydown', function(e) {
 });
 
 $(document).ready(function() {
+    $("#a_header_nav_btn_questions").addClass("active");
+
     $(".p_itembank_detail_contents_text").each(function(i, e){
         $(e).html($(e).html().replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br />").replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;"));
     });

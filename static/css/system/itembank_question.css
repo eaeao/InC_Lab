@@ -12,6 +12,6 @@
 .div_itembank_question_card:hover {box-shadow: 2px 2px 30px 2px rgb(158, 160, 166)}
 .div_itembank_question_card_type {float:left;padding: 2px 4px;color:#FFF;font-size: 14px;margin-right:10px;}
 .div_itembank_question_card_unit {line-height:24px;color:#666}
-.div_itembank_question_card_title {font-size:20px;font-weight:700;height: 85px;margin: 5px 0;overflow: hidden;}
+.div_itembank_question_card_title {font-size:20px;font-weight:700;height: 85px;margin: 5px 0;overflow: hidden;border-bottom: 1px solid #eee;}
 .div_itembank_question_card_date {font-size: 14px;line-height: 22px;}
 .div_itembank_question_card_user {font-size: 14px;line-height: 22px;}

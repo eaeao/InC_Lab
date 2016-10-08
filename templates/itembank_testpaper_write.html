@@ -1,0 +1,29 @@
+{% extends "itembank.html" %}
+{% load main_extras %}
+{% load staticfiles %}
+{% block content %}
+    <div class="div_tab" id="div_itembank_testpaper_write_tab">
+        <a class="a_tab_nav_btn" href="/itembank/testpaper/" target="_self" id="a_tab_nav_btn_back">< 이전</a> <span class="span_itembank_tab_title">시험지 출제하기</span>
+    </div>
+    <div class="div_itembank_question_box">
+        {% if questions %}
+            {% for question in questions %}
+                <div class="div_itembank_question_card" qid="{{ question.id }}" onclick="addLine(this)">
+                    <p class="div_itembank_question_card_type" style="background-color:{{ question.type|get_type_color }}">{{ question.type }}</p><p class="div_itembank_question_card_unit">{{ question.unit.get_title }}</p>
+                    <p class="div_itembank_question_card_title">{{ question.id }}. {{ question.title }}</p>
+                    <p class="div_itembank_question_card_date">출제일 : {{ question.date_created|time_diff }}</p>
+                    <p class="div_itembank_question_card_user">출제자 : {{ question.user.first_name }}({{ question.user.email|slice:":5" }}**@****.***)</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="div_itembank_question_box_none">출제된 문제가 없습니다.</p>
+        {% endif %}
+    </div>
+    <div class="div_itembank_testpaper_write_list">
+        <input type="text" class="form-control" name="testpaper_title" id="input_itembank_testpaper_write_title" placeholder="시험지 제목을 써주세요.">
+        <ul id="ul_itembank_testpaper_write_list_questions">
+            <li class="li_itembank_testpaper_write_list_question_nodata">선택된 문제가 없습니다.</li>
+        </ul>
+        <button class="btn btn-success" id="btn_itembank_testpaper_write_list_submit" disabled="disabled">출제하기</button>
+    </div>
+{% endblock %}

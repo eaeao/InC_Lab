@@ -63,7 +63,7 @@ class Question(models.Model):
         verbose_name_plural = "4.문제(Question)"
 
     def __str__(self):
-        return '[%d] %s : %s' % (self.id, self.title, self.is_active)
+        return '[%d] (%s) %s : %s' % (self.id, self.type, self.title, self.is_active)
 
     def get_contents(self):
         return Content.objects.filter(question=self)
@@ -117,3 +117,49 @@ class ImageItem(models.Model):
 
     def __str__(self):
         return '[%d]%s, %s' % (self.id, self.content, self.src)
+
+
+class Testpaper(models.Model):
+    user = models.ForeignKey(User)
+    title = models.TextField(default="")
+    date_created = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name_plural = "8. 시험지(Testpaper)"
+
+    def __str__(self):
+        return '[%d] %s: %s' % (self.id, self.user, self.title)
+
+    def get_questions(self):
+        questions = TestpaperQuestion.objects.filter(testpaper=self).values_list('question', flat=True)
+        return Question.objects.filter(id__in = questions)
+
+    def get_forms(self):
+        form = []
+        d = dict(TYPE_IN_QUESTION_CHOICES)
+        for str_type in d.keys():
+            type = self.get_questions().filter(type=str_type)
+            if type :
+                form.append({"type":str_type,"count":type.count()})
+        return form
+
+
+
+class TestpaperQuestion(models.Model):
+    testpaper = models.ForeignKey(Testpaper)
+    question = models.ForeignKey(Question)
+
+    class Meta:
+        verbose_name_plural = "9. 시험지 문제(TestpaperQuestion)"
+
+    def __str__(self):
+        return '[%d] %s: %s' % (self.id, self.testpaper, self.question)
+
+
+class TestpaperQuestionChoiceItem(models.Model):
+    testpaper_question = models.ForeignKey(TestpaperQuestion)
+    choice_item = models.ForeignKey(ChoiceItem)
+
+    def __str__(self):
+        return '[%d] %s: %s' % (self.id, self.testpaper_question, self.choice_item)

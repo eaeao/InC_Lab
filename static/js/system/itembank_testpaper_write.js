@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
     $("#a_header_nav_btn_testpapers").addClass("active");
+    $('[data-toggle="tooltip"]').tooltip();
 
     (function() {
         $("#ul_itembank_testpaper_write_list_questions").sortable({
@@ -51,7 +52,7 @@ function addLine(ele){
     var str = '<li class="li_itembank_testpaper_write_list_question ui-state-default" qid="' +
         question.attr("qid") +
         '">' +
-        question.children(".div_itembank_question_card_title").text() +
+        question.children(".p_itembank_question_card_title").text() +
         '<p class="p_itembank_testpaper_write_list_question_panel"> <i class="xi-close" onclick="removeLine(this)"></i> </p> </li>';
     $("#ul_itembank_testpaper_write_list_questions").append(str);
     activeSubmit();

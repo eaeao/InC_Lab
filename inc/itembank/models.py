@@ -56,6 +56,7 @@ class Question(models.Model):
     type = models.CharField(max_length=10,choices=TYPE_IN_QUESTION_CHOICES,default='선다형')
     title = models.TextField(default="")
     keyword = models.TextField(default="",blank=True,null=True)
+    src = models.FileField(blank=True,null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
 
@@ -68,6 +69,22 @@ class Question(models.Model):
     def get_contents(self):
         return Content.objects.filter(question=self)
 
+    def get_answer(self):
+        return self.get_contents().filter(type__in=['answer_text','answer_textarea','answer_choice']).values_list("contents",flat=True)
+
+    def get_testpaper_question(self):
+        return TestpaperQuestion.objects.filter(question=self)
+
+    def get_results(self):
+        return TestpaperQuestionResult.objects.filter(testpaper_question__question=self)
+
+    def get_difficulty(self):
+        tqr = self.get_results()
+        tqr_correct = tqr.filter(answer__in=self.get_answer())
+        try :
+            return tqr_correct.count()/float(tqr.count())
+        except Exception as e :
+            return 0.0
 
 class Content(models.Model):
     question = models.ForeignKey(Question)
@@ -147,7 +164,15 @@ class Testpaper(models.Model):
                 form.append({"type":str_type,"count":type.count()})
         return form
 
-
+    def get_difficulty(self):
+        tqs = TestpaperQuestion.objects.filter(testpaper=self)
+        avg_tqs = 0.0
+        for tq in tqs :
+            avg_tqs = avg_tqs + tq.question.get_difficulty()
+        try :
+            return avg_tqs/float(tqs.count())
+        except Exception as e :
+            return 0.0
 
 class TestpaperQuestion(models.Model):
     testpaper = models.ForeignKey(Testpaper)

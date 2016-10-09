@@ -1,5 +1,6 @@
 import json
 
+from base64 import b64decode
 from django.core.files.base import ContentFile
 from django.db.models import Q
 from django.http import HttpResponse
@@ -91,6 +92,7 @@ def itembank_question_write(request):
     if title :
         try:
             unit3 = request.POST.get('unit3',0)
+            example_img = request.POST['example_img'].partition('base64,')[2]
             images = request.FILES.getlist("image")
             arr_post = {}
             for post in request.POST:
@@ -110,6 +112,11 @@ def itembank_question_write(request):
                     arr_post[type].pop(0)
 
             question = Question.objects.create(unit=get_or_none(Unit3,id=unit3),user=request.user,title=title)
+
+            if example_img :
+                image_data = b64decode(example_img)
+                question.src.save('example_img.png', ContentFile(image_data), save=True)
+
             for con in arr_contents:
                 content = Content.objects.create(question=question,type=con['type'],contents=con['contents'])
                 if content.type == "answer_choice" :
@@ -170,7 +177,7 @@ def itembank_delete(request, qid=0):
     question = get_or_none(Question,id=qid)
     if question.user == request.user or request.user.is_superuser :
         question.delete()
-    return HttpResponseRedirect('/itembank/')
+    return HttpResponseRedirect('/itembank/question/')
 
 
 def itembank_testpaper(request):
@@ -300,6 +307,22 @@ def itembank_testpaper_detail(request, tpid=0):
         'meta': {'title': '시험지 #%s'%tpid, 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
         'testpaper':testpaper,
         'results':TestpaperResult.objects.filter(user=request.user,testpaper=testpaper),
+        'json_data':json_data,
         'appname': 'itembank_testpaper_detail'
     }
     return render(request, 'itembank_testpaper_detail.html', context)
+
+
+def itembank_testpaper_analysis(request, tpid=0):
+    testpaper = get_or_none(Testpaper,id=tpid)
+
+    context = {
+        'user': request.user,
+        'lang': request.GET.get('lang'),
+        'info': system_info,
+        'meta': {'title': '시험지 #%s'%tpid, 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
+        'testpaper':testpaper,
+        'results':TestpaperResult.objects.filter(user=request.user,testpaper=testpaper),
+        'appname': 'itembank_testpaper_analysis'
+    }
+    return render(request, 'itembank_testpaper_analysis.html', context)

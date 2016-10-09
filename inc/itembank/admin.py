@@ -17,7 +17,7 @@ class Unit3Admin(admin.ModelAdmin):
 
 
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'unit', 'type', 'title', 'date_created', 'is_active')
+    list_display = ('id', 'user', 'unit', 'type', 'title','src','date_created', 'is_active')
 
 
 class ChoiceItemInline(admin.StackedInline):

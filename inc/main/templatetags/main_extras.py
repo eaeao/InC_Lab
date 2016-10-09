@@ -95,4 +95,6 @@ def get_type_color(type):
 
 @register.filter
 def get_testpaper_results(testpaper,user):
-    return TestpaperResult.objects.filter(user=user,testpaper=testpaper)
+    if user != None :
+        return TestpaperResult.objects.filter(user=user,testpaper=testpaper)
+    return TestpaperResult.objects.filter(testpaper=testpaper)

@@ -8,11 +8,23 @@
     <div class="div_itembank_question_box">
         {% if questions %}
             {% for question in questions %}
-                <div class="div_itembank_question_card" qid="{{ question.id }}" onclick="addLine(this)">
-                    <p class="div_itembank_question_card_type" style="background-color:{{ question.type|get_type_color }}">{{ question.type }}</p><p class="div_itembank_question_card_unit">{{ question.unit.get_title }}</p>
-                    <p class="div_itembank_question_card_title">{{ question.id }}. {{ question.title }}</p>
-                    <p class="div_itembank_question_card_date">출제일 : {{ question.date_created|time_diff }}</p>
-                    <p class="div_itembank_question_card_user">출제자 : {{ question.user.first_name }}({{ question.user.email|slice:":5" }}**@****.***)</p>
+                <div class="div_itembank_question_card" qid="{{ question.id }}" onclick="addLine(this)" {% if question.src %}data-toggle="tooltip" data-placement="top" data-html="true" title="<img width=280 src='{{ question.src.url }}'>"{% endif %}>
+                    <p class="p_itembank_question_card_type" style="background-color:{{ question.type|get_type_color }}">{{ question.type }}</p><p class="div_itembank_question_card_unit">{{ question.unit.get_title }}</p>
+                    <p class="p_itembank_question_card_title">{{ question.id }}. {{ question.title }}</p>
+                    <p class="p_itembank_question_card_date">출제일 : {{ question.date_created|time_diff }}</p>
+                    <p class="p_itembank_question_card_user">출제자 : {{ question.user.first_name }}({{ question.user.email|slice:":5" }}**@****.***)</p>
+                    <div class="div_itembank_question_card_info">
+                        <p class="p_itembank_question_card_info_title">출제빈도</p>
+                        <p class="p_itembank_question_card_info_value">{{ question.get_testpaper_question|length }}<span style="font-size:12px">회</span></p>
+                    </div>
+                    <div class="div_itembank_question_card_info">
+                        <p class="p_itembank_question_card_info_title">피험자</p>
+                        <p class="p_itembank_question_card_info_value">{{ question.get_results|length }}<span style="font-size:12px">명</span></p>
+                    </div>
+                    <div class="div_itembank_question_card_info">
+                        <p class="p_itembank_question_card_info_title">난이도</p>
+                        <p class="p_itembank_question_card_info_value">{{ question.get_difficulty|floatformat:2 }}</p>
+                    </div>
                 </div>
             {% endfor %}
         {% else %}

@@ -2,7 +2,8 @@
 {% load staticfiles %}
 {% block content %}
     <div class="div_tab" id="div_itembank_testpaper_question_detail_tab">
-        <a class="a_tab_nav_btn" href="#" target="_self" id="a_tab_nav_btn_back" onclick="history.back();">< 이전</a> <span class="span_itembank_tab_title">시험지 풀기</span>
+        <a class="a_tab_nav_btn" href="#" target="_self" id="a_tab_nav_btn_back" onclick="history.go({% if not json_data %}-1{% else %}-2{% endif %});">< 이전</a> <span class="span_itembank_tab_title">시험지 풀기</span>
+        {% if testpaper.user == user or user.is_superuser %}<span class="pull-right" style="margin-right:30px"><a class="a_tab_nav_btn" href="/itembank/testpaper/analysis/{{ testpaper.id }}" target="_self" id="a_tab_nav_btn_analysis"><p>분석 결과보기</p><i class="xi-check-circle"></i></a></span>{% endif %}
     </div>
     <div class="col-lg-offset-2 col-lg-8 div_itembank_testpaper_detail">
         <form class="form-horizontal" method="post" id="form_itembank_testpaper_detail">

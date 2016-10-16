@@ -1,8 +1,9 @@
+import random
+
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import Q
 
-
-# Create your models here.
 from inc.main.models import get_or_none
 
 
@@ -99,17 +100,15 @@ class Content(models.Model):
 
     def get_items(self):
         if self.type == "answer_choice" :
-            return ChoiceItem.objects.filter(content=self)
+            arr = []
+            for ele in ChoiceItem.objects.filter(content=self,text=self.contents) :
+                arr.append(ele)
+            for ele in ChoiceItem.objects.filter(Q(content=self)&~Q(text=self.contents)).order_by('?')[:3] :
+                arr.append(ele)
+            random.shuffle(arr)
+            return arr
         elif self.type == "image" :
             return get_or_none(ImageItem,content=self)
-        else:
-            return None
-
-    def get_items_random(self):
-        if self.type == "answer_choice":
-            return ChoiceItem.objects.filter(content=self).order_by('?')
-        elif self.type == "image":
-            return get_or_none(ImageItem, content=self)
         else:
             return None
 

@@ -258,7 +258,7 @@ def itembank_testpaper_write(request):
                         contents = question.get_contents()
                         for content in contents:
                             if content.type == "answer_choice":
-                                items = content.get_items_random()
+                                items = content.get_items()
                                 for item in items :
                                     tqcs, created_3 = TestpaperQuestionChoiceItem.objects.get_or_create(testpaper_question=testpaper_question,choice_item=item)
             return HttpResponse("0")

@@ -18,9 +18,9 @@
                 <li>
                     <a class="a_tab_nav_btn" href="/evaluation/question/other/" target="_self" id="a_tab_nav_btn_other">다른사람이 출제한 문제 <span class="badge">{{ questions|length }}</span></a>
                 </li>
-                <li class="pull-right" style="margin-right:30px">
-                    <a class="a_tab_nav_btn" href="/evaluation/question/write/" target="_self" id="a_tab_nav_btn_add"><p>문제 출제하기</p><i class="xi-plus-circle"></i></a>
-                </li>
+{#                <li class="pull-right" style="margin-right:30px">#}
+{#                    <a class="a_tab_nav_btn" href="/evaluation/question/write/" target="_self" id="a_tab_nav_btn_add"><p>문제 출제하기</p><i class="xi-plus-circle"></i></a>#}
+{#                </li>#}
             {% endif %}
         </ul>
     </div>
@@ -31,14 +31,14 @@
                     <p class="p_evaluation_question_card_title">{{ question.id }}. {{ question.title }}</p>
                     <p class="p_evaluation_question_card_date">출제일시 : {{ question.date_created|time_diff }}</p>
                     <p class="p_evaluation_question_card_user">출제자 : {{ question.user.first_name }}({{ question.user.email|slice:":5" }}**@****.***)</p>
-                    <div class="div_evaluation_question_card_info">
-                        <p class="p_evaluation_question_card_info_title">출제빈도</p>
-                        <p class="p_evaluation_question_card_info_value">{{ question.get_testpaper_question|length }}<span style="font-size:12px">회</span></p>
-                    </div>
-                    <div class="div_evaluation_question_card_info">
-                        <p class="p_evaluation_question_card_info_title">피험자</p>
-                        <p class="p_evaluation_question_card_info_value">{{ question.get_results|length }}<span style="font-size:12px">명</span></p>
-                    </div>
+{#                    <div class="div_evaluation_question_card_info">#}
+{#                        <p class="p_evaluation_question_card_info_title">출제빈도</p>#}
+{#                        <p class="p_evaluation_question_card_info_value">{{ question.get_testpaper_question|length }}<span style="font-size:12px">회</span></p>#}
+{#                    </div>#}
+{#                    <div class="div_evaluation_question_card_info">#}
+{#                        <p class="p_evaluation_question_card_info_title">피험자</p>#}
+{#                        <p class="p_evaluation_question_card_info_value">{{ question.get_results|length }}<span style="font-size:12px">명</span></p>#}
+{#                    </div>#}
                 </div>
             {% endfor %}
         {% else %}

@@ -7,7 +7,8 @@
 {% block content %}
     <div class="div_tab" id="div_evaluation_question_detail_tab">
         <a class="a_tab_nav_btn" href="#" target="_self" id="a_tab_nav_btn_back" onclick="history.back();">< 이전</a> <span class="span_tab_title">문제 풀기</span>
-        <span class="pull-right" style="margin-right:30px"><a class="a_tab_nav_btn" href="#" target="_self" id="a_tab_nav_btn_run"><p>실행 결과보기</p><i class="xi-check-circle"></i></a></span>
+        <span class="pull-right" style="margin-right:30px"><a class="a_tab_nav_btn" href="#" target="_self" id="a_tab_nav_btn_run"><p>실행 결과보기</p><i class="xi-play-circle"></i></a></span>
+        {% if user.is_superuser and question %}<span class="pull-right" style="margin-right:30px"><a class="a_tab_nav_btn" href="/erroranalysis/analysis/{{ question.id }}" target="_self" id="a_tab_nav_btn_analysis"><p>분석 결과보기</p><i class="xi-check-circle"></i></a></span>{% endif %}
     </div>
     <div class="col-lg-12 div_evaluation_detail">
         <div class="col-lg-3 div_evaluation_detail_left">
@@ -80,9 +81,9 @@
 
         });
 
-    function codeRun(){
+        function codeRun(){
 
-    }
+        }
     </script>
 
 {% endblock %}

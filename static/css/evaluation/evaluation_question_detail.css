@@ -1,9 +1,9 @@
 #a_tab_nav_btn_back {margin:0;padding:0;line-height:80px;margin-left: 30px;height: 80px;font-weight:700;float:left;color:#000}
-#a_tab_nav_btn_back:hover {color:#f39c12;text-decoration: underline;}
+#a_tab_nav_btn_back:hover {color:#1abc9c;text-decoration: underline;}
 
-.div_tab #a_tab_nav_btn_run p {line-height: 80px;margin-right:5px;float: left;font-weight:700}
-.div_tab #a_tab_nav_btn_run:hover {color:#f39c12;}
-.div_tab #a_tab_nav_btn_run i {line-height: 80px;font-size:40px;color: #f39c12  }
+.div_tab .a_tab_nav_btn p {line-height: 80px;margin-right:5px;float: left;font-weight:700}
+.div_tab .a_tab_nav_btn:hover {color:#1abc9c;}
+.div_tab .a_tab_nav_btn i {line-height: 80px;font-size:40px;color: #1abc9c  }
 
 .div_evaluation_detail {margin-top:20px;background-color:#FFF;box-shadow: 2px 2px 30px 2px rgb(221, 224, 232);padding:0}
 
@@ -19,6 +19,8 @@
 
 .div_evaluation_detail_right {padding:0}
 .div_evaluation_detail_right_result {height: 250px;padding:0;overflow-y: auto;background-color: #272822;padding:10px 20px;border-top:2px solid #333}
-.p_evaluation_detail_right_result_title {color:#ccc;margin-bottom:10px;font-size:18px}
-.div_evaluation_detail_right_result pre {position: relative;margin-top: 5px;text-align: center;display: block;}
-.div_evaluation_detail_right_result pre {text-align: justify;padding: 5px 10px;border: 0;background-color: #23241f;word-break: break-word}
+.p_evaluation_detail_right_result_title {color:#ccc;padding-bottom: 10px;margin-bottom:10px;font-size:18px;border-bottom: 1px solid #34352d;}
+.div_evaluation_detail_right_result pre {position: relative;text-align: center;display: block;}
+.div_evaluation_detail_right_result pre {text-align: justify;border: 0;padding:0;margin:0}
+.div_evaluation_detail_right_result pre {width: 100%;border:0;background-color:transparent;overflow: visible;white-space: pre-wrap;white-space: -moz-pre-wrap;white-space: -pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;}
+.div_evaluation_detail_right_result pre .hljs {background-color:transparent;padding:0}

@@ -1,10 +1,10 @@
 .div_tab .ul_tab_nav li {display: inline-block;margin:0;padding:0;line-height:80px;margin-left: 30px;}
 .div_tab .a_tab_nav_btn {height: 80px;text-align:center;display: block;font-weight:700;vertical-align: middle;}
-.div_tab .a_tab_nav_btn:hover, .div_tab .a_tab_nav_btn.active {color:#f39c12;text-decoration: underline;}
-.div_tab .a_tab_nav_btn .badge {background-color: #f39c12;display:none}
+.div_tab .a_tab_nav_btn:hover, .div_tab .a_tab_nav_btn.active {color:#1abc9c;text-decoration: underline;}
+.div_tab .a_tab_nav_btn .badge {background-color: #1abc9c;display:none}
 .div_tab .a_tab_nav_btn.active .badge {display: inline-block;}
 .div_tab #a_tab_nav_btn_add p {line-height: 80px;margin-right:5px;float: left;}
-.div_tab #a_tab_nav_btn_add i {line-height: 80px;font-size:40px;color: #f39c12  }
+.div_tab #a_tab_nav_btn_add i {line-height: 80px;font-size:40px;color: #1abc9c  }
 
 .div_evaluation_question_box {width: 100%;padding: 10px;}
 .div_evaluation_question_box_none {text-align:center;font-size:20px;color: #a2a5ad;margin: 20px 0;}

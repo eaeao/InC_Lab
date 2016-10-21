@@ -2,11 +2,11 @@
 {% load main_extras %}
 {% load staticfiles %}
 {% block style %}
-    {% if appname != "itembank_question" %}<link rel="stylesheet" href="/static/css/system/itembank_question.css">{% endif %}
+    {% if appname != "itembank_question" %}<link rel="stylesheet" href="/static/css/itembank/itembank_question.css">{% endif %}
 {% endblock %}
 {% block content %}
     <div class="div_tab" id="div_itembank_question_tab">
-        <span class="span_itembank_tab_title">문제</span>
+        <span class="span_tab_title">문제</span>
         <ul class="ul_tab_nav">
             <li>
                 <a class="a_tab_nav_btn" href="/itembank/question/" target="_self" id="a_tab_nav_btn_all">전체 문제 <span class="badge">{{ questions|length }}</span></a>

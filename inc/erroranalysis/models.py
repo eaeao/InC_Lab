@@ -64,11 +64,11 @@ errorsanalysis_errors = [
     {'unit':"기타오류",'type':"ConnectionResetError",'msg':'오류 구분: 기타\nConnectionResetError - Raised when a connection is reset by the peer.\n%s'},
     {'unit':"기타오류",'type':"FileExistsError",'msg':'오류 구분: 기타\nFileExistsError - Raised when trying to create a file or directory which already exists.\n%s'},
     {'unit':"기타오류",'type':"FileNotFoundError",'msg':'오류 구분: 기타\nFileNotFoundError - Raised when a file or directory is requested but doesn’t exist.\n%s'},
-    {'unit':"기타오류",'type':"InterruptedError",'msg':'오류 구분: 기타\nInterruptedError - Raised when a system call is interrupted by an incoming signal.\n%s'},
+    {'unit':"기타오류",'type':"InterruptedError",'msg':'오류 구분: 기타\nInterruptedError - Raised when a itembank call is interrupted by an incoming signal.\n%s'},
     {'unit':"기타오류",'type':"IsADirectoryError",'msg':'오류 구분: 기타\nIsADirectoryError - Raised when a file operation (such as os.remove()) is requested on a directory.\n%s'},
     {'unit':"기타오류",'type':"NotADirectoryError",'msg':'오류 구분: 기타\nNotADirectoryError - Raised when a directory operation (such as os.listdir()) is requested on something which is not a directory.\n%s'},
     {'unit':"기타오류",'type':"PermissionError",'msg':'오류 구분: 기타\nPermissionError - Raised when trying to run an operation without the adequate access rights.\n%s'},
     {'unit':"기타오류",'type':"ProcessLookupError",'msg':'오류 구분: 기타\nProcessLookupError - Raised when a given process doesn’t exist.\n%s'},
-    {'unit':"기타오류",'type':"TimeoutError",'msg':'오류 구분: 기타\nTimeoutError - Raised when a system function timed out at the system level.\n%s'},
+    {'unit':"기타오류",'type':"TimeoutError",'msg':'오류 구분: 기타\nTimeoutError - Raised when a itembank function timed out at the itembank level.\n%s'},
     {'unit':"오류없음",'type':"Success",'msg':'오류없음'}
 ]

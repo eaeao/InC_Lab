@@ -1,0 +1,48 @@
+{% extends "evaluation.html" %}
+{% load main_extras %}
+{% load staticfiles %}
+{% block style %}
+    {% if appname != "evaluation_question" %}<link rel="stylesheet" href="/static/css/evaluation/evaluation_question.css">{% endif %}
+{% endblock %}
+{% block content %}
+    <div class="div_tab" id="div_evaluation_question_tab">
+        <span class="span_tab_title">문제</span>
+        <ul class="ul_tab_nav">
+            <li>
+                <a class="a_tab_nav_btn" href="/evaluation/question/" target="_self" id="a_tab_nav_btn_all">전체 문제 <span class="badge">{{ questions|length }}</span></a>
+            </li>
+            {% if user.profile.grade == 2 %}
+                <li>
+                    <a class="a_tab_nav_btn" href="/evaluation/question/mine/" target="_self" id="a_tab_nav_btn_mine">내가 출제한 문제 <span class="badge">{{ questions|length }}</span></a>
+                </li>
+                <li>
+                    <a class="a_tab_nav_btn" href="/evaluation/question/other/" target="_self" id="a_tab_nav_btn_other">다른사람이 출제한 문제 <span class="badge">{{ questions|length }}</span></a>
+                </li>
+                <li class="pull-right" style="margin-right:30px">
+                    <a class="a_tab_nav_btn" href="/evaluation/question/write/" target="_self" id="a_tab_nav_btn_add"><p>문제 출제하기</p><i class="xi-plus-circle"></i></a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="div_evaluation_question_box">
+        {% if questions %}
+            {% for question in questions %}
+                <div class="div_evaluation_question_card" {% if question.src %}data-toggle="tooltip" data-placement="top" data-html="true" title="<img width=280 src='{{ question.src.url }}'>"{% endif %} onclick="location.href='/evaluation/question/detail/{{ question.id }}';">
+                    <p class="p_evaluation_question_card_title">{{ question.id }}. {{ question.title }}</p>
+                    <p class="p_evaluation_question_card_date">출제일시 : {{ question.date_created|time_diff }}</p>
+                    <p class="p_evaluation_question_card_user">출제자 : {{ question.user.first_name }}({{ question.user.email|slice:":5" }}**@****.***)</p>
+                    <div class="div_evaluation_question_card_info">
+                        <p class="p_evaluation_question_card_info_title">출제빈도</p>
+                        <p class="p_evaluation_question_card_info_value">{{ question.get_testpaper_question|length }}<span style="font-size:12px">회</span></p>
+                    </div>
+                    <div class="div_evaluation_question_card_info">
+                        <p class="p_evaluation_question_card_info_title">피험자</p>
+                        <p class="p_evaluation_question_card_info_value">{{ question.get_results|length }}<span style="font-size:12px">명</span></p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="div_evaluation_question_box_none">출제된 문제가 없습니다.</p>
+        {% endif %}
+    </div>
+{% endblock %}

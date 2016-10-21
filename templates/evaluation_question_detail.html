@@ -1,0 +1,88 @@
+{% extends "evaluation.html" %}
+{% load staticfiles %}
+{% block style %}
+    <link rel="stylesheet" href="/static/css/codemirror.css">
+    <link href="/static/css/monokai-sublime.css" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <div class="div_tab" id="div_evaluation_question_detail_tab">
+        <a class="a_tab_nav_btn" href="#" target="_self" id="a_tab_nav_btn_back" onclick="history.back();">< 이전</a> <span class="span_tab_title">문제 풀기</span>
+        <span class="pull-right" style="margin-right:30px"><a class="a_tab_nav_btn" href="#" target="_self" id="a_tab_nav_btn_run"><p>실행 결과보기</p><i class="xi-check-circle"></i></a></span>
+    </div>
+    <div class="col-lg-12 div_evaluation_detail">
+        <div class="col-lg-3 div_evaluation_detail_left">
+            <div class="div_evaluation_detail_left_question">
+                <p class="div_evaluation_detail_left_question_title">문제</p>
+                <div class="div_evaluation_detail_left_question_centents">
+                    <pre>{{ question.content }}</pre>
+                </div>
+            </div>
+            <div class="div_evaluation_detail_left_example">
+                <p class="div_evaluation_detail_left_example_title">예시</p>
+                <div class="div_evaluation_detail_left_example_centents">
+                    <pre>{{ question.result_exec }}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9 div_evaluation_detail_right">
+            <div style="position:relative;width:100%">
+                <textarea id="div_evaluation_detail_right_contents" name="contents" style="display: none;"></textarea>
+            </div>
+            <div class="div_evaluation_detail_right_result" id="div_evaluation_detail_right_result">
+                <p class="p_evaluation_detail_right_result_title">실행결과</p>
+                <pre><code class='python'></code></pre>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/codemirror.js"></script>
+    <script src="/static/js/python.js"></script>
+    <script>
+        window.onkeydown = function() {
+            var kcode = event.keyCode;
+            if(kcode == 8 || kcode == 116) event.returnValue = false;
+        }
+
+        $(document).ready(function () {
+
+            var editor = CodeMirror.fromTextArea(document.getElementById("div_evaluation_detail_right_contents"), {
+                mode: {name: "python",
+                    version: 3,
+                    singleLineStringErrors: false},
+                theme:"monokai",
+                lineNumbers: true,
+                indentUnit: 4,
+                matchBrackets: true
+            });
+
+            editor.setSize("100%","350px");
+
+            editor.on("change", function(cm, change) { $("#div_evaluation_detail_right_contents").val(cm.getDoc().getValue());});
+
+            hljs.initHighlightingOnLoad();
+            $('pre code').each(function(i, block) {
+                hljs.highlightBlock(block);
+            });
+
+            $("#a_tab_nav_btn_run").click(function(){
+                $("#div_evaluation_detail_right_result code").text("Loading...");
+                $("#div_evaluation_detail_right_result code").load("/erroranalysis/result/"
+                        ,{"csrfmiddlewaretoken":$("#wrap > input[name=csrfmiddlewaretoken]").val(),'question':'{{ question.id }}',"contents":$("#div_evaluation_detail_right_contents").val()},
+                        function () {
+                            hljs.initHighlightingOnLoad();
+                            $('pre code').each(function(i, block) {
+                                hljs.highlightBlock(block);
+                            });
+                            var objDiv = document.getElementById("div_evaluation_detail_right_result");
+                            objDiv.scrollTop = objDiv.scrollHeight;
+                        });
+            });
+
+        });
+
+    function codeRun(){
+
+    }
+    </script>
+
+{% endblock %}

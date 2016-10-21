@@ -1,6 +1,6 @@
 import json
-
 from base64 import b64decode
+
 from django.core.files.base import ContentFile
 from django.db.models import Q
 from django.http import HttpResponse
@@ -10,12 +10,6 @@ from django.shortcuts import render
 from inc.itembank.models import Unit1, Unit2, Unit3, Question, Content, ChoiceItem, ImageItem, Testpaper, \
     TestpaperQuestion, TestpaperQuestionChoiceItem, TestpaperResult, TestpaperQuestionResult
 from inc.main.models import get_or_none, UserSchool
-
-system_info = {"title":"문제은행"
-    ,"menus":[
-        {'appname':'itembank',"title":"시험지","url":""}
-        ,{'appname':'itembank_item',"title":"문제","url":""}
-    ]}
 
 
 def itembank_question(request):
@@ -29,8 +23,6 @@ def itembank_question(request):
 
     context = {
         'user': request.user,
-        'lang': request.GET.get('lang'),
-        'info': system_info,
         'meta': {'title': '문제은행', 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
         'questions':questions,
         'appname': 'itembank_question'
@@ -48,8 +40,6 @@ def itembank_question_mine(request):
 
     context = {
         'user': request.user,
-        'lang': request.GET.get('lang'),
-        'info': system_info,
         'meta': {'title': '문제은행', 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
         'questions':questions,
         'appname': 'itembank_question_mine'
@@ -68,7 +58,6 @@ def itembank_question_other(request):
     context = {
         'user': request.user,
         'lang': request.GET.get('lang'),
-        'info': system_info,
         'meta': {'title': '문제은행', 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
         'questions':questions,
         'appname': 'itembank_question_other'
@@ -78,8 +67,6 @@ def itembank_question_other(request):
 def itembank_question_detail(request, qid=0):
     context = {
         'user': request.user,
-        'lang': request.GET.get('lang'),
-        'info': system_info,
         'meta': {'title': '문제 #%s'%qid, 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
         'question':get_or_none(Question,id=qid),
         'appname': 'itembank_question_detail'
@@ -132,8 +119,6 @@ def itembank_question_write(request):
     else:
         context = {
             'user': request.user,
-            'lang': request.GET.get('lang'),
-            'info': system_info,
             'meta': {'title': '문제 만들기', 'con': '문제 만들기입니다.', 'image': '/static/img/ku.jpg'},
             'appname': 'itembank_question_write'
         }
@@ -191,8 +176,6 @@ def itembank_testpaper(request):
 
     context = {
         'user': request.user,
-        'lang': request.GET.get('lang'),
-        'info': system_info,
         'meta': {'title': '문제은행', 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
         'testpapers':testpapers,
         'appname': 'itembank_testpaper'
@@ -210,8 +193,6 @@ def itembank_testpaper_mine(request):
 
     context = {
         'user': request.user,
-        'lang': request.GET.get('lang'),
-        'info': system_info,
         'meta': {'title': '문제은행', 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
         'testpapers':testpapers,
         'appname': 'itembank_testpaper_mine'
@@ -229,8 +210,6 @@ def itembank_testpaper_other(request):
 
     context = {
         'user': request.user,
-        'lang': request.GET.get('lang'),
-        'info': system_info,
         'meta': {'title': '문제은행', 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
         'testpapers':testpapers,
         'appname': 'itembank_testpaper_other'
@@ -269,8 +248,6 @@ def itembank_testpaper_write(request):
 
     context = {
         'user': request.user,
-        'lang': request.GET.get('lang'),
-        'info': system_info,
         'meta': {'title': '문제은행', 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
         'questions':questions,
         'appname': 'itembank_testpaper_write'
@@ -303,7 +280,6 @@ def itembank_testpaper_detail(request, tpid=0):
     context = {
         'user': request.user,
         'lang': request.GET.get('lang'),
-        'info': system_info,
         'meta': {'title': '시험지 #%s'%tpid, 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
         'testpaper':testpaper,
         'results':TestpaperResult.objects.filter(user=request.user,testpaper=testpaper),
@@ -318,8 +294,6 @@ def itembank_testpaper_analysis(request, tpid=0):
 
     context = {
         'user': request.user,
-        'lang': request.GET.get('lang'),
-        'info': system_info,
         'meta': {'title': '시험지 #%s'%tpid, 'con': '문제은행입니다.', 'image': '/static/img/ku.jpg'},
         'testpaper':testpaper,
         'results':TestpaperResult.objects.filter(user=request.user,testpaper=testpaper),

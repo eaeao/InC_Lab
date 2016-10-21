@@ -1,36 +1,79 @@
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-# Create your views here.
-from inc.erroranalysis.views import erroranalysis, get_input_cases, get_compile_result
+from inc.erroranalysis.views import get_input_cases, get_compile_result
 from inc.evaluation.models import EvaluationQuestion, EvaluationRecord
 from inc.main.models import get_or_none
 from inc.main.views import get_menu
 
 
-def evaluation(request):
+def evaluation_question(request):
     if request.user.id :
         if not request.user.get_school():
             return HttpResponseRedirect('/auth/register/school/?come_from=/evaluation/')
+    else :
+        return HttpResponseRedirect('/auth/login/?come_from=/evaluation/')
 
     questions = EvaluationQuestion.objects.all().order_by("-id")
-    my_questions = []
-    if request.user.id: my_questions = EvaluationQuestion.objects.filter(user=request.user).order_by("-id")
 
     context = {
         'user': request.user,
         'lang': request.GET.get('lang'),
-        'menus': get_menu(),
         'questions': questions,
-        'my_questions': my_questions,
         'meta': {'title': '프로그래밍 평가', 'con': '프로그래밍 평가입니다.', 'image': '/static/img/ku.jpg'},
-        'appname': 'evaluation'
+        'appname': 'evaluation_question'
     }
-    return render(request, 'evaluation.html', context)
+    return render(request, 'evaluation_question.html', context)
+
+def evaluation_question_mine(request):
+    if request.user.id :
+        if not request.user.get_school():
+            return HttpResponseRedirect('/auth/register/school/?come_from=/evaluation/')
+    else :
+        return HttpResponseRedirect('/auth/login/?come_from=/evaluation/')
+
+    questions = EvaluationQuestion.objects.filter(user=request.user).order_by("-id")
+
+    context = {
+        'user': request.user,
+        'lang': request.GET.get('lang'),
+        'questions': questions,
+        'meta': {'title': '프로그래밍 평가', 'con': '프로그래밍 평가입니다.', 'image': '/static/img/ku.jpg'},
+        'appname': 'evaluation_question_mine'
+    }
+    return render(request, 'evaluation_question.html', context)
+
+def evaluation_question_other(request):
+    if request.user.id :
+        if not request.user.get_school():
+            return HttpResponseRedirect('/auth/register/school/?come_from=/evaluation/')
+    else :
+        return HttpResponseRedirect('/auth/login/?come_from=/evaluation/')
+
+    questions = EvaluationQuestion.objects.filter(~Q(user=request.user)).order_by("-id")
+
+    context = {
+        'user': request.user,
+        'lang': request.GET.get('lang'),
+        'questions': questions,
+        'meta': {'title': '프로그래밍 평가', 'con': '프로그래밍 평가입니다.', 'image': '/static/img/ku.jpg'},
+        'appname': 'evaluation_question_other'
+    }
+    return render(request, 'evaluation_question.html', context)
 
 
-def evaluation_detail(request, qid=None):
-    return erroranalysis(request, qid)
+def evaluation_question_detail(request, qid=None):
+    question = get_or_none(EvaluationQuestion, id=qid)
+
+    context = {
+        'user': request.user,
+        'lang': request.GET.get('lang'),
+        'question': question,
+        'meta': {'title': '프로그래밍 평가', 'con': '프로그래밍 평가입니다.', 'image': '/static/img/ku.jpg'},
+        'appname': 'evaluation_question_detail'
+    }
+    return render(request, 'evaluation_question_detail.html', context)
 
 
 def evaluation_result(request, qid=None):

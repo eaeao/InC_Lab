@@ -65,3 +65,4 @@ build/
 settings_secret.py
 .settings.py.swp
 *.apk
+*.sql

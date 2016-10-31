@@ -79,6 +79,14 @@ def evaluation_question_detail(request, qid=None):
     }
     return render(request, 'evaluation_question_detail.html', context)
 
+def evaluation_question_detail_editor(request):
+    question = get_or_none(EvaluationQuestion, id=request.POST.get("qid",None))
+    context = {
+        'user': request.user,
+        'question': question,
+    }
+    return render(request, 'evaluation_question_detail_editor.html', context)
+
 
 def evaluation_result(request, qid=None):
     question = get_or_none(EvaluationQuestion,id=int(qid))

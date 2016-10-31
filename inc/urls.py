@@ -69,6 +69,7 @@ urlpatterns = [
     url(r'^evaluation/question/mine/', evaluationview.evaluation_question_mine),
     url(r'^evaluation/question/other/', evaluationview.evaluation_question_other),
     url(r'^evaluation/question/detail/(?P<qid>\d+)$', evaluationview.evaluation_question_detail),
+    url(r'^evaluation/question/detail/editor/$', evaluationview.evaluation_question_detail_editor),
     # url(r'^evaluation/question/write/$', evaluationview.itembank_question_write),
     # url(r'^evaluation/question/write/selects/$', evaluationview.itembank_write_selects),
     # url(r'^evaluation/question/delete/(?P<qid>\d+)$', evaluationview.itembank_delete),

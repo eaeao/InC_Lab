@@ -1,11 +1,15 @@
+from django.core.paginator import Paginator
 from django.db.models import Q
+from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
+from inc.erroranalysis.models import ErrorAnalysisResult
 from inc.erroranalysis.views import get_input_cases, get_compile_result
 from inc.evaluation.models import EvaluationQuestion, EvaluationRecord
 from inc.main.models import get_or_none
 from inc.main.views import get_menu
+from static.js.evaluation.Lib.re import escape
 
 
 def evaluation_question(request):
@@ -120,3 +124,39 @@ def evaluation_write(request):
         'appname': 'evaluation_write'
     }
     return render(request, 'evaluation_write.html', context)
+
+
+def evaluation_run(request):
+    contents = request.POST.get('contents','')
+    error_type = request.POST.get('error_type', '')
+    result = request.POST.get('result', '')
+    qid = request.POST.get('question')
+    question = None
+    if qid :
+        question = get_or_none(EvaluationQuestion, id=int(qid))
+
+    if request.user.id and question:
+        last_result = ErrorAnalysisResult.objects.filter(user=request.user, question=question).order_by("-id")
+        if last_result :
+            if last_result[0].code != contents :
+                if question :
+                    ear, created = ErrorAnalysisResult.objects.get_or_create(user=request.user, question=question, code=contents, type=error_type, msg=result)
+        else :
+            ear, created = ErrorAnalysisResult.objects.get_or_create(user=request.user, question=question,
+                                                                     code=contents, type=error_type, msg=result)
+
+    return HttpResponse(escape(result))
+
+
+def evaluation_table(request,page=1):
+    page = int(page)
+
+    ears = ErrorAnalysisResult.objects.all().order_by('-id')
+    ears = Paginator(ears, 300)
+    ears = ears.page(page)
+
+    context = {
+        'user': request.user,
+        'ears':ears,
+    }
+    return render(request, 'evaluation_table.html', context)

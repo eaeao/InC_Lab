@@ -1,5 +1,6 @@
 {% load staticfiles %}
-<p class="p_erroranalysis_analsis_user">작성자 : {{ error_user.first_name }} ({{ error_user.email }})</p>
+<p class="p_erroranalysis_analsis_user">{{ error_user.get_school.school }} {{ error_user.get_school.year }}학년 {{ error_user.get_school.div }}</p>
+<p class="p_erroranalysis_analsis_user">{{ error_user.first_name }} ({{ error_user.email }})</p>
 <b><font color = blue><오 류 구 분>-----------------------------------------------------------------------------------------</font></b><br>
 {% for key, value in units.items %}
     {{ key }} : {{ value }}<br>
@@ -13,13 +14,14 @@
 <div class="div_diffoutput">
 
 </div>
+<textarea class="hidden" id="ta_code_0" error=""></textarea>
 {% for ear in ears %}
-    <textarea class="hidden" id="ta_code_{{ forloop.counter0 }}" error="{{ ear.type }}">{{ ear.code }}</textarea>
+    <textarea class="hidden" id="ta_code_{{ forloop.counter }}" error="{{ ear.type }}">{{ ear.code }}</textarea>
 {% endfor %}
 <script>
     (function() {
         var ears_length = {{ ears|length }};
-        for (var i=0;i<ears_length-1;i++){
+        for (var i=0;i<ears_length;i++){
             diffUsingJS(i,$('#ta_code_'+i).val(),$('#ta_code_'+(i+1)).val(),$('#ta_code_'+i).attr("error"),$('#ta_code_'+(i+1)).attr("error"));
         }
     })();
@@ -34,8 +36,8 @@
             baseTextLines:base
             ,newTextLines:newtxt
             ,opcodes:opcodes
-            ,baseTextName:"코드"+(no+1)+" : "+baseerr
-            ,newTextName:"코드"+(no+2)+" : "+newerr
+            ,baseTextName:"코드"+(no)+" : "+baseerr
+            ,newTextName:"코드"+(no+1)+" : "+newerr
             ,contextSize:null
             ,viewType:$("inline").checked?1:0
         }));

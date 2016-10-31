@@ -5,9 +5,9 @@
 .div_tab .a_tab_nav_btn:hover {color:#1abc9c;}
 .div_tab .a_tab_nav_btn i {line-height: 80px;font-size:40px;color: #1abc9c  }
 
-.div_evaluation_detail {margin-top:20px;background-color:#FFF;box-shadow: 2px 2px 30px 2px rgb(221, 224, 232);padding:0}
+.div_evaluation_detail {margin-top:20px;background-color: #272822;box-shadow: 2px 2px 30px 2px rgb(221, 224, 232);padding:0;}
 
-.div_evaluation_detail_left {padding:0}
+.div_evaluation_detail_left {padding:0;background-color: #FFF;}
 .div_evaluation_detail_left_question {height:350px;border-bottom:1px solid #ddd;}
 .div_evaluation_detail_left_question_title {color:#666;padding:10px 20px;border-bottom:1px solid #ddd;font-size:18px}
 .div_evaluation_detail_left_question_centents {height: 303px;overflow-y: auto;padding:10px;}
@@ -17,8 +17,8 @@
 .div_evaluation_detail_left_example_centents {height:204px;overflow-y: auto;padding:10px}
 .div_evaluation_detail_left_example_centents pre {width: 100%;border:0;background-color:transparent;overflow: visible;white-space: pre-wrap;white-space: -moz-pre-wrap;white-space: -pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;}
 
-.div_evaluation_detail_right {padding:0}
-.div_evaluation_detail_right_result {height: 250px;padding:0;overflow-y: auto;background-color: #272822;padding:10px 20px;border-top:2px solid #333}
+.div_evaluation_detail_right {padding:0;}
+.div_evaluation_detail_right_result {height: 250px;overflow-y: auto;padding:10px 20px;border-top:2px solid #333;}
 .p_evaluation_detail_right_result_title {color:#ccc;padding-bottom: 10px;margin-bottom:10px;font-size:18px;border-bottom: 1px solid #34352d;}
 .div_evaluation_detail_right_result pre {position: relative;text-align: center;display: block;}
 .div_evaluation_detail_right_result pre {text-align: justify;border: 0;padding:0;margin:0}

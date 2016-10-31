@@ -98,3 +98,13 @@ def get_testpaper_results(testpaper,user):
     if user != None :
         return TestpaperResult.objects.filter(user=user,testpaper=testpaper)
     return TestpaperResult.objects.filter(testpaper=testpaper)
+
+@register.filter
+def get_last_line(arg1):
+    tmp = arg1.split('\n')
+    return tmp[-1]
+
+@register.filter
+def get_diff_msg(msg,exec):
+    if msg == exec : return ""
+    else : return msg

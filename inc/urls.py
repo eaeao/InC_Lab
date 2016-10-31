@@ -74,6 +74,8 @@ urlpatterns = [
     # url(r'^evaluation/question/delete/(?P<qid>\d+)$', evaluationview.itembank_delete),
     url(r'^evaluation/result/(?P<qid>\d+)$', evaluationview.evaluation_result),
     url(r'^evaluation/write/$', evaluationview.evaluation_write),
+    url(r'^evaluation/run/$', evaluationview.evaluation_run),
+    url(r'^evaluation/table/(?P<page>.*)$', evaluationview.evaluation_table),
     url(r'^epl/(?P<eplname>[\w\-]+)/$', eplview.epl),
     url(r'^test/$', mainview.test),
     url(r'^JudgeOnline/$', mainview.JudgeOnline),

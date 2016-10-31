@@ -1,0 +1,35 @@
+{% load main_extras %}
+{% load staticfiles %}
+<style>
+    table td {text-align:center}
+</style>
+<table border="1" width="100%">
+    <thead><td>id</td><td>문제번호</td><td>문제제목</td><td>유저번호</td><td>이름</td><td>성별</td><td>학교</td><td>학년</td><td>오류</td><td>오류내용</td><td>일시</td></thead>
+    {% for ear in ears %}
+        {% if ear.msg|get_diff_msg:ear.question.result_exec != "" %}<tr>
+            <td><a href="/admin/erroranalysis/erroranalysisresult/{{ ear.id }}/change/" target="_blank">{{ ear.id }}</a></td>
+            <td>{{ ear.question.id }}</td>
+            <td>{{ ear.question.title }}</td>
+            <td>{{ ear.user.id }}</td>
+            <td>{{ ear.user.first_name }}</td>
+            <td>{{ ear.user.profile.gender|add:"1" }}</td>
+            <td>{{ ear.user.get_school.school }}</td>
+            <td>{{ ear.user.get_school.year }}</td>
+            <td>{{ ear.type }}</td>
+            <td>{% if ear.type != "Success" %}{{ ear.msg|get_last_line }}{% else %}{{ ear.msg|get_diff_msg:ear.question.result_exec|slice:":100" }}{% endif %}</td>
+            <td>{{ ear.date_created|date:"Y-m-d H:i:s" }}</td>
+        </tr>{% endif %}{% endfor %}
+</table>
+{% if ears %}
+    <div class="paginate_complex">
+        <a href="{% if ears.has_previous %}/evaluation/table/{{ ears.previous_page_number }}{% endif %}" class="direction prev"><span></span> 이전</a>
+        {% for pn in ears.paginator.page_range %}
+            {% if pn == ears.number %}
+                <strong><a href="/evaluation/table/{{ pn }}">{{ pn }}</a></strong>
+            {% else %}
+                <a href="/evaluation/table/{{ pn }}">{{ pn }}</a>
+            {% endif %}
+        {% endfor %}
+        <a href="{% if ears.has_next %}/evaluation/table/{{ ears.next_page_number }}{% endif %}" class="direction next">다음 <span></span></a>
+    </div>
+{% endif %}

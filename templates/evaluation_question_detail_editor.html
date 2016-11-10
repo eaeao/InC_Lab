@@ -84,7 +84,7 @@ if storage is not None and "question_{{ question.id }}" in storage:
 class cOutput:
 
     def write(self, data):
-        doc["code_evaluation_detail_right_result_code"].html += str(data)
+        doc["code_evaluation_detail_right_result_code"].text += str(data)
 
     def flush(self):
         pass

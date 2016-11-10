@@ -159,7 +159,7 @@ def evaluation_run(request):
 def evaluation_table(request,page=1):
     page = int(page)
 
-    ears = ErrorAnalysisResult.objects.all().order_by('-id')
+    ears = ErrorAnalysisResult.objects.filter(~Q(user__profile__grade=2)).order_by('id')
     ears = Paginator(ears, 300)
     ears = ears.page(page)
 

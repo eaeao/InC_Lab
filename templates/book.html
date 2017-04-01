@@ -23,7 +23,7 @@
             <h1>{{ menu|set_menu_title:lang }}</h1>
             <p class="text-right"><button class="btn btn-sm pull-right" onclick="search($('#input_book_query').val())">검색</button><input type="text" id="input_book_query" class="form-control input-sm pull-right" placeholder="검색어"> </p>
             <div class="div_book_list">
-                <p class="p_book_subtitle" style="margin-top:0">{% if lang == 'en' %}Book{% elif lang == 'jp' %}著書{% else %}저서{% endif %}</p>
+                <p class="p_book_subtitle" style="margin-top:0">{% if lang == 'en' %}Book{% elif lang == 'ja' %}著書{% else %}저서{% endif %}</p>
                 {% for book in books %}
                     <div class="col-sm-6" style="margin:20px 0">
                         <a href="{{ book.link }}" target="_blank">

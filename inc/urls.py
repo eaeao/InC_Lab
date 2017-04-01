@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.views.generic import TemplateView
 
 from inc import settings
 from inc.epl import views as eplview
@@ -32,6 +33,7 @@ urlpatterns = [
     url(r'^auth/logout/$', mainview.auth_logout),
     url(r'^auth/register/$', mainview.auth_register),
     url(r'^auth/register/school/$', mainview.auth_register_school),
+    url(r'^auth/register/guest/$', mainview.auth_register_guest),
     url(r'^paper/$', mainview.paper),
     url(r'^paper/add/$', mainview.paper_add),
     url(r'^book/$', mainview.book),
@@ -49,6 +51,7 @@ urlpatterns = [
     url(r'^itembank/testpaper/write/$', itembankview.itembank_testpaper_write),
     url(r'^itembank/testpaper/detail/(?P<tpid>\d+)$', itembankview.itembank_testpaper_detail),
     url(r'^itembank/testpaper/analysis/(?P<tpid>\d+)$', itembankview.itembank_testpaper_analysis),
+    url(r'^itembank/testpaper/analysis/(?P<tpid>\d+)/each/(?P<tprid>\d+)$', itembankview.itembank_testpaper_analysis),
     url(r'^menu/(?P<menu_id>\d+)$', mainview.menu),
     url(r'^menu/edit/(?P<menu_id>\d+)$', mainview.page_edit),
     url(r'^page/upload/$', mainview.page_upload),
@@ -80,5 +83,9 @@ urlpatterns = [
     url(r'^epl/(?P<eplname>[\w\-]+)/$', eplview.epl),
     url(r'^test/$', mainview.test),
     url(r'^JudgeOnline/$', mainview.JudgeOnline),
+    #url(r'^.well-known/acme-challenge/iERfNORFKWSYl3HGQ25XY1TC5y4NXWWH-2-ZbZmOSCw', mainview.ssl),
+    url(r'^robots.txt$', mainview.robots),
+    url(r'^sitemap.xml$', TemplateView.as_view(template_name='sitemap.xml', content_type='text/xml')),
+    url(r'^googlea0ee84472ba0b9fa.html$', TemplateView.as_view(template_name='googlea0ee84472ba0b9fa.html', content_type='text/html')),
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
 ]

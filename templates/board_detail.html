@@ -20,7 +20,7 @@
     </div>
     <div class="col-md-10">
         <div class="div_feed">
-            <p class="p_body_title">{{ board.title }}</p>
+            <p class="p_body_title">{{ board.title|translate_language:lang }}</p>
             <div class="div_body_info dropdown">
                 <a id="reporter" role="button" data-toggle="dropdown" href="#">{{ board.user.first_name }}</a> | 조회수:{{ board.hits }} | {{ board.date_updated|date:"Y-m-d H:i:s" }}
                 <ul id="menu2" class="dropdown-menu" role="menu" aria-labelledby="reporter">

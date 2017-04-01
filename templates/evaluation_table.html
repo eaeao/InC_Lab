@@ -3,10 +3,11 @@
 {% if user.is_superuser %}
     <style>
         table td {text-align:center}
-        .td_error_contents {width:20%;word-break: break-word;}
+        .td_error_contents {width:20%;max-width:800px;word-break: break-word;text-align:left}
+    .td_error_code {width:20%;text-align: left;word-break: break-word;}
     </style>
     <table border="1" width="100%">
-        <thead><td>id</td><td>문제번호</td><td>문제제목</td><td>유저번호</td><td>이름</td><td>성별</td><td>학교</td><td>학년</td><td>오류</td><td class="td_error_contents">오류내용</td><td>일시</td></thead>
+        <thead><td>id</td><td>문제번호</td><td>문제제목</td><td>유저번호</td><td>이름</td><td>성별</td><td>학교</td><td>학년</td><td>오류</td><td class="td_error_contents">오류내용</td><td>코드</td><td>일시</td></thead>
         {% for ear in ears %}
             {% if ear.msg|get_diff_msg:ear.question.result_exec != "" %}<tr>
                 <td><a href="/admin/erroranalysis/erroranalysisresult/{{ ear.id }}/change/" target="_blank">{{ ear.id }}</a></td>
@@ -18,7 +19,8 @@
                 <td>{{ ear.user.get_school.school }}</td>
                 <td>{{ ear.user.get_school.year }}</td>
                 <td>{{ ear.type }}</td>
-                <td class="td_error_contents">{% if ear.type != "Success" %}{{ ear.msg|get_last_line }}{% else %}{{ ear.msg|slice:":100" }}{% endif %}</td>
+                <td class="td_error_contents"><pre>{% if ear.type != "Success" %}{{ ear.msg|get_last_line }}{% else %}{{ ear.msg|slice:":100" }}{% endif %}</pre></td>
+                <td class="td_error_code"><textarea style="width:100%;min-width:300px;height:100px">{{ ear.code }}</textarea></td>
                 <td>{{ ear.date_created|date:"Y-m-d H:i:s" }}</td>
             </tr>{% endif %}{% endfor %}
     </table>

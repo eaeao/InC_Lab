@@ -65,6 +65,7 @@
         $(document).ready(function () {
             CKEDITOR.replace( 'input_con' );
             CKEDITOR.config.contentsCss = '/static/css/board_detail.css' ;
+            CKEDITOR.config.allowedContent = true;
             CKEDITOR.config.startupMode = 'source';
             CKEDITOR.config.height = 500;
             CKEDITOR.config.font_names =

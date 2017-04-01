@@ -16,7 +16,7 @@
             {% for ele in list %}
                 <tr class="div_list_click" onclick="link('/board/detail/{{ ele.id }}{{ ""|get_url_lang:lang }}','_blank');">
                     <td align="center" width="60px">{{ ele.id }}</td>
-                    <td>{{ ele.title|safe }} {% if ele.get_reply %}<span class="span_list_reply">[{{ ele.get_reply|length }}]</span>{% endif %}</td>
+                    <td>{{ ele.title|safe|translate_language:lang }} {% if ele.get_reply %}<span class="span_list_reply">[{{ ele.get_reply|length }}]</span>{% endif %}</td>
                     <td align="center">{% for file in ele.get_files %}<i class="{{ file.src.url|get_type_icon }}" title="{{ file.get_name }}"></i>{% endfor %}</td>
                     <td align="center">{{ ele.user.first_name }}</td>
                     <td align="center">{{ ele.date_updated|date:"Y-m-d H:i:s" }}</td>

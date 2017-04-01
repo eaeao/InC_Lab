@@ -35,7 +35,7 @@
                     {% for ele in list %}
                         <tr class="div_list_click" onclick="location.href='/board/detail/{{ ele.id }}{{ ""|get_url_lang:lang }}';">
                             <td align="center" width="60px">{{ ele.id }}</td>
-                            <td>{{ ele.title|safe }} {% if ele.get_reply %}<span class="span_list_reply">[{{ ele.get_reply|length }}]</span>{% endif %}</td>
+                            <td>{{ ele.title|safe|translate_language:lang }} {% if ele.get_reply %}<span class="span_list_reply">[{{ ele.get_reply|length }}]</span>{% endif %}</td>
                             <td align="center" width="100px">{{ ele.user.first_name }}</td>
                             <td align="center" width="170px">{{ ele.date_updated|date:"Y-m-d H:i:s" }}</td>
                             <td align="center" width="100px">{{ ele.hits }}</td>

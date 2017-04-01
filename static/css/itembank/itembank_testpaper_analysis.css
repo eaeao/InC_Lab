@@ -2,45 +2,12 @@
 
 #a_tab_nav_btn_back {margin:0;padding:0;line-height:80px;margin-left: 30px;height: 80px;font-weight:700;float:left;color:#000}
 #a_tab_nav_btn_back:hover {color:#426aea;text-decoration: underline;}
-.div_tab #a_tab_nav_btn_analysis p {line-height: 80px;margin-right:5px;float: left;font-weight:700}
-.div_tab #a_tab_nav_btn_analysis:hover {color:#426aea;}
-.div_tab #a_tab_nav_btn_analysis i {line-height: 80px;font-size:40px;color: #426aea  }
+.div_tab .ul_tab_nav li {display: inline-block;margin:0;padding:0;line-height:80px;margin-left: 30px;}
+.div_tab .a_tab_nav_btn {height: 80px;text-align:center;display: block;font-weight:700;vertical-align: middle;}
+.div_tab .a_tab_nav_btn:hover, .div_tab .a_tab_nav_btn.active {color:#426aea;text-decoration: underline;}
+.div_tab .a_tab_nav_btn .badge {background-color: #426aea;display:none}
+.div_tab .a_tab_nav_btn.active .badge {display: inline-block;}
 
-.div_itembank_testpaper_detail {margin-top:20px;background-color:#FFF;box-shadow: 2px 2px 30px 2px rgb(221, 224, 232);padding:20px 20px}
-
-.div_itembank_testpaper_detail_head {border-bottom:1px solid #ddd;}
-.div_itembank_testpaper_detail_head_title {text-align:center;padding:20px 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;}
-.p_itembank_testpaper_detail_head_info {text-align:center;font-size: 16px;padding: 10px 0;}
-#input_itembank_testpaper_detail_head_school {font-size: 16px;width: 200px;text-align: right;display: inline-block;border: 0;}
-#input_itembank_testpaper_detail_head_year {font-size: 16px;width: 40px;text-align: right;display: inline-block;border: 0;}
-#input_itembank_testpaper_detail_head_div {font-size: 16px;width: 200px;text-align: left;display: inline-block;border: 0;}
-
-.div_itembank_testpaper_detail_contents {min-height: 120px;background-color: #F5F5F5;border-radius: 10px;padding: 20px 20px;margin-bottom: 20px;}
-
-.p_itembank_testpaper_detail_contents_unit {font-size: 13px;color: #999;margin-bottom: 5px;}
-.p_itembank_testpaper_detail_contents_title {font-size:18px;margin-bottom: 10px;}
-.span_itembank_testpaper_detail_contents_content {position: relative;margin-top: 5px;font-size:14px;font-weight:normal;word-break: break-word;display: block;}
-.p_itembank_testpaper_detail_contents_text {position: relative;margin-top: 5px;border: 3px dotted #CCCCCC;text-align: center;display: block;}
-.p_itembank_testpaper_detail_contents_text {text-align: justify;padding: 5px 10px;border:2px solid #e4e4e4;background-color: #FFF;word-break: break-word;}
-.pre_itembank_testpaper_detail_contents_code {position: relative;margin-top: 5px;border: 3px dotted #CCCCCC;text-align: center;display: block;}
-.pre_itembank_testpaper_detail_contents_code {text-align: justify;padding: 5px 10px;border:2px solid #e4e4e4;background-color: #ffffff;word-break: break-word;}
-.p_itembank_testpaper_detail_contents_image {position: relative;margin-top: 5px;border: 3px dotted #CCCCCC;text-align: center;display: block;}
-.p_itembank_testpaper_detail_contents_image img {max-width: 100%;max-height:200px;}
-.p_itembank_testpaper_detail_contents_image {padding: 30px;border:2px solid #e4e4e4;background-color: #FFF}
-.i_itembank_testpaper_detail_contents_statement_extend {position: absolute;top: 15px;right: 15px;font-size: 25px;color: #ccc;cursor:pointer}
-.i_itembank_testpaper_detail_contents_statement_extend:hover {color: #666;}
-.input_itembank_testpaper_detail_contents_answer_text {position: relative;margin-top: 5px;}
-.input_itembank_testpaper_detail_contents_answer_textarea {position: relative;width:100%;max-width:100%;margin-top: 5px;}
-
-
-#div_itembank_testpaper_detail_extend_modal img {width:100%;}
-
-.div_itembank_testpaper_detail_contents_items {margin-top: 15px;}
-.div_itembank_testpaper_detail_contents_item {background-color:#FFF;margin: 4px 0;padding: 10px;border: 2px solid #e4e4e4;cursor: pointer;}
-.div_itembank_testpaper_detail_contents_item:hover {border: 2px solid #2489C5;}
-.div_itembank_testpaper_detail_contents_item.checked {border: 2px solid #2489C5;}
-.iradio_square-blue {margin-right:5px}
-
-#input_itembank_testpaper_detail_contents_answer {margin-top: 20px;}
-
-#button_itembank_testpaper_detail_submit {width:100%}
+.div_itembank_testpaper_analysis {margin-top:20px;background-color:#FFF;box-shadow: 2px 2px 30px 2px rgb(221, 224, 232);padding:20px 20px}
+.div_itembank_testpaper_analysis_part {padding:30px 20px;border-bottom: 1px solid #eee;}
+.p_itembank_testpaper_analysis_part_title {font-size: 16px;font-weight:700;margin-bottom: 10px;}

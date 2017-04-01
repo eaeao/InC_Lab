@@ -1,4 +1,3 @@
-import os
 import time
 from operator import itemgetter
 
@@ -8,22 +7,17 @@ from django.core.files.base import ContentFile
 from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect,HttpResponse
 from django.shortcuts import render
-
-# Create your views here.
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 
-from inc import settings
 from inc.main.models import UserProfile, Menu, Page, get_or_none, DocPaper, Board, BoardFile, BoardReply, \
     TYPE_IN_PAPER_CHOICES, DocBook, GRADE_IN_SCHOOL_CHOICES, UserSchool
-from inc.main.templatetags.main_extras import set_menu_title
+from inc.main.templatetags.main_extras import set_menu_title, translate_language
 
 
 def main(request):
-    if not request.user.id :
-        return HttpResponseRedirect('/auth/login/?from=/auth/login/')
-    elif not request.user.is_superuser :
-        return HttpResponseRedirect('/menu/1')
+
+    lang = request.GET.get('lang')
 
     menu_icons = [
         'xi-chart-pyramid',
@@ -35,6 +29,7 @@ def main(request):
         'xi-code',
         'xi-tagged-book'
     ]
+
 
     boards = BoardFile.objects.values('board').distinct()
     board_archive = Board.objects.filter(id__in=boards).order_by("-date_updated")
@@ -51,29 +46,30 @@ def main(request):
     board_recent = Board.objects.all().order_by("-date_updated")[:5]
     page_recent = Page.objects.all().order_by("-date_created")[:5]
     for ele in board_recent :
-        latests.append({"unit":ele.menu.title,"title":ele.title,"url":"/board/detail/%d"%ele.id,"date":ele.date_updated})
+        latests.append({"unit":set_menu_title(ele.menu, lang),"title":translate_language(ele.title, lang),"url":"/board/detail/%d"%ele.id,"date":ele.date_updated})
     for ele in page_recent:
         if ele.menu.parent :
-            latests.append({"unit": ele.menu.parent.title, "title": ele.menu.title,"url":"/menu/%d"%ele.menu.id,"date": ele.date_created})
+            latests.append({"unit": set_menu_title(ele.menu.parent, lang), "title": set_menu_title(ele.menu, lang),"url":"/menu/%d"%ele.menu.id,"date": ele.date_created})
         else :
-            latests.append({"unit": ele.menu.title, "title": ele.menu.title, "url": "/menu/%d" % ele.menu.id,
+            latests.append({"unit": set_menu_title(ele.menu, lang), "title": set_menu_title(ele.menu, lang), "url": "/menu/%d" % ele.menu.id,
                             "date": ele.date_created})
 
     latests = sorted(latests, key=itemgetter('date'), reverse=True)
 
     context = {
         'user':request.user,
-        'lang':request.GET.get('lang'),
+        'lang':lang,
         'menu_icons':menu_icons,
         'menus': get_menu(),
         'main_img':main_img,
         'board_archive':board_archive,
         'latests':latests[:5],
         'activities':activities[:4],
-        'meta': {'title': 'InC Lab', 'con': '정보·컴퓨팅교육 연구실 | Informatics & Computing Education Lab', 'image': '/static/img/ku.jpg'},
+        'meta': {'title': '정보·컴퓨팅교육 연구실', 'con': '정보 및 정보학, 교육과정, 교수학습방법, 교육평가, 교원양성 및 연수, 도구 및 환경', 'image': '/static/img/lab.png'},
         'appname': 'main'
     }
     return render(request, 'main.html', context)
+
 
 def account(request):
     username = request.POST.get('username')
@@ -93,7 +89,7 @@ def account(request):
         'lang': request.GET.get('lang'),
         'menus': get_menu(),
         'msg':msg,
-        'meta': {'title': 'MyPage', 'con': '마이페이지입니다.','image': '/static/img/ku.jpg'},
+        'meta': {'title': 'MyPage', 'con': '마이페이지입니다.','image': '/static/img/lab.png'},
         'appname': 'account'
     }
     return render(request, 'account.html', context)
@@ -118,7 +114,7 @@ def account_password(request):
         'lang': request.GET.get('lang'),
         'menus': get_menu(),
         'msg':msg,
-        'meta': {'title': '비밀번호변경', 'con': '비밀번호변경 페이지입니다.', 'image': '/static/img/ku.jpg'},
+        'meta': {'title': '비밀번호변경', 'con': '비밀번호변경 페이지입니다.', 'image': '/static/img/lab.png'},
         'appname': 'account'
     }
     return render(request, 'account_password.html', context)
@@ -145,7 +141,7 @@ def auth_login(request):
             'menus': get_menu(),
             'from':login_from,
             'msg':msg,
-            'meta': {'title': '로그인', 'con': '로그인 페이지입니다.', 'image': '/static/img/ku.jpg'},
+            'meta': {'title': '로그인', 'con': '로그인 페이지입니다.', 'image': '/static/img/lab.png'},
             'appname': 'login'
         }
         return render(request, 'login.html', context)
@@ -177,7 +173,7 @@ def auth_register(request):
             'user': request.user,
             'lang': request.GET.get('lang'),
             'menus': get_menu(),
-            'meta': {'title': '회원가입', 'con': '회원가입 페이지입니다.', 'image': '/static/img/ku.jpg'},
+            'meta': {'title': '회원가입', 'con': '회원가입 페이지입니다.', 'image': '/static/img/lab.png'},
             'appname': 'register'
         }
         return render(request, 'register.html', context)
@@ -213,10 +209,46 @@ def auth_register_school(request):
         'menus': get_menu(),
         'grades':grades,
         'come_from':come_from,
-        'meta': {'title': '학교정보', 'con': '학교정보 페이지입니다.', 'image': '/static/img/ku.jpg'},
+        'meta': {'title': '학교정보', 'con': '학교정보 페이지입니다.', 'image': '/static/img/lab.png'},
         'appname': 'register_school'
     }
     return render(request, 'register_school.html', context)
+
+
+def auth_register_guest(request):
+    come_from = request.GET.get("come_from")
+    form_email = request.POST.get("email")
+
+    if form_email :
+        form_username = request.POST.get("username")
+        form_grade = request.POST.get("grade")
+        form_gender = request.POST.get("gender")
+        form_school = request.POST.get("school")
+        form_school_grade = request.POST.get("school_grade")
+        form_school_year = request.POST.get("school_year")
+        form_school_div = request.POST.get("school_div")
+        request.session['guest']={'id':0, 'email': form_email,'first_name': form_username, 'grade': form_grade, 'gender': form_gender, 'get_school':
+            { 'school': form_school, 'grade': form_school_grade, 'year':form_school_year, 'div': form_school_div }}
+        return HttpResponseRedirect(come_from)
+
+    if request.user.id or request.session.get('guest') :
+        if not come_from :
+            return HttpResponseRedirect('/')
+        return HttpResponseRedirect(come_from)
+
+    grades = GRADE_IN_SCHOOL_CHOICES
+
+    context = {
+        'user': request.user,
+        'lang': request.GET.get('lang'),
+        'menus': get_menu(),
+        'grades':grades,
+        'come_from':come_from,
+        'meta': {'title': '방문자 등록', 'con': '방문자 등록 페이지입니다.', 'image': '/static/img/lab.png'},
+        'appname': 'register_guest'
+    }
+    return render(request, 'register_guest.html', context)
+
 
 def auth_logout(request):
     login_from = request.POST.get("from", '/')
@@ -242,14 +274,14 @@ def page(request, menu_id=0):
     page = get_or_none(Page,menu__id=menu_id)
 
     if lang == 'en' : page.contents = page.contents_en
-    elif lang == 'jp' : page.contents = page.contents_jp
+    elif lang == 'ja' : page.contents = page.contents_jp
 
     context = {
         'user': request.user,
         'lang': lang,
         'page':page,
         'menus': get_menu(),
-        'meta': {'title': set_menu_title(page.menu,lang), 'con': '%s페이지입니다.'%set_menu_title(page.menu,lang), 'image': '/static/img/ku.jpg'},
+        'meta': {'title': set_menu_title(page.menu,lang), 'con': '%s페이지입니다.'%set_menu_title(page.menu,lang), 'image': '/static/img/lab.png'},
         'appname': page.menu.appname
     }
     return render(request, 'page.html', context)
@@ -265,7 +297,7 @@ def page_edit(request, menu_id=0):
     if contents:
         if lang == 'en':
             page.contents_en = contents
-        elif lang == 'jp':
+        elif lang == 'ja':
             page.contents_jp = contents
         else:
             page.contents = contents
@@ -276,13 +308,13 @@ def page_edit(request, menu_id=0):
 
         if lang == 'en':
             return HttpResponseRedirect('/menu/%d?lang=en' % menu_id)
-        elif lang == 'jp':
-            return HttpResponseRedirect('/menu/%d?lang=jp' % menu_id)
+        elif lang == 'ja':
+            return HttpResponseRedirect('/menu/%d?lang=ja' % menu_id)
         return HttpResponseRedirect('/menu/%d' % menu_id)
 
     if lang == 'en':
         page.contents = page.contents_en
-    elif lang == 'jp':
+    elif lang == 'ja':
         page.contents = page.contents_jp
 
     context = {
@@ -291,7 +323,7 @@ def page_edit(request, menu_id=0):
         'page':page,
         'menus': get_menu(),
         'meta': {'title': "%s 수정"%set_menu_title(page.menu, lang), 'con': '%s페이지 수정입니다.' % set_menu_title(page.menu, lang),
-                 'image': '/static/img/ku.jpg'},
+                 'image': '/static/img/lab.png'},
         'appname': page.menu.appname
     }
     return render(request, 'page_edit.html', context)
@@ -329,7 +361,7 @@ def paper(request):
         'lang': lang,
         'menu':menu,
         'menus': get_menu(),
-        'meta': {'title': '논문', 'con': '논문리스트입니다.', 'image': '/static/img/ku.jpg'},
+        'meta': {'title': '논문', 'con': '논문리스트입니다.', 'image': '/static/img/lab.png'},
         'papers_0':papers_0,
         'papers_1': papers_1,
         'papers_2': papers_2,
@@ -341,13 +373,37 @@ def paper(request):
 def paper_add(request):
     lang = request.GET.get('lang')
     menu = get_or_none(Menu, id=11)
+
+    author = request.POST.get("author")
+    if author :
+        type = int(request.POST.get("type",0))
+        title = request.POST.get("title")
+        journal = request.POST.get("journal")
+        volume = request.POST.get("volume")
+        number = request.POST.get("number")
+        page = request.POST.get("page")
+        date_publication = request.POST.get("date_publication")
+        link = request.POST.get("link")
+        paper = DocPaper.objects.get_or_create(
+            type = type,
+            user = request.user,
+            author = author,
+            title = title,
+            journal = journal,
+            volume = volume,
+            number = number,
+            page  = page,
+            date_publication = date_publication,
+            link = link)
+        if paper : return HttpResponseRedirect("/paper/")
+
     context = {
         'user': request.user,
         'lang': lang,
         'menu': menu,
         'types':TYPE_IN_PAPER_CHOICES,
         'menus': get_menu(),
-        'meta': {'title': '논문추가', 'con': '논문추가 페이지입니다.', 'image': '/static/img/ku.jpg'},
+        'meta': {'title': '논문추가', 'con': '논문추가 페이지입니다.', 'image': '/static/img/lab.png'},
         'appname': 'paper'
     }
     return render(request, 'paper_add.html', context)
@@ -362,7 +418,7 @@ def book(request):
         'lang': lang,
         'menu':menu,
         'menus': get_menu(),
-        'meta': {'title': '저서', 'con': '저서리스트입니다.', 'image': '/static/img/ku.jpg'},
+        'meta': {'title': '저서', 'con': '저서리스트입니다.', 'image': '/static/img/lab.png'},
         'books':books,
         'appname': 'book'
     }
@@ -383,7 +439,7 @@ def board(request, menu=None):
             'menus': get_menu(),
             'meta': {'title': "%s" % set_menu_title(menu, lang),
                      'con': '%s 게시판 입니다.' % set_menu_title(menu, lang),
-                     'image': '/static/img/ku.jpg'},
+                     'image': '/static/img/lab.png'},
             'appname':'board_%d'%(menu.mode)
         }
         return render(request, 'board_%d.html'%(menu.mode), context)
@@ -404,7 +460,7 @@ def board_5(request, menu=None):
             'menus': get_menu(),
             'meta': {'title': "%s" % set_menu_title(menu, lang),
                      'con': '%s 게시판 입니다.' % set_menu_title(menu, lang),
-                     'image': '/static/img/ku.jpg'},
+                     'image': '/static/img/lab.png'},
             'appname':'board_%d'%(menu.mode)
         }
         return render(request, 'board_%d.html'%(menu.mode), context)
@@ -424,7 +480,7 @@ def board_6(request, menu=None):
             'menus': get_menu(),
             'meta': {'title': "%s" % set_menu_title(menu, lang),
                      'con': '%s 게시판 입니다.' % set_menu_title(menu, lang),
-                     'image': '/static/img/ku.jpg'},
+                     'image': '/static/img/lab.png'},
             'appname':'board_%d'%(menu.mode)
         }
         return render(request, 'board_%d.html'%(menu.mode), context)
@@ -452,7 +508,7 @@ def board_write(request, menu_id=None):
             'menus': get_menu(),
             'meta': {'title': "%s 글쓰기" % set_menu_title(menu, lang),
                      'con': '%s 게시판 글쓰기 입니다.' % set_menu_title(menu, lang),
-                     'image': '/static/img/ku.jpg'},
+                     'image': '/static/img/lab.png'},
             'appname':'board_write'
         }
         return render(request, 'board_write.html', context)
@@ -472,7 +528,7 @@ def board_detail(request, board_id=None):
         if boardfile :
             meta['image'] = boardfile[0].src.url
         else :
-            meta['image'] = '/static/img/ku.jpg'
+            meta['image'] = '/static/img/lab.png'
         context = {
             'menu':board.menu,
             'board':board,
@@ -510,7 +566,7 @@ def board_modify(request, board_id=None):
         if boardfile:
             meta['image'] = boardfile[0].src.url
         else:
-            meta['image'] = '/static/img/ku.jpg'
+            meta['image'] = '/static/img/lab.png'
         context = {
             'board':board,
             'menu':board.menu,
@@ -573,3 +629,13 @@ def JudgeOnline(request):
 
 def get_menu():
     return Menu.objects.filter(is_active=True,parent=None).order_by('order')
+
+def ssl(request):
+    return HttpResponse("iERfNORFKWSYl3HGQ25XY1TC5y4NXWWH-2-ZbZmOSCw.n70iDKGjS0-NKTETrDl1Ulfgor0x2OspOhcmXkSXBHY")
+
+def robots(request):
+    con = """User-agent: *
+Allow: /"""
+    response = HttpResponse(con, content_type='text/plain')
+    response['Content-Disposition'] = 'inline;filename=robots.txt'
+    return response

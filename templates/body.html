@@ -6,12 +6,14 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% if meta %}
-        <meta property="og:url"                content="http://163.152.112.7{{ request.path }}" />
+        <meta name="description" content="{{ meta.con }}">
+        <meta property="og:url"                content="https://inc.korea.ac.kr{{ request.path }}" />
         <meta property="og:type"               content="article" />
         <meta property="og:title"              content="InC Lab | {{ meta.title }}" />
         <meta property="og:description"        content="{{ meta.con }}" />
-        <meta property="og:image"              content="http://163.152.112.7{{ meta.image }}" />
+        <meta property="og:image"              content="https://inc.korea.ac.kr{{ meta.image }}" />
         <meta property="fb:app_id"              content="651130611704420" />
+        <meta name="naver-site-verification" content="6f105a28fb33e47291773dc6292aba44005766a2"/>
     {% endif %}
     <title>InC Lab</title>
     <script type="text/javascript" src="/static/js/jquery-1.12.1.min.js"></script>
@@ -19,7 +21,6 @@
     <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/icheck.min.js"></script>
     <script src="/static/js/highlight.pack.js"></script>
-    <script type="text/javascript" src="http://wcs.naver.net/wcslog.js"></script>
     <script src="/static/js/layout.js"></script>
     <script src="/static/js/{{ appname }}.js"></script>
     {% block js %}{% endblock %}
@@ -83,41 +84,26 @@
 
             <!-- Be sure to leave the brand out there if you want it shown -->
             <a class="brand" href="{{ "/"|get_url_lang:lang }}">InC Lab</a>
-            {% if user.is_superuser %}
-                {% for menu in menus %}
-                    <div class="div_header_nav dropdown {% if appname == menu.appname %}active{% endif %}">
-                        <a class="a_header_nav_btn dropdown-toggle" role="button" href="{{ menu.get_url|get_url_lang:lang }}" data-toggle="#" target="{{ menu.get_blank }}">{{ menu|set_menu_title:lang }}</a>
-                        {% if menu.get_sub %}
-                            <ul class="dropdown-menu" role="menu">
-                                {% for sub in menu.get_sub %}
-                                    <li><a class="a_header_nav_sub" href="{{ sub.get_url|get_url_lang:lang }}" target="{{ sub.get_blank }}">{{ sub|set_menu_title:lang }}</a></li>
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-                <div class="div_header_nav_mobile dropdown">
-                    <a class="div_header_nav_mobile_btn dropdown-toggle" role="button" href="#" data-toggle="dropdown"><i class="xi-bars"></i></a>
-                    <ul class="dropdown-menu" role="menu">
-                        {% for menu in menus %}
-                            <li><a class="a_header_nav_mobile_sub" href="{{ menu.get_url|get_url_lang:lang }}" target="{{ menu.get_blank }}">{{ menu|set_menu_title:lang }}</a></li>
-                        {% endfor %}
-                    </ul>
+            {% for menu in menus %}
+                <div class="div_header_nav dropdown {% if appname == menu.appname %}active{% endif %}">
+                    <a class="a_header_nav_btn dropdown-toggle" role="button" href="{{ menu.get_url|get_url_lang:lang }}" data-toggle="#" target="{{ menu.get_blank }}">{{ menu|set_menu_title:lang }}</a>
+                    {% if menu.get_sub %}
+                        <ul class="dropdown-menu" role="menu">
+                            {% for sub in menu.get_sub %}
+                                <li><a class="a_header_nav_sub" href="{{ sub.get_url|get_url_lang:lang }}" target="{{ sub.get_blank }}">{{ sub|set_menu_title:lang }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
                 </div>
-            {% elif user.id %}
-                {% with menus.7 as menu %}
-                    <div class="div_header_nav dropdown {% if appname == menu.appname %}active{% endif %}">
-                        <a class="a_header_nav_btn dropdown-toggle" role="button" href="{{ menu.get_url|get_url_lang:lang }}" data-toggle="#" target="{{ menu.get_blank }}">{{ menu|set_menu_title:lang }}</a>
-                        {% if menu.get_sub %}
-                            <ul class="dropdown-menu" role="menu">
-                                {% for sub in menu.get_sub %}
-                                    <li><a class="a_header_nav_sub" href="{{ sub.get_url|get_url_lang:lang }}" target="{{ sub.get_blank }}">{{ sub|set_menu_title:lang }}</a></li>
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
-                    </div>
-                {% endwith %}
-            {% endif %}
+            {% endfor %}
+            <div class="div_header_nav_mobile dropdown">
+                <a class="div_header_nav_mobile_btn dropdown-toggle" role="button" href="#" data-toggle="dropdown"><i class="xi-bars"></i></a>
+                <ul class="dropdown-menu" role="menu">
+                    {% for menu in menus %}
+                        <li><a class="a_header_nav_mobile_sub" href="{{ menu.get_url|get_url_lang:lang }}" target="{{ menu.get_blank }}">{{ menu|set_menu_title:lang }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
     </div>
 </div>
@@ -128,8 +114,13 @@
     </div>
     <footer class="footer">
         <div class="container">
-            <p class="text-muted"><i class="xi-cc" title="CCL"></i>&nbsp;<i class="xi-by" title="저작자 표시"></i><i class="xi-nc" title="비영리"></i><i class="xi-copyleft" title="동일조건변경허락"></i>
-                <img src="/static/img/japan.png" class="img_footer_flag pull-right" onclick="location.href='?lang=jp';">
+            <p class="text-muted">
+                <i class="xi-cc" title="CCL"></i>&nbsp
+                <i class="xi-by" title="{{ "저작자 표시"|set_language:lang }}"></i>
+                <i class="xi-nc" title="{{ "비영리"|set_language:lang }}"></i>
+                <i class="xi-copyleft" title="{{ "동일조건변경허락"|set_language:lang }}"></i>
+                <span id="span_footer_privacy" onclick="location.href='/menu/67{{ ""|get_url_lang:lang }}';">{{ "개인정보처리방침"|set_language:lang }} <i class="xi-angle-right"></i></span>
+                <img src="/static/img/japan.png" class="img_footer_flag pull-right" onclick="location.href='?lang=ja';">
                 <img src="/static/img/united_kingdom.png" class="img_footer_flag pull-right" onclick="location.href='?lang=en';">
                 <img src="/static/img/south_korea.png" class="img_footer_flag pull-right" onclick="location.href='?';">
             </p>

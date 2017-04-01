@@ -1,13 +1,70 @@
 {% extends "itembank.html" %}
+{% load main_extras %}
 {% load staticfiles %}
+{% block style %}
+    {% if appname != "itembank_testpaper_analysis" %}<link rel="stylesheet" href="/static/css/itembank/itembank_testpaper_analysis.css">{% endif %}
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+{% endblock %}
 {% block content %}
-    <div class="div_tab" id="div_itembank_testpaper_question_detail_tab">
-        <a class="a_tab_nav_btn" href="#" target="_self" id="a_tab_nav_btn_back" onclick="history.back();">< 이전</a> <span class="span_tab_title">분석 결과보기</span>
+    <div class="div_tab" id="div_itembank_testpaper_question_analysis_tab">
+        <a class="a_tab_nav_btn" href="/itembank/testpaper/detail/{{ testpaper.id }}" target="_self" id="a_tab_nav_btn_back">< 이전</a> <span class="span_tab_title">분석 결과보기</span>
+        <ul class="ul_tab_nav">
+            <li>
+                <a class="a_tab_nav_btn" href="/itembank/testpaper/analysis/{{ testpaper.id }}" target="_self" id="a_tab_nav_btn_all">요약 <span class="badge">{{ results|length }}</span></a>
+            </li>
+            <li>
+                <a class="a_tab_nav_btn" href="/itembank/testpaper/analysis/{{ testpaper.id }}/each/0" target="_self" id="a_tab_nav_btn_each">응답</a>
+            </li>
+        </ul>
     </div>
-    <div class="col-lg-offset-2 col-lg-8 div_itembank_testpaper_detail">
+    <div class="col-lg-offset-2 col-lg-8 div_itembank_testpaper_analysis">
+        <div class="div_itembank_testpaper_analysis_part">
+            <p class="p_itembank_testpaper_analysis_part_title">순위</p>
+            <table class="table table-striped">
+                <thead>
+                <tr> <th>#</th> <th>총합</th> <th>이름</th> <th>학교</th> <th>학년</th> <th>구분</th> </tr>
+                </thead>
+                <tbody>
+                {% for result in results %}
+                    <tr> <th scope="row">{{ forloop.counter }}</th> <td>{{ result.get_score }}</td> <td>{{ result.get_username }}</td> <td>{{ result.school }}</td> <td>{{ result.year }}</td> <td>{{ result.div }}</td> </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
-    </div>
-    <div class="col-lg-offset-2 col-lg-8 div_itembank_testpaper_detail">
+        {% for tq in testpaper.get_testpaper_questions %}
+            {% with forloop.counter0 as tq_i %}
+                <div class="div_itembank_testpaper_analysis_part">
+                    <p class="p_itembank_testpaper_analysis_part_title">{{ forloop.counter }}번 문제 (문제번호#{{ tq.question.id }})</p>
+                    <canvas id="chart_itembank_testpaper_analysis_part_question_{{ forloop.counter }}" width="100%" height="20"></canvas>
+                    <script>
+                        var ctx_{{ forloop.counter }} = $("#chart_itembank_testpaper_analysis_part_question_{{ forloop.counter }}");
+                        var myBarChart_{{ forloop.counter }} = new Chart(ctx_{{ forloop.counter }}, {
+                            type: 'bar',
+                            data : {
+                                labels: [{% for content in tq.get_contents %}{% if content.type == "answer_choice" %}{% for item in content.get_items %}"{{ item.text }}", {% endfor %}{% elif content.type == "answer_text" %}{% for result in results_analysis|array_item:tq_i %}"{{ result }}",{% endfor %}{% endif %}{% endfor %}],
+                                datasets: [
+                                    {
+                                        label: "제출",
+                                        backgroundColor: [{% for content in tq.get_contents %}{% if content.type == "answer_choice" %}{% for item in content.get_items %}{% for is_answer in tq.question.get_answer %}{% if is_answer == item.text %}'rgba(255, 99, 132, 0.2)',{% else %}'rgba(0,0,0,0.1)',{% endif %}{% endfor %}{% endfor %}{% elif content.type == "answer_text" %}{% for result in results_analysis|array_item:tq_i %}{% for is_answer in tq.question.get_answer %}{% if is_answer == result %}'rgba(255, 99, 132, 0.2)',{% else %}'rgba(0,0,0,0.1)',{% endif %}{% endfor %}{% endfor %}{% endif %}{% endfor %}],
+                                        borderWidth: 1,
+                                        data: [{% for content in tq.get_contents %}{% if content.type == "answer_choice" %}{% for item in content.get_items %}{% if results_analysis|array_item:tq_i|array_item:item.text != None %}{{ results_analysis|array_item:tq_i|array_item:item.text }},{% else %}0, {% endif %}{% endfor %}{% elif content.type == "answer_text" %}{% for result in results_analysis|array_item:tq_i %}{{ results_analysis|array_item:tq_i|array_item:result }}, {% endfor %}{% endif %}{% endfor %}],
+                                    }
+                                ]
+                            },
+                            options: {
+                                scales: {
+                                    xAxes: [{stacked: true}],
+                                    yAxes: [{stacked: true}]
+                                }
+                            }
+                        });
+                    </script>
+                </div>
+            {% endwith %}
+        {% endfor %}
 
     </div>
 

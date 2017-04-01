@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Q
 
-from inc.main.models import get_or_none
+from inc.main.models import get_or_none, GRADE_IN_PROFILE_CHOICES, GENDER_IN_PROFILE_CHOICES, GRADE_IN_SCHOOL_CHOICES
 
 
 class Unit1(models.Model):
@@ -209,8 +209,13 @@ class TestpaperQuestionChoiceItem(models.Model):
 
 
 class TestpaperResult(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, blank=True, null=True)
     testpaper = models.ForeignKey(Testpaper)
+    first_name = models.CharField(max_length=30, default=None, blank=True, null=True)
+    email = models.TextField(default=None, blank=True, null=True)
+    grade = models.CharField(max_length=10, default=None, blank=True, null=True)
+    gender = models.CharField(max_length=10, default=None, blank=True, null=True)
+    school_grade = models.CharField(max_length=10, default=None, blank=True, null=True)
     school = models.TextField(default="")
     year = models.IntegerField(default=1)
     div = models.TextField(default=None, blank=True, null=True)
@@ -220,7 +225,29 @@ class TestpaperResult(models.Model):
         verbose_name_plural = "11. 제출된 시험지(TestpaperResult)"
 
     def __str__(self):
-        return '[%d] %s: %s' % (self.id, self.user, self.testpaper)
+        if self.user :
+            return '[%d] %s: %s' % (self.id, self.user, self.testpaper)
+        else :
+            return '[%d]Guest:%s(%s): %s' % (self.id, self.first_name, self.email, self.testpaper)
+
+    def get_results(self):
+        return TestpaperQuestionResult.objects.filter(testpaper_result=self)
+
+    def get_score(self):
+        score = 0.0
+        tqrs = TestpaperQuestionResult.objects.filter(testpaper_result=self)
+        if tqrs :
+            for tqr in tqrs:
+                if tqr.is_answer() :
+                    score += 1.0
+            score = (score/tqrs.count())*100.0
+        return score
+
+    def get_username(self):
+        if self.user :
+            return self.user.first_name
+        else :
+            return self.first_name
 
 
 class TestpaperQuestionResult(models.Model):
@@ -233,3 +260,6 @@ class TestpaperQuestionResult(models.Model):
 
     def __str__(self):
         return '[%d] %s: %s = %s' % (self.id, self.testpaper_result, self.testpaper_question, self.answer)
+
+    def is_answer(self):
+        return self.answer in self.testpaper_question.question.get_answer()

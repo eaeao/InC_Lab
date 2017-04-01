@@ -68,7 +68,7 @@ class TestpaperQuestionResultInline(admin.StackedInline):
 
 
 class TestpaperResultAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'testpaper', 'school', 'year' ,'div', 'date_created')
+    list_display = ('id', 'user', 'first_name', 'testpaper', 'school', 'year' ,'div', 'date_created')
     inlines = [TestpaperQuestionResultInline]
 
 

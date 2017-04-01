@@ -68,6 +68,9 @@ h1 {font-size: 16px;border-bottom: 1px solid #f0f0f0;padding-bottom: 15px;margin
 .a_header_nav_mobile_sub {border-bottom: 1px solid #eee;padding: 7px 20px!important;}
 
 .modal-footer {margin-top:20px;padding: 15px 0;padding-bottom: 0;}
+#span_footer_privacy { position: absolute;color:#FFF;font-size:12px;padding:5px;border:1px solid #FFF;margin:15px;cursor:pointer}
+#span_footer_privacy:hover {background-color:RGBA(255,255,255,0.2)}
+#span_footer_privacy i {font-size:12px;margin:0;padding:0}
 
 @media (max-width: 768px){
     .div_feed {padding:10px 0px;margin:0}

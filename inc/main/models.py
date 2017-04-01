@@ -102,7 +102,7 @@ class Menu(models.Model):
         return get_or_none(Page, menu=self)
 
     def get_boards(self):
-        return Board.objects.filter(menu=self).order_by('-id')
+        return Board.objects.filter(menu=self).order_by('-date_updated')
 
     def get_url(self):
         if self.mode == 0 :
@@ -266,6 +266,7 @@ def get_or_none(model,order=None, **kwargs):
         return None
     except Exception as e:
         return None
+
 
 def find_between(s, first, last):
     try:

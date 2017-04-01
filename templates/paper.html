@@ -22,27 +22,28 @@
         <div class="div_feed">
             <h1>{{ menu|set_menu_title:lang }}</h1>
             <p class="text-right"><button class="btn btn-sm pull-right" onclick="search($('#input_paper_query').val())">검색</button><input type="text" id="input_paper_query" class="form-control input-sm pull-right" placeholder="검색어"> </p>
+            {% if user.is_superuser %}<p class="text-left"><button type="button" class="btn btn-default" onclick="location.href='/paper/add/';">추가하기</button></p>{% endif %}
             <div class="div_paper_list">
                 {% if papers_0 %}
-                    <p class="p_paper_subtitle" style="margin-top:0">{% if lang == 'en' %}International Journal{% elif lang == 'jp' %}国際ジャーナル{% else %}국제 학술지{% endif %}</p>
+                    <p class="p_paper_subtitle" style="margin-top:0">{% if lang == 'en' %}International Journal{% elif lang == 'ja' %}国際ジャーナル{% else %}국제 학술지{% endif %}</p>
                     {% for paper in papers_0 %}
                         <p class="p_paper_line"><a href="{{ paper.link }}" target="_blank">{{ paper.author }} ({{ paper.date_publication|date:"Y" }}). {{ paper.title }}. <span style="font-style:italic;">{{ paper.journal }}</span>{% if paper.volume and paper.number %}<span style="font-style:italic;">, {{ paper.volume }}</span>({{ paper.number }}){% endif %}{% if paper.page %}, {{ paper.page }}{% endif %}.</a></p>
                     {% endfor %}
                 {% endif %}
                 {% if papers_1 %}
-                    <p class="p_paper_subtitle">{% if lang == 'en' %}International Conference{% elif lang == 'jp' %}International Conference{% else %}국제 학술대회{% endif %}</p>
+                    <p class="p_paper_subtitle">{% if lang == 'en' %}International Conference{% elif lang == 'ja' %}International Conference{% else %}국제 학술대회{% endif %}</p>
                     {% for paper in papers_1 %}
                         <p class="p_paper_line"><a href="{{ paper.link }}" target="_blank">{{ paper.author }} ({{ paper.date_publication|date:"Y" }}). {{ paper.title }}. <span style="font-style:italic;">{{ paper.journal }}</span>{% if paper.volume and paper.number %}<span style="font-style:italic;">, {{ paper.volume }}</span>({{ paper.number }}){% endif %}{% if paper.page %}, {{ paper.page }}{% endif %}.</a></p>
                     {% endfor %}
                 {% endif %}
                 {% if papers_2 %}
-                    <p class="p_paper_subtitle">{% if lang == 'en' %}Domestic Journal{% elif lang == 'jp' %}国内ジャーナル{% else %}국내 학술지{% endif %}</p>
+                    <p class="p_paper_subtitle">{% if lang == 'en' %}Domestic Journal{% elif lang == 'ja' %}国内ジャーナル{% else %}국내 학술지{% endif %}</p>
                     {% for paper in papers_2 %}
                         <p class="p_paper_line"><a href="{{ paper.link }}" target="_blank">{{ paper.author }} ({{ paper.date_publication|date:"Y" }}). {{ paper.title }}. <b>{{ paper.journal }}</b>{% if paper.volume and paper.number %}<b>, {{ paper.volume }}</b>({{ paper.number }}){% endif %}{% if paper.page %}, {{ paper.page }}{% endif %}.</a></p>
                     {% endfor %}
                 {% endif %}
                 {% if papers_3 %}
-                    <p class="p_paper_subtitle">{% if lang == 'en' %}Domestic Conference{% elif lang == 'jp' %}Domestic Conference{% else %}국내 학술대회{% endif %}</p>
+                    <p class="p_paper_subtitle">{% if lang == 'en' %}Domestic Conference{% elif lang == 'ja' %}Domestic Conference{% else %}국내 학술대회{% endif %}</p>
                     {% for paper in papers_3 %}
                         <p class="p_paper_line"><a href="{{ paper.link }}" target="_blank">{{ paper.author }} ({{ paper.date_publication|date:"Y" }}). {{ paper.title }}. <b>{{ paper.journal }}</b>{% if paper.volume and paper.number %}<b>, {{ paper.volume }}</b>({{ paper.number }}){% endif %}{% if paper.page %}, {{ paper.page }}{% endif %}.</a></p>
                     {% endfor %}

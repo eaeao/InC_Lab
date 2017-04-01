@@ -23,3 +23,6 @@
 .div_contents ul, .cke_editable ul {list-style:circle;font-size: 15px;padding:initial;margin-left: 20px;}
 .div_contents ol, .cke_editable ol {list-style-type: decimal;padding:initial;margin-left: 20px}
 .div_contents li, .cke_editable li {font-size: 15px;line-height: 1.6;text-align: justify;margin-bottom: 10px;}
+.div_contents .table_page, .cke_editable .table_page {width:100%;margin:10px 0;border:1px solid #999;text-align:center}
+.div_contents .table_page td, .cke_editable .table_page td {border:1px solid rgb(245, 208, 182);margin:0;padding:0;text-indent:0;height:45px;font-size:small}
+.div_contents .table_page th, .cke_editable .table_page th {background-color:RGB(237,125,49);color:#FFF;font-weight:700;border:1px solid rgb(245, 208, 182);margin:0;padding:0;text-indent:0;height:45px;font-size:small;text-align:center}

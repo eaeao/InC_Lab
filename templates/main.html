@@ -6,22 +6,25 @@
         <div id="div_main_left" class="row">
 
             <div class="col-md-12 div_left_info">
-                <marquee height="135" scrolldelay="1000" direction="up" behavior="alternate">
+                <marquee height="125" scrolldelay="1000" direction="up" behavior="alternate">
                     <div id="img_left_info_bg" style="background-image: url({{ main_img }})"></div>
                 </marquee>
                 {% if not  main_img %}<div class="div_left_info_bg"></div>{% endif %}
-                <div class="div_left_info_title">정보·컴퓨팅교육 연구실</div>
-                <div class="div_left_info_subtitle">Informatics & Computing Education Lab</div>
+                {% if ""|get_url_lang:lang %}
+                    <img src="/static/img/center_logo_trans.png" id="img_left_info_logo">
+                {% else %}
+                    <img src="/static/img/center_logo.png" id="img_left_info_logo">
+                {% endif %}
             </div>
 
             <div class="col-md-6 div_left_board">
                 {% with menus.8.get_sub.0 as menu %}
-                    <div class="div_left_board_title">{{ menu|set_menu_title:lang }}<span class="pull-right div_left_board_more" onclick="location.href= '/menu/{{ menu.id }}';">더보기</span></div>
+                    <div class="div_left_board_title">{{ menu|set_menu_title:lang }}<span class="pull-right div_left_board_more" onclick="location.href= '/menu/{{ menu.id|get_url_lang:lang }}';">{{ "더보기"|set_language:lang }}</span></div>
                     <div class="div_left_board_con">
                         {% for board in  menu.get_boards|slice:":5" %}
-                            <div class="div_left_board_con_line" onclick="location.href= '/board/detail/{{ board.id }}';">
+                            <div class="div_left_board_con_line" onclick="location.href= '/board/detail/{{ board.id|get_url_lang:lang }}';">
                                 <p class="pull-right p_left_board_con_line_date">{{ board.date_updated|time_diff }}</p>
-                                <p class="p_left_board_con_line_title">{{ board.title }}</p>
+                                <p class="p_left_board_con_line_title">{{ board.title|translate_language:lang }}</p>
                             </div>
                         {% endfor %}
                         {% if menu.get_boards|length < 5 %}
@@ -37,12 +40,12 @@
 
             <div class="col-md-6 div_left_board">
                 {% with menus.8.get_sub.3 as menu %}
-                    <div class="div_left_board_title">{{ menu|set_menu_title:lang }}<span class="pull-right div_left_board_more" onclick="location.href= '/menu/{{ menu.id }}';">더보기</span></div>
+                    <div class="div_left_board_title">{{ menu|set_menu_title:lang }}<span class="pull-right div_left_board_more" onclick="location.href= '/menu/{{ menu.id|get_url_lang:lang }}';">{{ "더보기"|set_language:lang }}</span></div>
                     <div class="div_left_board_con">
                         {% for board in  board_archive|slice:":5" %}
-                            <div class="div_left_board_con_line" onclick="location.href= '/board/detail/{{ board.id }}';">
+                            <div class="div_left_board_con_line" onclick="location.href= '/board/detail/{{ board.id|get_url_lang:lang }}';">
                                 <p class="pull-right p_left_board_con_line_date">{{ board.date_updated|time_diff }}</p>
-                                <p class="p_left_board_con_line_title">{{ board.title }}</p>
+                                <p class="p_left_board_con_line_title">{{ board.title|translate_language:lang }}</p>
                             </div>
                         {% endfor %}
                         {% if menu.get_boards|length < 5 %}
@@ -58,12 +61,12 @@
 
             <div class="col-md-6 div_left_board">
                 {% with menus.8.get_sub.1 as menu %}
-                    <div class="div_left_board_title">{{ menu|set_menu_title:lang }}<span class="pull-right div_left_board_more" onclick="location.href= '/menu/{{ menu.id }}';">더보기</span></div>
+                    <div class="div_left_board_title">{{ menu|set_menu_title:lang }}<span class="pull-right div_left_board_more" onclick="location.href= '/menu/{{ menu.id|get_url_lang:lang }}';">{{ "더보기"|set_language:lang }}</span></div>
                     <div class="div_left_board_con">
                         {% for board in  menu.get_boards|slice:":5" %}
-                            <div class="div_left_board_con_line" onclick="location.href= '/board/detail/{{ board.id }}';">
+                            <div class="div_left_board_con_line" onclick="location.href= '/board/detail/{{ board.id|get_url_lang:lang }}';">
                                 <p class="pull-right p_left_board_con_line_date">{{ board.date_updated|time_diff }}</p>
-                                <p class="p_left_board_con_line_title">{{ board.title }}</p>
+                                <p class="p_left_board_con_line_title">{{ board.title|translate_language:lang }}</p>
                             </div>
                         {% endfor %}
                         {% if menu.get_boards|length < 5 %}
@@ -79,12 +82,12 @@
 
             <div class="col-md-6 div_left_board">
                 {% with menus.8.get_sub.2 as menu %}
-                    <div class="div_left_board_title">{{ menu|set_menu_title:lang }}<span class="pull-right div_left_board_more" onclick="location.href= '/menu/{{ menu.id }}';">더보기</span></div>
+                    <div class="div_left_board_title">{{ menu|set_menu_title:lang }}<span class="pull-right div_left_board_more" onclick="location.href= '/menu/{{ menu.id|get_url_lang:lang }}';">{{ "더보기"|set_language:lang }}</span></div>
                     <div class="div_left_board_con">
                         {% for board in  menu.get_boards|slice:":5" %}
-                            <div class="div_left_board_con_line" onclick="location.href= '/board/detail/{{ board.id }}';">
+                            <div class="div_left_board_con_line" onclick="location.href= '/board/detail/{{ board.id|get_url_lang:lang }}';">
                                 <p class="pull-right p_left_board_con_line_date">{{ board.date_updated|time_diff }}</p>
-                                <p class="p_left_board_con_line_title">{{ board.title }}</p>
+                                <p class="p_left_board_con_line_title">{{ board.title|translate_language:lang }}</p>
                             </div>
                         {% endfor %}
                         {% if menu.get_boards|length < 5 %}
@@ -99,13 +102,13 @@
             </div>
 
             <div class="col-md-12 div_left_activity">
-                <div class="div_left_activity_title">{{ menus.6|set_menu_title:lang }}<span class="pull-right div_left_activity_more" onclick="location.href= '/menu/38';">더보기</span></div>
+                <div class="div_left_activity_title">{{ menus.6|set_menu_title:lang }}<span class="pull-right div_left_activity_more" onclick="location.href= '/menu/38{{ ""|get_url_lang:lang }}';">{{ "더보기"|set_language:lang }}</span></div>
                 <div class="div_left_activity_con">
                     {% for activity in activities %}
-                        <div class="col-md-3 div_left_activity_con_ele" onclick="location.href= '/board/detail/{{ activity.id }}';">
-                            <img class="img_left_activity_ele_img" src="{{ activity.get_files.0.src.url }}">
-                            <p class="p_left_activity_con_title">[{{ activity.menu.title }}] {{ activity.title }}</p>
-                            <p class="pull-right p_left_activity_con_date">{{ activity.date_updated }}</p>
+                        <div class="col-md-3 div_left_activity_con_ele" onclick="location.href= '/board/detail/{{ activity.id|get_url_lang:lang }}';">
+                            <div class="div_left_activity_ele_img" style="background-image: url({{ activity.get_files.0.src.url }})"></div>
+                            <p class="p_left_activity_con_title">[{{ activity.menu|set_menu_title:lang }}] {{ activity.title|translate_language:lang }}</p>
+                            <p class="pull-right p_left_activity_con_date">{{ activity.date_updated|date:"Y-m-d H:i:s" }}</p>
                         </div>
                     {% endfor %}
                 </div>
@@ -125,10 +128,10 @@
             </div>
         </div>
         <div id="div_main_right_latest">
-            <div class="div_right_latest_title">최근 업데이트</div>
+            <div class="div_right_latest_title">{{ "최근 업데이트"|set_language:lang }}</div>
             <div class="div_right_latest_con">
                 {% for latest in latests %}
-                    <div class="div_right_latest_con_line" onclick="location.href= '{{ latest.url }}';">
+                    <div class="div_right_latest_con_line" onclick="location.href= '{{ latest.url|get_url_lang:lang }}';">
                         <p class="pull-right p_right_latest_con_line_date">{{ latest.date|time_diff }}</p>
                         <p class="p_right_latest_con_line_title"><b>[{{ latest.unit }}]</b> {{ latest.title }}</p>
                     </div>

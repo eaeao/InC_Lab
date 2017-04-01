@@ -46,7 +46,7 @@
                     </div>
                     <div class="control-group">
                         <label class="control-label">저자</label>
-                        <div class="controls"><input class="form-control" type="text" name="author" placeholder="ex) Han Sung Kim, Ja Mee Kim, Won Gyu Lee" required></div>
+                        <div class="controls"><input class="form-control" type="text" name="author" placeholder="ex) HanSung Kim, JaMee Kim, WonGyu Lee" required></div>
                     </div>
                     <div class="control-group">
                         <label class="control-label">논문 제목</label>
@@ -57,8 +57,20 @@
                         <div class="controls"><input class="form-control" type="text" name="journal" placeholder="ex) THE ASIA-PACIFIC EDUCATION RESEARCHER" required></div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label">출판정보</label>
-                        <div class="controls"><input class="form-control" type="text" name="page" placeholder="ex)  vol. 23, Issue 2, pp. 237-247" required></div>
+                        <label class="control-label">권</label>
+                        <div class="controls"><input class="form-control" type="text" name="volume" placeholder="ex) 23" required></div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">호</label>
+                        <div class="controls"><input class="form-control" type="text" name="number" placeholder="ex) 2" required></div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">페이지</label>
+                        <div class="controls"><input class="form-control" type="text" name="page" placeholder="ex) 237-247" required></div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">출판년월일</label>
+                        <div class="controls"><input class="form-control" type="date" name="date_publication" placeholder="2017-01-01" required></div>
                     </div>
                     <div class="control-group">
                         <label class="control-label">링크</label>
@@ -68,7 +80,7 @@
                 </div>
                 <div class="modal-footer">
                     <input type="button" class="btn btn-default" onclick="history.back()" value="취소" />
-                    <input type="button" id="btn_paper_submit" class="btn btn-danger" value="저장" />
+                    <input type="submit" id="btn_paper_submit" class="btn btn-danger" value="저장" />
                 </div>
             </form>
         </div>

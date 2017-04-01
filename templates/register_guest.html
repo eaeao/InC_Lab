@@ -1,0 +1,86 @@
+{% extends "body.html" %}
+{% load staticfiles %}
+{% block content %}
+    <div class="col-md-offset-3 col-md-6">
+        <div class="div_feed">
+            <h1>방문자 등록</h1>
+            <form class="form-horizontal" method="post">
+                {% csrf_token %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="checkbox" style="float:right;top: -8px;">
+                            <label style="float:right">
+                                <input type="checkbox" value="option1" name="agree_1" id="agree_1" required>
+                                위의 내용에 동의합니다.
+                            </label>
+                        </div>
+                        <h3 class="panel-title" style="text-align:left"><a href="/menu/67" target="_blank">개인정보취급방침 (필수)</a></h3>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="username">이름</label>
+                    <div class="controls">
+                        <input class="form-control" type="text" id="username" name="username" placeholder="이름" required>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputEmail">이메일</label>
+                    <div class="controls">
+                        <input class="form-control" type="email" id="email" name="email" placeholder="이메일" required>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="grade">직업</label>
+                    <div class="controls">
+                        <select class="form-control" id="grade" name="grade">
+                            <option value="0">일반</option>
+                            <option value="1" selected>학생</option>
+                            <option value="2">교사</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="gender">성별</label>
+                    <div class="controls">
+                        <select class="form-control" id="gender" name="gender">
+                            <option value="0">남자</option>
+                            <option value="1">여자</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="grade">학교급</label>
+                    <div class="controls">
+                        <select class="form-control" id="school_grade" name="school_grade">
+                            {% for grade in grades %}<option value="{{ grade.0 }}">{{ grade.1 }}</option>{% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputSchool">학교명</label>
+                    <div class="controls">
+                        <input class="form-control" type="text" id="school" name="school" placeholder="예) 고려초등학교" required>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputYear">학년</label>
+                    <div class="controls">
+                        <select class="form-control" id="school_year" name="school_year">
+                            {% for i in "xxxxxx" %}<option value="{{ forloop.counter }}">{{ forloop.counter }}학년</option>{% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputDiv">소속</label>
+                    <div class="controls">
+                        <input class="form-control" type="text" id="school_div" name="school_div" placeholder="예) 1반, 동아리명">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" onclick="location.href='/';" value="취소" />
+                    <input type="submit" class="btn btn-danger" value="등록하기" />
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

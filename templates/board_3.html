@@ -22,10 +22,10 @@
             <h1>{{ menu|set_menu_title:lang }}</h1>
             {% if list %}
                 {% for ele in list %}
-                    <div class="div_list_element div_list_click" onclick="location.href='/board/detail/{{ ele.id }}';">
+                    <div class="div_list_element div_list_click" onclick="location.href='/board/detail/{{ ele.id }}{{ ""|get_url_lang:lang }}';">
                         {% if ele.get_files.0.is_visible %}<div class="div_element_img" style="background-image:url({{ ele.get_files.0.src.url}})"></div>{% endif %}
                         <p class="p_element_date">{{ ele.user.first_name }} | {{ ele.date_updated|date:"Y-m-d H:i:s" }}</p>
-                        <p class="p_element_title">{{ ele.title|safe }}</p>
+                        <p class="p_element_title">{{ ele.title|safe|translate_language:lang }}</p>
                         <p class="p_element_con">{{ ele.get_con|safe }}</p>
                     </div>
                 {% endfor %}

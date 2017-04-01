@@ -8,31 +8,25 @@
                 {% csrf_token %}
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title" style="text-align:left">개인정보취급방침</h3>
-                    </div>
-                    <div id="join_message" class="panel-body" style="text-align: left; height: 150px; overflow: hidden;">
-                        1.개인정보 수집 및 이용목적<br>
-                        - 상담 서비스 이용에 따른 본인여부 식별(확인)<br>
-                        - 이메일 발송, 본인 의사 확인, 불만 처리 등 원활한 의사소통 경로의 확보<br>
-                        - 개인맞춤서비스 제공<br>
-                        <br>
-                        2. 수집하는 개인정보 항목<br>
-                        - 이메일, 이름, 직업 등<br>
-                        <br>
-                        3. 보유 및 이용기간<br>
-                        회사는 「개인정보의 수집 및 이용목적」 이 달성되면 지체 없이 파기됩니다. 단, 고객으로부터 사전에 동의를 받은 경우 또는 상법 등 관련법규에 의하여 보존할 필요성이 있는 다음의 경우에는 개인정보를 일정기간 보유합니다.<br>
-                        - 회사는 고객이 탈회하거나, 고객을 제명하는 경우권리남용, 악용방지, 권리침해/명예훼손 분쟁 및 수사협조 의뢰에 대비하여 이용계약 해지일로부터 3년 동안 개인정보를 보존합니다.<br>
-                        - 회사는 다음의 정보에 대해서 명시한 기간 동안 보존합니다.<br>
-                        . 계약 또는 청약철회 등에 관한 기록 : 5년<br>
-                        . 소비자의 불만 또는 분쟁처리에 관한 기록 : 5년<br>
-                        . 기타 고객의 동의를 받은 경우 : 동의를 받은 기간까지<br>
+                        <div class="checkbox" style="float:right;top: -8px;">
+                            <label style="float:right">
+                                <input type="checkbox" value="option1" name="agree_1" id="agree_1" required>
+                                위의 내용에 동의합니다.
+                            </label>
+                        </div>
+                        <h3 class="panel-title" style="text-align:left;"><a href="/menu/69" target="_blank">1. 회원가입약관 (필수)</a></h3>
                     </div>
                 </div>
-                <div class="checkbox" style="margin-top: -10px;margin-bottom:10px">
-                    <label style="float:right">
-                        <input type="checkbox" value="option1" name="agree" id="agree" required>
-                        위의 내용에 동의합니다.
-                    </label>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="checkbox" style="float:right;top: -8px;">
+                            <label style="float:right">
+                                <input type="checkbox" value="option1" name="agree_2" id="agree_2" required>
+                                위의 내용에 동의합니다.
+                            </label>
+                        </div>
+                        <h3 class="panel-title" style="text-align:left"><a href="/menu/67" target="_blank">2. 개인정보취급방침 (필수)</a></h3>
+                    </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="inputEmail">이메일</label>
@@ -78,6 +72,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <p class="text-right" style="margin-bottom:5px">만 14세 미만은 가입할 수 없습니다. </p>
                     <input type="button" class="btn btn-default" onclick="location.href='/';" value="취소" />
                     <input type="submit" class="btn btn-danger" value="가입하기" />
                 </div>

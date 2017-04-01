@@ -28,12 +28,15 @@
         <div class="container">
             <div class="nav-collapse">
                 <ul class="nav pull-right">
-                    <li>
-                        <a class="a_header_profile_btn" href="#" target="_self">
+                    <li class="dropdown">
+                        <a class="a_header_profile_btn dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <p class="p_header_profile_btn_icon"><i class="xi-school"></i></p>
                             <p class="p_header_profile_btn_name">{{ user.first_name }}</p>
                             <p class="p_header_profile_btn_school">{{ user.get_school.school }} {{ user.get_school.year }}학년 {{ user.get_school.div }}</p>
                         </a>
+                        <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+                            <li><a href="/auth/logout/?from=/">로그아웃</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>
